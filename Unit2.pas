@@ -105,8 +105,11 @@ r: TRect;
 JPEG: TJPEGImage;
 i,tmp:integer;
 begin
-isDown := false;
-if (downX=x) or (downY=y) then begin Form1.StatusBar1.SimpleText:=' Неверно выбрана область захвата'; Close; Exit; end;
+isDown:=false;
+if (downX=x) or (downY=y) then begin
+if LangRu then Form1.StatusBar1.SimpleText:=' Неверно выбрана область захвата' else
+Form1.StatusBar1.SimpleText:=' Invalid select capture area';
+Close; Exit; end;
 if downX>X then begin tmp:=downX; downX:=x; x:=tmp; end;
 if downY>Y then begin tmp:=downY; downY:=y; y:=tmp; end;
 r.Left := downX;
@@ -118,15 +121,15 @@ Bitmap:=CaptureScreenRect(r);
 JPEG:=TJPEGImage.Create;
 JPEG.Assign(Bitmap);
 for i:=1 to 999999 do
-if not fileexists(MyPath+'\snapshot'+inttostr(i)+'.jpg') then begin
-JPEG.SaveToFile(MyPath+'\snapshot'+inttostr(i)+'.jpg');
-if Form1.CheckBox1.Checked=false then Form1.StatusBar1.SimpleText:=' Снимок сохранен';
+if not FileExists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') then begin
+JPEG.SaveToFile(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
+if Form1.CheckBox1.Checked=false then if LangRu then Form1.StatusBar1.SimpleText:=' Снимок сохранен' else Form1.StatusBar1.SimpleText:=' Snapshot saved';
 break;
 end;
 JPEG.Free;
-if fileexists(MyPath+'\snapshot'+inttostr(i)+'.jpg') and Form1.CheckBox1.checked then begin
-Form1.postimgtohosting(MyPath+'\snapshot'+inttostr(i)+'.jpg');
-if Form1.CheckBox2.Checked=false then DeleteFile(MyPath+'\snapshot'+inttostr(i)+'.jpg');
+if fileexists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') and Form1.CheckBox1.Checked then begin
+Form1.PostImgToHosting(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
+if Form1.CheckBox2.Checked=false then DeleteFile(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
 end;
 Close;
 end;

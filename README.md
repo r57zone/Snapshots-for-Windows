@@ -23,16 +23,16 @@
 <h2>EN:</h2>
 Snapshots - Minimalistic program for creating screenshots and filling.
 
-![](https://cloud.githubusercontent.com/assets/9499881/5704198/955974f2-9a88-11e4-9ef1-543a79ae4687.png)
+![](https://cloud.githubusercontent.com/assets/9499881/5708161/3ca91fb8-9aa8-11e4-9206-464a03bb980d.png)
 
-<h3>Функции:</h3>
+<h3>Functions:</h3>
 ✔ Three modes of creating screenshots: region, full screen, window.<br>
 
-![1](https://cloud.githubusercontent.com/assets/9499881/5706972/6df394b8-9a9e-11e4-8d1a-c000cb25be87.png)
+![5](https://cloud.githubusercontent.com/assets/9499881/5708190/69a35b8c-9aa8-11e4-8b0d-d9dbac9aa678.png)
 
 ✔ Support Drag and Drop
 
-![2](https://cloud.githubusercontent.com/assets/9499881/5707030/eb010c2e-9a9e-11e4-98e1-507c4eb87d08.png)
+![3](https://cloud.githubusercontent.com/assets/9499881/5708179/563c4d1a-9aa8-11e4-86e6-967540260a63.png)
 
 ✔ Uploading images to the hosting pixs.ru<br>
 ✔ Save images<br>
