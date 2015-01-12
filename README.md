@@ -20,6 +20,8 @@
 
 [Скачать последнюю версию](https://github.com/r57zone/Snapshots-for-Windows/releases)
 
+Обратная связь: r57zone[собака]gmail.com
+
 <h2>EN:</h2>
 Snapshots - Minimalistic program for creating screenshots and filling.
 
@@ -41,3 +43,5 @@ Snapshots - Minimalistic program for creating screenshots and filling.
 Set the path to save the pictures, hot key, and the default mode is possible in config.ini.
 
 [Download the latest version](https://github.com/r57zone/Snapshots-for-Windows/releases)
+
+Feedback: r57zone[dog]gmail.com
