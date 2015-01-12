@@ -127,7 +127,7 @@ if Form1.CheckBox1.Checked=false then if LangRu then Form1.StatusBar1.SimpleText
 break;
 end;
 JPEG.Free;
-if fileexists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') and Form1.CheckBox1.Checked then begin
+if FileExists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') and Form1.CheckBox1.Checked then begin
 Form1.PostImgToHosting(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
 if Form1.CheckBox2.Checked=false then DeleteFile(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
 end;

@@ -124,10 +124,10 @@ DLL=0
 Locale=1049
 CodePage=1251
 [Version Info Keys]
-CompanyName=r57zone
+CompanyName=
 FileDescription=
-FileVersion=0.5.0.0
-InternalName=Snapshots
+FileVersion=1.0.0.0
+InternalName=
 LegalCopyright=
 LegalTrademarks=
 OriginalFilename=

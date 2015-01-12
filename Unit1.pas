@@ -91,7 +91,7 @@ Bitmap.Canvas.CopyRect(r,c,r);
 JPEG:=TJPEGImage.Create;
 JPEG.Assign(Bitmap);
 for i:=1 to 999999 do
-if not fileexists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') then begin
+if not FileExists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') then begin
 JPEG.SaveToFile(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
 if Form1.CheckBox1.Checked=false then
 if LangRu then Form1.StatusBar1.SimpleText:=' Снимок сохранен' else Form1.StatusBar1.SimpleText:=' Snapshot saved';
@@ -129,7 +129,7 @@ Bitmap.Canvas.CopyRect(r, c, t);
 JPEG:=TJPEGImage.Create;
 JPEG.Assign(Bitmap);
 for i:=1 to 999999 do
-if not fileexists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') then begin
+if not FileExists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') then begin
 JPEG.SaveToFile(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
 if Form1.CheckBox1.Checked=false then
 if LangRu then Form1.StatusBar1.SimpleText:=' Снимок сохранен' else Form1.StatusBar1.SimpleText:=' Snapshot saved';
