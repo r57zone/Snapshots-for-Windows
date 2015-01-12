@@ -20,6 +20,8 @@ Snapshots for Windows
 
 Настроить путь сохранения для картинок, горячую клавишу, а также режим по умолчанию можно в config.ini.
 
+[Скачать последнюю версию](https://github.com/r57zone/Snapshots-for-Windows/releases)
+
 <h2>EN:</h2>
 Snapshots - Minimalistic program for creating screenshots and filling.
 
@@ -39,3 +41,5 @@ Snapshots - Minimalistic program for creating screenshots and filling.
 ✔ Support for hotkeys<br>
 
 Configure the storage path for images, hotkey, and the default mode is possible in config.ini.
+
+[Download the latest version](https://github.com/r57zone/Snapshots-for-Windows/releases)
