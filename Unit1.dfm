@@ -486,7 +486,7 @@ object Form1: TForm1
     0000000000000000000000000000000000000000000000000000000000000000
     0000000000000000000000000000}
   OldCreateOrder = False
-  Position = poDesktopCenter
+  Position = poDefault
   OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
@@ -564,6 +564,7 @@ object Form1: TForm1
     Top = 104
   end
   object IdHTTP1: TIdHTTP
+    IOHandler = IdSSLIOHandlerSocket1
     MaxLineAction = maException
     ReadTimeout = 0
     AllowCookies = True
@@ -580,5 +581,13 @@ object Form1: TForm1
     HTTPOptions = [hoForceEncodeParams]
     Left = 40
     Top = 104
+  end
+  object IdSSLIOHandlerSocket1: TIdSSLIOHandlerSocket
+    SSLOptions.Method = sslvTLSv1
+    SSLOptions.Mode = sslmUnassigned
+    SSLOptions.VerifyMode = []
+    SSLOptions.VerifyDepth = 0
+    Left = 136
+    Top = 80
   end
 end
