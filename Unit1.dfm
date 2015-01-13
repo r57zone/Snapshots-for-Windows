@@ -560,8 +560,8 @@ object Form1: TForm1
     end
   end
   object XPManifest1: TXPManifest
-    Left = 72
-    Top = 104
+    Left = 8
+    Top = 72
   end
   object IdHTTP1: TIdHTTP
     IOHandler = IdSSLIOHandlerSocket1
@@ -580,14 +580,14 @@ object Form1: TForm1
     Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
     HTTPOptions = [hoForceEncodeParams]
     Left = 40
-    Top = 104
+    Top = 72
   end
   object IdSSLIOHandlerSocket1: TIdSSLIOHandlerSocket
     SSLOptions.Method = sslvTLSv1
     SSLOptions.Mode = sslmUnassigned
     SSLOptions.VerifyMode = []
     SSLOptions.VerifyDepth = 0
-    Left = 136
-    Top = 80
+    Left = 72
+    Top = 72
   end
 end

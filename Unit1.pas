@@ -345,9 +345,10 @@ end;
 
 procedure TForm1.ControlWindow(var msg: tmessage);
 begin
-if msg.wparam=sc_minimize then
+if (msg.wparam=sc_minimize) and (UseTray) then
 begin
 Tray(1);
+SetWindowLong(Application.Handle,GWL_EXSTYLE,GetWindowLong(Application.Handle,GWL_EXSTYLE) or WS_EX_TOOLWINDOW);
 ShowWindow(Handle,SW_HIDE);
 end
 else
@@ -359,12 +360,14 @@ begin
 case msg.lparam of
 wm_lbuttonup:
 begin
-Tray(3);
+Tray(2);
 if (Form1.Left=Screen.Width) and (Form1.Top=Screen.Height) then begin
 Form1.Left:=Screen.Width div 2 - Form1.Width div 2;
 Form1.Top:=Screen.Height div 2 - Form1.Height div 2;
 end;
+SetWindowLong(Handle, GWL_EXSTYLE,GetWindowLong(Handle, GWL_EXSTYLE) or WS_EX_APPWINDOW);
 ShowWindow(Handle,SW_SHOW);
+SetForegroundWindow(Handle);
 end;
 
 wm_rbuttonup:
