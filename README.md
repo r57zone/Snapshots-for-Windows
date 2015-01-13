@@ -12,7 +12,7 @@
 
 ![2](https://cloud.githubusercontent.com/assets/9499881/5707030/eb010c2e-9a9e-11e4-98e1-507c4eb87d08.png)
 
-✔ Загрузка картинок на хостинг pixs.ru<br>
+✔ Загрузка картинок на хостинг imgur.com<br>
 ✔ Сохранение картинок<br>
 ✔ Поддержка горячих клавиш<br>
 
@@ -36,7 +36,7 @@ Snapshots - Minimalistic program for creating screenshots and filling.
 
 ![3](https://cloud.githubusercontent.com/assets/9499881/5708179/563c4d1a-9aa8-11e4-86e6-967540260a63.png)
 
-✔ Uploading images to the hosting pixs.ru<br>
+✔ Uploading images to the hosting imgur.com<br>
 ✔ Save images<br>
 ✔ Support for hotkeys<br>
 
