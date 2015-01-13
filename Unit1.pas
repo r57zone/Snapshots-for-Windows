@@ -265,7 +265,7 @@ except
 end;
 if (IdHTTP1.ResponseCode<>400) and (IdHTTP1.ResponseCode=200) then begin
 delete(source,1,pos('<links><original>',source)+16);
-delete(source,pos('<',source),length(source)-pos('<',source));
+delete(source,pos('<',source),length(source)-pos('<',source)+1);
 clipboard.AsText:=source;
 if LangRu then Form1.StatusBar1.SimpleText:=' —сылка скопирована в буфер' else Form1.StatusBar1.SimpleText:=' Link copied to clipboard';
 end else
