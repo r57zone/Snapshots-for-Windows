@@ -16,7 +16,7 @@
 ✔ Сохранение картинок<br>
 ✔ Поддержка горячих клавиш<br>
 
-Настроить путь для сохранения картинок, горячую клавишу, а также режим по умолчанию можно в config.ini.
+Настроить путь для сохранения картинок, горячую клавишу, tray, а также режим по умолчанию можно в config.ini.
 
 [Скачать последнюю версию](https://github.com/r57zone/Snapshots-for-Windows/releases)
 
@@ -40,7 +40,7 @@ Snapshots - Minimalistic program for creating screenshots and filling.
 ✔ Save images<br>
 ✔ Support for hotkeys<br>
 
-Set the path to save the pictures, hot key, and the default mode is possible in config.ini.
+Set the path to save the pictures, hot key, tray, and the default mode is possible in config.ini.
 
 [Download the latest version](https://github.com/r57zone/Snapshots-for-Windows/releases)
 
