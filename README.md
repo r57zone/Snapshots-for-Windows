@@ -23,7 +23,7 @@
 Обратная связь: r57zone[собака]gmail.com
 
 <h2>EN:</h2>
-Snapshots - Minimalistic program for creating screenshots and filling.
+Snapshots - Minimalistic program for creating screenshots and upload.
 
 ![](https://cloud.githubusercontent.com/assets/9499881/5708161/3ca91fb8-9aa8-11e4-9206-464a03bb980d.png)
 
