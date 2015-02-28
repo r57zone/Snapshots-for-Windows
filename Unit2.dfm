@@ -6,7 +6,7 @@ object Form2: TForm2
   AlphaBlend = True
   AlphaBlendValue = 150
   Caption = #1042#1099#1073#1086#1088
-  Color = clWhite
+  Color = clBlack
   TransparentColor = True
   TransparentColorValue = clFuchsia
   Font.Charset = DEFAULT_CHARSET

@@ -260,7 +260,7 @@ FormData.AddFormField('key', '7737a2959a9e3031b94ed7c04c241330');
 FormData.AddFile('image', img, '');
 Form1.IdHTTP1.Request.ContentType:='multipart/form-data';
 try
-source:=Form1.idhttp1.Post('https://api.imgur.com/2/upload.xml',FormData);
+source:=Form1.IdHTTP1.Post('https://api.imgur.com/2/upload.xml',FormData);
 except
 end;
 if (IdHTTP1.ResponseCode<>400) and (IdHTTP1.ResponseCode=200) then begin

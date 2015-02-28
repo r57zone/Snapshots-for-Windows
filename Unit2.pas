@@ -30,7 +30,7 @@ var
 
 implementation
 
-uses unit1;
+uses Unit1;
 
 {$R *.dfm}
 
@@ -63,21 +63,21 @@ procedure TForm2.FormMouseMove(Sender: TObject; Shift: TShiftState; X,
 begin
 if isDown then begin
 Self.Repaint;
-Self.Canvas.Pen.Color:= clblue;
-Self.Canvas.Pen.Width:=1;
-Self.Canvas.Pen.Style:=psDot;
+Self.Canvas.Pen.Color:=clWhite;
+Self.Canvas.Pen.Width:=2;
+//Self.Canvas.Pen.Style:=psDot;
 Self.Canvas.Brush.Color:=clFuchsia;
 Self.Canvas.Rectangle(downX, downY, X, Y);
 Self.Canvas.Pen.Style:=psSolid;
 Self.Canvas.Brush.Color:=clblue;
-Self.Canvas.Rectangle(downX-3, downY-3, downX+3, downY+3);
-Self.Canvas.Rectangle(X-3, Y-3, X+3, Y+3);
-Self.Canvas.Rectangle(X-3, downY-3, X+3, downY+3);
-Self.Canvas.Rectangle(downX-3, Y-3, downX+3, Y+3);
-Self.Canvas.Rectangle(downX-3, (downY+Y) div 2-3, downX+3,(downY+Y) div 2+3);
-Self.Canvas.Rectangle(X-3, (downY + Y) div 2-3, X+3,(downY + Y) div 2+3);
-Self.Canvas.Rectangle((downX+X) div 2-3, downY-3,(downX + X) div 2+3, downY + 3);
-Self.Canvas.Rectangle((downX+X) div 2-3, Y-3, (downX + X) div 2+3,Y+3);
+//Self.Canvas.Rectangle(downX-3, downY-3, downX+3, downY+3);
+//Self.Canvas.Rectangle(X-3, Y-3, X+3, Y+3);
+//Self.Canvas.Rectangle(X-3, downY-3, X+3, downY+3);
+//Self.Canvas.Rectangle(downX-3, Y-3, downX+3, Y+3);
+//Self.Canvas.Rectangle(downX-3, (downY+Y) div 2-3, downX+3,(downY+Y) div 2+3);
+//Self.Canvas.Rectangle(X-3, (downY + Y) div 2-3, X+3,(downY + Y) div 2+3);
+//Self.Canvas.Rectangle((downX+X) div 2-3, downY-3,(downX + X) div 2+3, downY + 3);
+//Self.Canvas.Rectangle((downX+X) div 2-3, Y-3, (downX + X) div 2+3,Y+3);
 end;
 end;
 
