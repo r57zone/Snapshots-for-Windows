@@ -244,62 +244,6 @@ Top:=TopT;
 Left:=LeftT;
 end;
 
-{procedure TForm1.PostImgToHosting(img: string);
-var
-source,status:string;
-FormData:TIdMultiPartFormDataStream;
-begin
-Form1.StatusBar1.SimpleText:=' Загрузка изображения';
-FormData:=TIdMultiPartFormDataStream.Create;
-FormData:=TIdMultiPartFormDataStream.Create;
-FormData.AddFormField('key', '7737a2959a9e3031b94ed7c04c241330');
-FormData.AddFile('image', img, '');
-IdHTTP1.Request.ContentType:='multipart/form-data';
-try
-source:=IdHTTP1.Post('https://api.imgur.com/2/upload.xml',FormData);
-except
-end;
-if IdHTTP1.ResponseCode=200 then begin
-delete(source,1,pos('<links><original>',source)+16);
-delete(source,pos('<',source),length(source)-pos('<',source)+1);
-try
-status:=IdHTTP1.Get('http://scren.ru/status.txt');
-if IdHTTP1.ResponseCode=200 then begin
-source:=StringReplace(source, 'http://i.imgur.com/', '',[rfReplaceAll, rfIgnoreCase]);
-source:=StringReplace(source, '.jpg', 'j',[rfReplaceAll, rfIgnoreCase]);
-source:=StringReplace(source, '.png', 'p',[rfReplaceAll, rfIgnoreCase]);
-source:=StringReplace(source, '.gif', 'g',[rfReplaceAll, rfIgnoreCase]);
-source:=StringReplace(source, '.bmp', 'b',[rfReplaceAll, rfIgnoreCase]);
-clipboard.AsText:='http://scren.ru/'+source;
-StatusBar1.SimpleText:=' Ссылка скопирована в буфер';
-if (UseHotKey=true) and (UseTray=true) then ShowNotify('Ссылка скопирована в буфер');
-end;
-except
-clipboard.AsText:=source;
-StatusBar1.SimpleText:=' Ссылка скопирована в буфер';
-if (UseHotKey=true) and (UseTray=true) then ShowNotify('Ссылка скопирована в буфер');
-end;
-end else begin
-StatusBar1.SimpleText:=' Ошибка загрузки на сервер';
-if (UseHotKey=true) and (UseTray=true) then ShowNotify('Ошибка загрузки на сервер');
-end;
-FormData.Free;
-if UseTray then begin
-Form1.Left:=Screen.Width div 2 - Form1.Width div 2;
-Form1.Top:=Screen.Height div 2 - Form1.Height div 2;
-end;
-if (CheckUpdates) and (CheckedUpdate=false) then begin
-CheckedUpdate:=true;
-try
-status:=IdHTTP1.Get('http://scren.ru/version.txt');
-if IdHTTP1.ResponseCode=200 then if status<>'1.0.3' then case MessageBox(Handle,'Вышло новое обновление, перейти на сайт для его загрузки?','Снимки',35) of
-6: ShellExecute(0,'open','http://scren.ru',nil,nil,SW_ShowNormal);
-end;
-except
-end;
-end;
-end;}
-
 procedure TForm1.PostImgToHosting(img: string);
 var
 source:string;
