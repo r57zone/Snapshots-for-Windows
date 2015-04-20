@@ -42,11 +42,6 @@ end;
 procedure TForm3.FormCreate(Sender: TObject);
 begin
 Button1.ControlState:=[csFocusing];
-if LangRu=false then begin
-Button1.Caption:='Region';
-Button2.Caption:='Full Screen';
-Button3.Caption:='Window';
-end;
 end;
 
 procedure TForm3.FormShow(Sender: TObject);

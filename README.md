@@ -42,6 +42,8 @@ Snapshots - Minimalistic program for creating screenshots and upload.
 
 Set the path to save the pictures, hot key, tray, and the default mode is possible in config.ini.
 
-[Download the latest version](https://github.com/r57zone/Snapshots-for-Windows/releases)
+[Download the latest version](https://github.com/r57zone/Snapshots-for-Windows/releases/tag/0.5)
+
+The latest version supports English - 0.5.1. If you need the latest version of the program, with a translation into English, write an email, and I will release an English version.
 
 Feedback: r57zone[dog]gmail.com

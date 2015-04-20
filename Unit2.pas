@@ -107,23 +107,27 @@ i,tmp:integer;
 begin
 isDown:=false;
 if (downX=x) or (downY=y) then begin
-if LangRu then Form1.StatusBar1.SimpleText:=' Неверно выбрана область захвата' else
-Form1.StatusBar1.SimpleText:=' Invalid select capture area';
+Form1.StatusBar1.SimpleText:=' Неверно выбрана область захвата';
 Close; Exit; end;
 if downX>X then begin tmp:=downX; downX:=x; x:=tmp; end;
 if downY>Y then begin tmp:=downY; downY:=y; y:=tmp; end;
-r.Left := downX;
-r.Top := downY;
-r.Right := X;
-r.Bottom := Y;
+r.Left:=downX;
+r.Top:=downY;
+r.Right:=X;
+r.Bottom:=Y;
 Form2.Visible:=false;
 Bitmap:=CaptureScreenRect(r);
 JPEG:=TJPEGImage.Create;
 JPEG.Assign(Bitmap);
+JPEG.CompressionQuality:=100;
+JPEG.Compress;
 for i:=1 to 999999 do
 if not FileExists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') then begin
 JPEG.SaveToFile(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
-if Form1.CheckBox1.Checked=false then if LangRu then Form1.StatusBar1.SimpleText:=' Снимок сохранен' else Form1.StatusBar1.SimpleText:=' Snapshot saved';
+if Form1.CheckBox1.Checked=false then begin
+Form1.StatusBar1.SimpleText:=' Снимок сохранен';
+if (UseHotKey=true) and (UseTray=true) then Form1.ShowNotify('Снимок сохранен');
+end;
 break;
 end;
 JPEG.Free;
@@ -131,13 +135,19 @@ if FileExists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') and Form1.CheckBox1.Checked
 Form1.PostImgToHosting(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
 if Form1.CheckBox2.Checked=false then DeleteFile(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
 end;
+Form1.Top:=TopT;
+Form1.Left:=LeftT;
 Close;
 end;
 
 procedure TForm2.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-if Key=VK_ESCAPE then Close;
+if Key=VK_ESCAPE then begin
+Form1.Top:=TopT;
+Form1.Left:=LeftT;
+Close;
+end;
 end;
 
 end.
