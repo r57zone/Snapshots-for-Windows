@@ -35,7 +35,6 @@ Snapshots - Simple and easy to use program for creating screenshots.
 
 ![](https://cloud.githubusercontent.com/assets/9499881/5708161/3ca91fb8-9aa8-11e4-9206-464a03bb980d.png)
 
-<h3>Functions:</h3>
 ✔ Select an area, a window or full screen to instantly share any idea.<br>
 
 ![5](https://cloud.githubusercontent.com/assets/9499881/5708190/69a35b8c-9aa8-11e4-8b0d-d9dbac9aa678.png)
