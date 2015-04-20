@@ -1,5 +1,5 @@
 <h2>RU:</h2>
-Снимки - Простая и удобная программа для создания скриншотов.
+**Снимки** - Простая и удобная программа для создания скриншотов.
 
 ![screen1 0 4](https://cloud.githubusercontent.com/assets/9499881/7238897/df3ef0a8-e7b6-11e4-83d1-67605af2913d.png)
 
@@ -21,16 +21,16 @@
 Сохраняйте картинки в нужную вам папку. По умолчанию сохраняются в папку с программной.<br>
 
 ✔ **Поддержка горячих клавиш**<br>
-Нажмите на горячую клавишу Prt Scr для мгновенного создания скриншота.<br>
+Нажмите на горячую клавишу Prt Scr для мгновенного создания скриншота.<br><br>
 
 Настроить путь для сохранения картинок, горячую клавишу, tray, а также режим по умолчанию можно в config.ini.
 
-[Скачать последнюю версию](https://github.com/r57zone/Snapshots-for-Windows/releases)
+**[Скачать последнюю версию](https://github.com/r57zone/Snapshots-for-Windows/releases)**
 
-Обратная связь: r57zone[собака]gmail.com
+**Обратная связь**: r57zone[собака]gmail.com
 
 <h2>EN:</h2>
-Snapshots - Simple and easy to use program for creating screenshots.
+**Snapshots** - Simple and easy to use program for creating screenshots.
 
 ![](https://cloud.githubusercontent.com/assets/9499881/5708161/3ca91fb8-9aa8-11e4-9206-464a03bb980d.png)
 
@@ -51,12 +51,12 @@ Instant upload and receive a direct link to the clipboard.<br>
 Save the image in the desired folder. By default, saved in a folder with the program.<br>
 
 ✔ **Support for hotkeys**<br>
-Click on a hotkey Prt Scr to instantly create a screenshot.<br>
+Click on a hotkey Prt Scr to instantly create a screenshot.<br><br>
 
 Set the path to save the pictures, hot key, tray, and the default mode is possible in config.ini.
 
-[Download the latest version](https://github.com/r57zone/Snapshots-for-Windows/releases/tag/0.5)
+**[Download the latest version](https://github.com/r57zone/Snapshots-for-Windows/releases/tag/0.5)**
 
 The latest version supports English - 0.5.1. If you need the latest version of the program, with a translation into English, write an email, and I will release an English version.
 
-Feedback: r57zone[dog]gmail.com
+**Feedback:** r57zone[dog]gmail.com
