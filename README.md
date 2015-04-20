@@ -4,13 +4,13 @@
 ![screen1 0 4](https://cloud.githubusercontent.com/assets/9499881/7238897/df3ef0a8-e7b6-11e4-83d1-67605af2913d.png)
 
 <h3>Функции:</h3>
-✔ Три режима создания скриншота
+✔ Три режима создания скриншота<br>
 Выберите область, окно или весь экран для того, чтобы мгновенно поделится какой-либо идеей.<br>
 
 ![1](https://cloud.githubusercontent.com/assets/9499881/5706972/6df394b8-9a9e-11e4-8d1a-c000cb25be87.png)
 
-✔ Поддержка Drag and Drop
-Просто перенесите фотографию или скриншот в окно программы для мгновенной загрузки.
+✔ Поддержка Drag and Drop<br>
+Просто перенесите фотографию или скриншот в окно программы для мгновенной загрузки.<br>
 
 ![2](https://cloud.githubusercontent.com/assets/9499881/5707030/eb010c2e-9a9e-11e4-98e1-507c4eb87d08.png)
 
@@ -40,8 +40,8 @@ Snapshots - Simple and easy to use program for creating screenshots.
 
 ![5](https://cloud.githubusercontent.com/assets/9499881/5708190/69a35b8c-9aa8-11e4-8b0d-d9dbac9aa678.png)
 
-✔ Support Drag and Drop
-Just drag a photo or screenshot in the window for instant download.
+✔ Support Drag and Drop<br>
+Just drag a photo or screenshot in the window for instant download.<br>
 
 ![3](https://cloud.githubusercontent.com/assets/9499881/5708179/563c4d1a-9aa8-11e4-86e6-967540260a63.png)
 
