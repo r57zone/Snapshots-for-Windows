@@ -6,12 +6,12 @@
 ✔ **Три режима создания скриншота**<br>
 Выберите область, окно или весь экран для того, чтобы мгновенно поделится какой-либо идеей.<br>
 
-![1](https://cloud.githubusercontent.com/assets/9499881/5706972/6df394b8-9a9e-11e4-8d1a-c000cb25be87.png)
+![untitled-1](https://cloud.githubusercontent.com/assets/9499881/7239173/c7e9586a-e7b8-11e4-8a56-d04c4413df06.png)
 
 ✔ **Поддержка Drag and Drop**<br>
 Просто перенесите фотографию или скриншот в окно программы для мгновенной загрузки.<br>
 
-![2](https://cloud.githubusercontent.com/assets/9499881/5707030/eb010c2e-9a9e-11e4-98e1-507c4eb87d08.png)
+![l8vxq9mx](https://cloud.githubusercontent.com/assets/9499881/7239082/2ffeeb96-e7b8-11e4-915e-71d35b4e9038.png)
 
 ✔ **Загрузка картинок на хостинг imgur.com**<br>
 Мгновенная загрузка и получение прямой ссылки в буфер обмена.<br>
