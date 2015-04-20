@@ -21,7 +21,7 @@
 Сохраняйте картинки в нужную вам папку. По умолчанию сохраняются в папку с программной.<br>
 
 ✔ **Поддержка горячих клавиш**<br>
-Нажмите на горячую клавишу Prt Scr для мгновенного создания скриншота.<br><br>
+Нажмите на горячую клавишу Prt Scr для мгновенного создания скриншота.<br>
 
 Настроить путь для сохранения картинок, горячую клавишу, tray, а также режим по умолчанию можно в config.ini.
 
@@ -51,7 +51,7 @@ Instant upload and receive a direct link to the clipboard.<br>
 Save the image in the desired folder. By default, saved in a folder with the program.<br>
 
 ✔ **Support for hotkeys**<br>
-Click on a hotkey Prt Scr to instantly create a screenshot.<br><br>
+Click on a hotkey Prt Scr to instantly create a screenshot.<br>
 
 Set the path to save the pictures, hot key, tray, and the default mode is possible in config.ini.
 
