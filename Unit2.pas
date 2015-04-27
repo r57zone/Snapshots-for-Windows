@@ -17,6 +17,8 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
   public
@@ -135,19 +137,25 @@ if FileExists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') and Form1.CheckBox1.Checked
 Form1.PostImgToHosting(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
 if Form1.CheckBox2.Checked=false then DeleteFile(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
 end;
-Form1.Top:=TopT;
-Form1.Left:=LeftT;
 Close;
 end;
 
 procedure TForm2.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-if Key=VK_ESCAPE then begin
+if Key=VK_ESCAPE then Close;
+end;
+
+procedure TForm2.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
 Form1.Top:=TopT;
 Form1.Left:=LeftT;
-Close;
 end;
+
+procedure TForm2.FormDestroy(Sender: TObject);
+begin
+Form1.Top:=TopT;
+Form1.Left:=LeftT;
 end;
 
 end.

@@ -1,6 +1,6 @@
 object Form2: TForm2
-  Left = 198
-  Top = 136
+  Left = 257
+  Top = 148
   Width = 554
   Height = 378
   AlphaBlend = True
@@ -16,7 +16,9 @@ object Form2: TForm2
   Font.Style = []
   FormStyle = fsStayOnTop
   OldCreateOrder = False
+  OnClose = FormClose
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnMouseDown = FormMouseDown
   OnMouseMove = FormMouseMove

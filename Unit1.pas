@@ -150,8 +150,6 @@ LeftT:=Left;
 Left:=Screen.Width;
 Top:=Screen.Height;
 Form2.ShowModal;
-Top:=TopT;
-Left:=LeftT;
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
@@ -339,7 +337,7 @@ end;
 
 procedure TForm1.StatusBar1Click(Sender: TObject);
 begin
-Application.MessageBox('Cнимки 1.0.4'+#13#10+'https://github.com/r57zone'+#13#10+'Последнее обновление: 20.04.2015','О программе...',0);
+Application.MessageBox('Cнимки 1.0.4'+#13#10+'https://github.com/r57zone'+#13#10+'Последнее обновление: 27.04.2015','О программе...',0);
 end;
 
 procedure TForm1.ControlWindow(var msg: tmessage);
