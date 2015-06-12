@@ -67,4 +67,4 @@ Set the path to save the pictures, hot key, tray, and the default mode is possib
 
 The latest version supports English - 0.5.1. If you need the latest version of the program, with a translation into English, write an email, and I will release an English version.
 
-**Feedback:** r57zone[dog]gmail.com
+**Feedback:** r57zone[at]gmail.com
