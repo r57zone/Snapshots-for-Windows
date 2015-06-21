@@ -338,7 +338,7 @@ end;
 
 procedure TForm1.StatusBar1Click(Sender: TObject);
 begin
-Application.MessageBox('Cнимки 1.0.4'+#13#10+'https://github.com/r57zone'+#13#10+'Последнее обновление: 21.06.2015','О программе...',0);
+Application.MessageBox('Cнимки 1.0.5'+#13#10+'https://github.com/r57zone'+#13#10+'Последнее обновление: 21.06.2015','О программе...',0);
 end;
 
 procedure TForm1.ControlWindow(var msg: tmessage);
