@@ -137,6 +137,7 @@ if FileExists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') and Form1.CheckBox1.Checked
 Form1.PostImgToHosting(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
 if Form1.CheckBox2.Checked=false then DeleteFile(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
 end;
+if UseHotKey=false then SetForegroundWindow(Form1.Handle);
 Close;
 end;
 

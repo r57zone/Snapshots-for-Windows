@@ -7,7 +7,7 @@ uses
   Dialogs, ComCtrls, StdCtrls, JPEG, XPMan, ExtCtrls,
   IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdHTTP,
   IdMultipartFormData, ClipBRD, ShellAPI, IniFiles, IdIOHandler,
-  IdIOHandlerSocket, IdSSLOpenSSL, Buttons, Menus;
+  IdIOHandlerSocket, IdSSLOpenSSL, Buttons, Menus, MMSystem;
 
 type
   TForm1 = class(TForm)
@@ -52,13 +52,13 @@ type
 var
   Form1: TForm1;
   Bitmap: TBitmap;
-  MyPath:string;
+  MyPath,NotificationPath:string;
   UseHotKey,UseTray:boolean;
   HotKeyMode,LeftT,TopT:integer;
 
 implementation
 
-uses Unit2, Unit3, Unit4, Unit5;
+uses Unit2, Unit3, Unit4;
 
 {$R *.dfm}
 
@@ -210,6 +210,7 @@ if Ini.ReadInteger('Main','Hotkey',0)=1 then UseHotKey:=true else UseHotKey:=fal
 if UseHotKey then begin
 RegisterHotKey(Form1.Handle,101,0,VK_SNAPSHOT);
 HotKeyMode:=Ini.ReadInteger('Main','HotKeyMode',0);
+NotificationPath:=Ini.ReadString('Main','Notification','');
 end;
 
 if Ini.ReadInteger('Main','Tray',0)=1 then UseTray:=true else UseTray:=false;
@@ -337,7 +338,7 @@ end;
 
 procedure TForm1.StatusBar1Click(Sender: TObject);
 begin
-Application.MessageBox('Cнимки 1.0.4'+#13#10+'https://github.com/r57zone'+#13#10+'Последнее обновление: 27.04.2015','О программе...',0);
+Application.MessageBox('Cнимки 1.0.4'+#13#10+'https://github.com/r57zone'+#13#10+'Последнее обновление: 21.06.2015','О программе...',0);
 end;
 
 procedure TForm1.ControlWindow(var msg: tmessage);
@@ -392,15 +393,18 @@ begin
 Close;
 end;
 
-procedure TForm1.ShowNotify(NotifyMessage: string);
+function GetWindowsDir:string;
 var
-c:integer;
+name:array [0..255] of Char;
 begin
-Form5.Label1.Caption:=NotifyMessage;
-Form5.Show;
-c:=0;
-while c<50 do begin inc(c); sleep(20); Application.ProcessMessages; end;
-Form5.Close;
+GetWindowsDirectory(Name, SizeOf(Name));
+Result:=name;
+end;
+
+procedure TForm1.ShowNotify(NotifyMessage: string);
+begin
+if trim(NotificationPath)='' then PlaySound(PChar(GetWindowsDir+'\Media\notify.wav'), 0, SND_ASYNC)
+else WinExec(PChar(StringReplace(NotificationPath,'%NotifyMessage%',NotifyMessage,[rfReplaceAll])), SW_ShowNormal);
 end;
 
 end.
