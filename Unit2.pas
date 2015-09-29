@@ -149,12 +149,16 @@ end;
 
 procedure TForm2.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+if TopT=Screen.Width then TopT:=Screen.Width div 2 - Form1.Width div 2;
+if LeftT=Screen.Height then LeftT:=Screen.Height div 2 - Form1.Height div 2;
 Form1.Top:=TopT;
 Form1.Left:=LeftT;
 end;
 
 procedure TForm2.FormDestroy(Sender: TObject);
 begin
+if TopT=Screen.Width then TopT:=Screen.Width div 2 - Form1.Width div 2;
+if LeftT=Screen.Height then LeftT:=Screen.Height div 2 - Form1.Height div 2;
 Form1.Top:=TopT;
 Form1.Left:=LeftT;
 end;

@@ -248,18 +248,18 @@ var
 source:string;
 FormData:TIdMultiPartFormDataStream;
 begin
-Form1.StatusBar1.SimpleText:=' Загрузка изображения';
+StatusBar1.SimpleText:=' Загрузка изображения';
 FormData:=TIdMultiPartFormDataStream.Create;
 FormData:=TIdMultiPartFormDataStream.Create;
-FormData.AddFormField('key', '7737a2959a9e3031b94ed7c04c241330');
 FormData.AddFile('image', img, '');
-IdHTTP1.Request.ContentType:='multipart/form-data';
+IdHTTP1.Request.ContentType:='Content-Type: application/octet-stream';
+IdHttp1.Request.CustomHeaders.Add('Authorization:Client-ID 2dee61a2a821ed3');
 try
-source:=IdHTTP1.Post('https://api.imgur.com/2/upload.xml',FormData);
+source:=IdHTTP1.Post('https://api.imgur.com/3/image.xml',FormData);
 except
 end;
 if IdHTTP1.ResponseCode=200 then begin
-delete(source,1,pos('<links><original>',source)+16);
+delete(source,1,pos('<link>',source)+5);
 delete(source,pos('<',source),length(source)-pos('<',source)+1);
 clipboard.AsText:=source;
 StatusBar1.SimpleText:=' Ссылка скопирована в буфер';
@@ -317,11 +317,11 @@ Filename:=StrAlloc(size);
 DragQueryFile(Msg.WParam, i, Filename, size);
 path:=StrPas(Filename);
 StrDispose(Filename);
-//if FileExists(path) then
 end;
 DragFinish(Msg.WParam);
 if (AnsiLowerCase(ExtractFileExt(path))='.jpg') or (AnsiLowerCase(ExtractFileExt(path))='.png')
-or (AnsiLowerCase(ExtractFileExt(path))='.bmp') or (AnsiLowerCase(ExtractFileExt(path))='.gif') then PostImgToHosting(path) else
+or (AnsiLowerCase(ExtractFileExt(path))='.bmp') or (AnsiLowerCase(ExtractFileExt(path))='.gif')
+or (AnsiLowerCase(ExtractFileExt(path))='.jpeg') then PostImgToHosting(path) else
 Form1.StatusBar1.SimpleText:=' Неверный формат изображения';
 end;
 
@@ -338,7 +338,7 @@ end;
 
 procedure TForm1.StatusBar1Click(Sender: TObject);
 begin
-Application.MessageBox('Cнимки 1.0.5'+#13#10+'https://github.com/r57zone'+#13#10+'Последнее обновление: 21.06.2015','О программе...',0);
+Application.MessageBox('Cнимки 1.0.6'+#13#10+'https://github.com/r57zone'+#13#10+'Последнее обновление: 29.09.2015','О программе...',0);
 end;
 
 procedure TForm1.ControlWindow(var msg: tmessage);
