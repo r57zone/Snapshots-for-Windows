@@ -38,7 +38,7 @@
 <font color="gray">Для этого нужно выбрать окно, сделать это активным и нажать на кнопку "Окно" или же выбрать окно с помощью режима "Выбор области".</font>
 
 <h2>EN:</h2>
-**Snapshots** - Simple and easy to use program for creating screenshots.
+**Snapshots** - simple and easy to use program for creating screenshots.
 
 ![](https://cloud.githubusercontent.com/assets/9499881/5708161/3ca91fb8-9aa8-11e4-9206-464a03bb980d.png)
 
