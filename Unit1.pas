@@ -194,6 +194,8 @@ procedure TForm1.FormCreate(Sender: TObject);
 var
 Ini:TIniFile;
 begin
+IdHttp1.Request.CustomHeaders.Add('Authorization:Client-ID 2dee61a2a821ed3');
+
 Form1.Left:=Screen.Width div 2 - Form1.Width div 2;
 Form1.Top:=Screen.Height div 2 - Form1.Height div 2;
 
@@ -250,10 +252,8 @@ FormData:TIdMultiPartFormDataStream;
 begin
 StatusBar1.SimpleText:=' Загрузка изображения';
 FormData:=TIdMultiPartFormDataStream.Create;
-FormData:=TIdMultiPartFormDataStream.Create;
 FormData.AddFile('image', img, '');
 IdHTTP1.Request.ContentType:='Content-Type: application/octet-stream';
-IdHttp1.Request.CustomHeaders.Add('Authorization:Client-ID 2dee61a2a821ed3');
 try
 source:=IdHTTP1.Post('https://api.imgur.com/3/image.xml',FormData);
 except
