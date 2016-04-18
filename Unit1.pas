@@ -257,6 +257,9 @@ IdHTTP1.Request.ContentType:='Content-Type: application/octet-stream';
 try
 source:=IdHTTP1.Post('https://api.imgur.com/3/image.xml',FormData);
 except
+//Временное
+Form1.Left:=Screen.Width div 2 - Form1.Width div 2;
+Form1.Top:=Screen.Height div 2 - Form1.Height div 2;
 end;
 if IdHTTP1.ResponseCode=200 then begin
 delete(source,1,pos('<link>',source)+5);
