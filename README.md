@@ -65,6 +65,6 @@ Set the path to save the pictures, hot key, tray, and the default mode is possib
 
 **[Download the latest version](https://github.com/r57zone/Snapshots-for-Windows/releases/tag/0.5)**
 
-The latest version supports English - 0.5.1. If you need the latest version of the program, with a translation into English, write an email, and I will release an English version.
+If you need a program with an English translation, please write to email and I'll will build it soon.
 
 **Feedback:** r57zone[at]gmail.com
