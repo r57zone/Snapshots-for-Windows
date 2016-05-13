@@ -35,36 +35,36 @@ uses Unit1;
 
 procedure TForm3.CreateParams(var Params: TCreateParams);
 begin
-inherited;
-Params.WndParent:=Form1.Handle;
+  inherited;
+  Params.WndParent:=Form1.Handle;
 end;
 
 procedure TForm3.FormCreate(Sender: TObject);
 begin
-Button1.ControlState:=[csFocusing];
+  Button1.ControlState:=[csFocusing];
 end;
 
 procedure TForm3.FormShow(Sender: TObject);
 begin
-SetForegroundWindow(Form3.Handle); 
+  SetForegroundWindow(Form3.Handle);
 end;
 
 procedure TForm3.Button1Click(Sender: TObject);
 begin
-Close;
-Form1.Button1.Click;
+  Close;
+  Form1.Button1.Click;
 end;
 
 procedure TForm3.Button2Click(Sender: TObject);
 begin
-Close;
-Form1.Button2.Click;
+  Close;
+  Form1.Button2.Click;
 end;
 
 procedure TForm3.Button3Click(Sender: TObject);
 begin
-Close;
-Form1.Button3.Click;
+  Close;
+  Form1.Button3.Click;
 end;
 
 end.
