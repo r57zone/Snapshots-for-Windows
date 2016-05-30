@@ -21,7 +21,6 @@ type
     IdHTTP1: TIdHTTP;
     CheckBox1: TCheckBox;
     CheckBox2: TCheckBox;
-    IdSSLIOHandlerSocket1: TIdSSLIOHandlerSocket;
     SpeedButton1: TSpeedButton;
     PopupMenu1: TPopupMenu;
     N1: TMenuItem;
@@ -246,7 +245,7 @@ begin
   Left:=LeftT;
 end;
 
-procedure TForm1.PostImgToHosting(Img: string);
+{procedure TForm1.PostImgToHosting(Img: string);
 var
   source: string;
   FormData: TIdMultiPartFormDataStream;
@@ -276,34 +275,44 @@ begin
     Form1.Left:=Screen.Width div 2 - Form1.Width div 2;
     Form1.Top:=Screen.Height div 2 - Form1.Height div 2;
   end;
-end;
+end;}
 
-{procedure TForm1.PostImgToHosting(img: string);
+procedure TForm1.PostImgToHosting(Img: string);
 var
   source: string;
   FormData: TIdMultiPartFormDataStream;
 begin
-  Form1.StatusBar1.SimpleText:=' Загрузка изображения';
+  StatusBar1.SimpleText:=' Загрузка изображения';
   FormData:=TIdMultiPartFormDataStream.Create;
   FormData.AddFile('userfile', img, '');
   FormData.AddFormField('file2', '');
   FormData.AddFormField('title', '');
   FormData.AddFormField('resize_x', '800');
   FormData.AddFormField('private_code', '');
-  Form1.IdHTTP1.Request.ContentType:='multipart/form-data';
+  Form1.IdHTTP1.Request.ContentType:='multipart/form-data';;
   try
-    source:=Form1.idhttp1.Post('http://pixs.ru/redirects/upload.php',FormData);
+    source:=Form1.IdHTTP1.Post('http://pixs.ru/redirects/upload.php',FormData);
   except
+    Form1.Left:=Screen.Width div 2 - Form1.Width div 2;
+    Form1.Top:=Screen.Height div 2 - Form1.Height div 2;
   end;
-  if pos('успешно загружена',source)>0 then begin
-  delete(source,1,pos('Прямая ссылка:',source));
-  delete(source,1,pos('http',source)-1);
-  delete(source,pos('''>',source),length(source)-pos('''>',source)+1);
-  clipboard.AsText:=source;
-  Form1.StatusBar1.SimpleText:=' Ссылка скопирована в буфер';
-  end else Form1.StatusBar1.SimpleText:=' Ошибка загрузки на сервер';
+  if Pos('успешно загружена',source)>0 then begin
+    delete(source,1,pos('Прямая ссылка:',source));
+    delete(source,1,pos('http',source)-1);
+    delete(source,Pos('''>',source),Length(source)-pos('''>',source)+1);
+    clipboard.AsText:=source;
+    StatusBar1.SimpleText:=' Ссылка скопирована в буфер';
+    if (UseHotKey=true) and (UseTray=true) then ShowNotify('Ссылка скопирована в буфер');
+  end else begin
+    StatusBar1.SimpleText:=' Ошибка загрузки на сервер';
+    if (UseHotKey=true) and (UseTray=true) then ShowNotify('Ошибка загрузки на сервер');
+  end;
   FormData.Free;
-end;}
+  if UseTray then begin
+    Form1.Left:=Screen.Width div 2 - Form1.Width div 2;
+    Form1.Top:=Screen.Height div 2 - Form1.Height div 2;
+  end;
+end;
 
 procedure TForm1.WMDropFiles(var Msg: TMessage);
 var
@@ -340,7 +349,7 @@ end;
 
 procedure TForm1.StatusBar1Click(Sender: TObject);
 begin
-  Application.MessageBox('Cнимки 1.0.7'+#13#10+'https://github.com/r57zone'+#13#10+'Последнее обновление: 13.05.2016','О программе...',0);
+  Application.MessageBox('Cнимки 1.0.8'+#13#10+'https://github.com/r57zone'+#13#10+'Последнее обновление: 30.05.2016','О программе...',0);
 end;
 
 procedure TForm1.ControlWindow(var Msg: TMessage);
