@@ -125,6 +125,21 @@ object Form1: TForm1
     Left = 8
     Top = 72
   end
+  object PopupMenu1: TPopupMenu
+    Left = 72
+    Top = 72
+    object N3: TMenuItem
+      Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
+      OnClick = N3Click
+    end
+    object N2: TMenuItem
+      Caption = '-'
+    end
+    object N1: TMenuItem
+      Caption = #1047#1072#1082#1088#1099#1090#1100
+      OnClick = N1Click
+    end
+  end
   object IdHTTP1: TIdHTTP
     MaxLineAction = maException
     ReadTimeout = 0
@@ -142,20 +157,5 @@ object Form1: TForm1
     HTTPOptions = [hoForceEncodeParams]
     Left = 40
     Top = 72
-  end
-  object PopupMenu1: TPopupMenu
-    Left = 72
-    Top = 72
-    object N3: TMenuItem
-      Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
-      OnClick = N3Click
-    end
-    object N2: TMenuItem
-      Caption = '-'
-    end
-    object N1: TMenuItem
-      Caption = #1047#1072#1082#1088#1099#1090#1100
-      OnClick = N1Click
-    end
   end
 end

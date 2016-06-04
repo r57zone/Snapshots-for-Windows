@@ -123,7 +123,9 @@ begin
   JPEG.Assign(Bitmap);
   JPEG.CompressionQuality:=100;
   JPEG.Compress;
-  for i:=1 to 999999 do
+  i:=0;
+  while true do begin
+    inc(i);
     if not FileExists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') then begin
       JPEG.SaveToFile(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
       if Form1.CheckBox1.Checked=false then begin
@@ -132,6 +134,7 @@ begin
       end;
       break;
     end;
+  end;
   JPEG.Free;
   if FileExists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') and Form1.CheckBox1.Checked then begin
     Form1.PostImgToHosting(MyPath+'\snapshot'+IntToStr(i)+'.jpg');

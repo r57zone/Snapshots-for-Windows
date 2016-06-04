@@ -4,10 +4,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, StdCtrls, JPEG, XPMan, ExtCtrls,
-  IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient, IdHTTP,
-  IdMultipartFormData, ClipBRD, ShellAPI, IniFiles, IdIOHandler,
-  IdIOHandlerSocket, IdSSLOpenSSL, Buttons, Menus, MMSystem;
+  Dialogs, ComCtrls, StdCtrls, JPEG, XPMan, ExtCtrls, ClipBRD, ShellAPI, IniFiles,
+  Buttons, Menus, MMSystem, IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient,
+  IdHTTP, IdMultipartFormData;
 
 type
   TForm1 = class(TForm)
@@ -18,7 +17,6 @@ type
     Button2: TButton;
     Button3: TButton;
     Label1: TLabel;
-    IdHTTP1: TIdHTTP;
     CheckBox1: TCheckBox;
     CheckBox2: TCheckBox;
     SpeedButton1: TSpeedButton;
@@ -26,6 +24,7 @@ type
     N1: TMenuItem;
     N2: TMenuItem;
     N3: TMenuItem;
+    IdHTTP1: TIdHTTP;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -79,7 +78,9 @@ begin
     JPEG.Assign(Bitmap);
     JPEG.CompressionQuality:=100;
     JPEG.Compress;
-    for i:=1 to 999999 do
+    i:=0;
+    while true do begin
+      inc(i);
       if not FileExists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') then begin
         JPEG.SaveToFile(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
         if Form1.CheckBox1.Checked=false then begin
@@ -88,6 +89,7 @@ begin
         end;
         break;
       end;
+    end;
     JPEG.Free;
     if FileExists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') and Form1.CheckBox1.Checked then begin
       Form1.PostImgToHosting(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
@@ -111,8 +113,7 @@ begin
   c.Handle:=GetWindowDC(GetDesktopWindow);
   h:=GetForeGroundWindow;
   while h=Application.Handle do Application.ProcessMessages;
-  if h<>0 then
-  GetWindowRect(h, t);
+  if h<>0 then GetWindowRect(h, t);
   try
     r:=Rect(0,0,t.Right-t.Left,t.Bottom-t.Top);
     Bitmap.Width:=t.Right-t.Left;
@@ -122,15 +123,18 @@ begin
     JPEG.Assign(Bitmap);
     JPEG.CompressionQuality:=100;
     JPEG.Compress;
-      for i:=1 to 999999 do
-        if not FileExists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') then begin
-          JPEG.SaveToFile(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
-          if Form1.CheckBox1.Checked=false then begin
-            Form1.StatusBar1.SimpleText:=' Снимок сохранен';
-            if (UseHotKey=true) and (UseTray=true) then Form1.ShowNotify('Снимок сохранен');
-          end;
-          break;
+    i:=0;
+    while true do begin
+      inc(i);
+      if not FileExists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') then begin
+        JPEG.SaveToFile(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
+        if Form1.CheckBox1.Checked=false then begin
+          Form1.StatusBar1.SimpleText:=' Снимок сохранен';
+          if (UseHotKey=true) and (UseTray=true) then Form1.ShowNotify('Снимок сохранен');
         end;
+        break;
+      end;
+    end;
     JPEG.Free;
     if FileExists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') and Form1.CheckBox1.Checked then begin
       Form1.PostImgToHosting(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
@@ -167,12 +171,12 @@ var
   nim: TNotifyIconData;
 begin
   with nim do begin
-    cbsize:=sizeof(nim);
+    cbSize:=SizeOf(nim);
     wnd:=Form1.Handle;
     uid:=1;
     uflags:=nif_icon or nif_message or nif_tip;
     hicon:=Application.Icon.Handle;
-    ucallbackmessage:=wm_user+1;
+    ucallbackmessage:=WM_User+1;
     //sztip:='Снимки';
     StrCopy(szTip, PChar(Form1.Caption));
   end;
@@ -349,7 +353,7 @@ end;
 
 procedure TForm1.StatusBar1Click(Sender: TObject);
 begin
-  Application.MessageBox('Cнимки 1.0.8'+#13#10+'https://github.com/r57zone'+#13#10+'Последнее обновление: 30.05.2016','О программе...',0);
+  Application.MessageBox('Cнимки 1.0.8'+#13#10+'Последнее обновление: 04.06.2016'+#13#10+'https://github.com/r57zone/Snapshots-for-Windows'+#13#10+'r57zone@gmail.com','О программе...',0);
 end;
 
 procedure TForm1.ControlWindow(var Msg: TMessage);
