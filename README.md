@@ -53,7 +53,7 @@ Application for creating screenshots.
 ✔ **Three modes of creating screenshots**<br>
 Select an area, a window or full screen to instantly share any idea.<br>
 
-![](https://cloud.githubusercontent.com/assets/9499881/5708190/69a35b8c-9aa8-11e4-8b0d-d9dbac9aa678.png)
+![](https://cloud.githubusercontent.com/assets/9499881/18416502/d50599a4-7827-11e6-8707-b6e5dce76d94.png)
 
 ✔ **Support Drag and Drop**<br>
 Just drag a photo or screenshot in the window for instant download.<br>
