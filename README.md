@@ -1,6 +1,9 @@
 # Снимки (Ru)
 Приложение для создания скриншотов.
 
+## Скриншоты
+![](https://cloud.githubusercontent.com/assets/9499881/7238897/df3ef0a8-e7b6-11e4-83d1-67605af2913d.png)
+
 ##Особенности
 
 ✔ **Три режима создания скриншота**<br>
@@ -31,9 +34,6 @@
 • Как сделать скриншот окна?<br>
 - Для этого нужно выбрать окно, сделать это активным и нажать на кнопку "Окно" или же выбрать окно с помощью режима "Выбор области".
 
-## Скриншоты
-![](https://cloud.githubusercontent.com/assets/9499881/7238897/df3ef0a8-e7b6-11e4-83d1-67605af2913d.png)
-
 ## Загрузка
 >Версия для Windows XP, ReactOS, Windows 7, Windows 8.1, Windows 10.<br>
 **[Загрузить](https://github.com/r57zone/Snapshots-for-Windows/releases)**<br>
@@ -43,6 +43,9 @@
 
 # Snapshots (En)
 Application for creating screenshots.
+
+## Screenshots
+![](https://cloud.githubusercontent.com/assets/9499881/5708161/3ca91fb8-9aa8-11e4-9206-464a03bb980d.png)
 
 ##Features
 
@@ -63,14 +66,11 @@ Instant upload and receive a direct link to the clipboard.<br>
 Save the image in the desired folder. By default, saved in a folder with the program.<br>
 
 ✔ **Support for hotkeys**<br>
-Click on a hotkey Prt Scr to instantly create a screenshot.<br>
-
-## Screenshots
-![](https://cloud.githubusercontent.com/assets/9499881/5708161/3ca91fb8-9aa8-11e4-9206-464a03bb980d.png)
+Click on a hotkey "Prt Scr" to instantly create a screenshot.<br>
 
 ## Download
 >Version for Windows XP, ReactOS, Windows 7, Windows 8.1, Windows 10.<br>
->If you need a program with an English translation, please write to email and I'll will build it soon.
+>If you need a program with an English translation, please write to email and I'll will build it soon.<br>
 **[Download](https://github.com/r57zone/Snapshots-for-Windows/releases)**<br>
 
 ## Feedback
