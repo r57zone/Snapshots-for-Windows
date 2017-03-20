@@ -4,7 +4,7 @@
 ## Скриншоты
 ![](https://cloud.githubusercontent.com/assets/9499881/7238897/df3ef0a8-e7b6-11e4-83d1-67605af2913d.png)
 
-##Особенности
+## Особенности
 
 ✔ **Три режима создания скриншота**<br>
 Выберите область, окно или весь экран для того, чтобы мгновенно поделится чем-либо.<br>
@@ -54,7 +54,7 @@ Application for creating screenshots.
 ## Screenshots
 ![](https://cloud.githubusercontent.com/assets/9499881/5708161/3ca91fb8-9aa8-11e4-9206-464a03bb980d.png)
 
-##Features
+## Features
 
 ✔ **Three modes of creating screenshots**<br>
 Select an area, a window or full screen to instantly share any idea.<br>
