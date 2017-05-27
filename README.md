@@ -35,7 +35,7 @@
 
 • Как включить уведомления, при сохранении скриншота, в свернутом режиме?
 Для этого нужно загрузить приложение ["Уведомления"](https://github.com/r57zone/notifications), распаковать в "Program Files" и прописать путь к приложению уведомлений в файле "config.ini".
-<br>Пример - `C:\Program Files\Notifications\Notifications.exe "Снимки" "%NotifyMessage%" null "Icons\snapshots.png" null 2`<br>
+<br>Пример - `C:\Program Files\Notifications\Notifications.exe "Снимки" "%NotifyMessage%" null "snapshots.png" null 2`<br>
 ![](https://cloud.githubusercontent.com/assets/9499881/19398283/f4081440-925c-11e6-8caf-1fde2b99d8a6.jpg)
 
 • Как сделать скриншот окна?
