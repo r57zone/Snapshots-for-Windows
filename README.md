@@ -49,14 +49,14 @@
 `r57zone[собака]gmail.com`
 
 # Snapshots (En)
-Application for creating screenshots.
+Application for make screenshots.
 
 ## Screenshots
 ![](https://cloud.githubusercontent.com/assets/9499881/5708161/3ca91fb8-9aa8-11e4-9206-464a03bb980d.png)
 
 ## Features
 
-✔ **Three modes of creating screenshots**<br>
+✔ **Three modes of making screenshots**<br>
 Select an area, a window or full screen to instantly share any idea.<br>
 
 ![](https://cloud.githubusercontent.com/assets/9499881/18416502/d50599a4-7827-11e6-8707-b6e5dce76d94.png)
