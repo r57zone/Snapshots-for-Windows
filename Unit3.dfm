@@ -1,4 +1,4 @@
-object Form3: TForm3
+object ChsAct: TChsAct
   Left = 448
   Top = 235
   BorderIcons = [biSystemMenu]
@@ -14,36 +14,35 @@ object Form3: TForm3
   Font.Style = []
   FormStyle = fsStayOnTop
   OldCreateOrder = False
-  Position = poDesktopCenter
-  OnCreate = FormCreate
+  Position = poScreenCenter
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Button1: TButton
+  object AreaBtn: TButton
     Left = 8
     Top = 8
     Width = 75
     Height = 25
     Caption = #1054#1073#1083#1072#1089#1090#1100
     TabOrder = 0
-    OnClick = Button1Click
+    OnClick = AreaBtnClick
   end
-  object Button2: TButton
+  object FullScrBtn: TButton
     Left = 88
     Top = 8
     Width = 75
     Height = 25
     Caption = #1042#1077#1089#1100' '#1101#1082#1088#1072#1085
     TabOrder = 1
-    OnClick = Button2Click
+    OnClick = FullScrBtnClick
   end
-  object Button3: TButton
+  object WndBtn: TButton
     Left = 168
     Top = 8
     Width = 75
     Height = 25
     Caption = #1054#1082#1085#1086
     TabOrder = 2
-    OnClick = Button3Click
+    OnClick = WndBtnClick
   end
 end

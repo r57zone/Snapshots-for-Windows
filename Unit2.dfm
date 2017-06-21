@@ -1,11 +1,12 @@
-object Form2: TForm2
+object ChsArea: TChsArea
   Left = 257
   Top = 148
-  Width = 554
-  Height = 378
   AlphaBlend = True
   AlphaBlendValue = 150
+  BorderStyle = bsNone
   Caption = #1042#1099#1073#1086#1088
+  ClientHeight = 340
+  ClientWidth = 538
   Color = clBlack
   TransparentColor = True
   TransparentColorValue = clFuchsia
@@ -18,7 +19,6 @@ object Form2: TForm2
   OldCreateOrder = False
   OnClose = FormClose
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   OnMouseDown = FormMouseDown
   OnMouseMove = FormMouseMove
   OnMouseUp = FormMouseUp

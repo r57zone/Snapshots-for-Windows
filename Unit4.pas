@@ -7,27 +7,27 @@ uses
   Dialogs, StdCtrls, ShlObj, IniFiles;
 
 type
-  TForm4 = class(TForm)
-    GroupBox1: TGroupBox;
+  TSettings = class(TForm)
+    DefActGB: TGroupBox;
     RadioButton1: TRadioButton;
     RadioButton2: TRadioButton;
     RadioButton3: TRadioButton;
-    GroupBox2: TGroupBox;
+    ActHKGB: TGroupBox;
     RadioButton4: TRadioButton;
     RadioButton5: TRadioButton;
     RadioButton6: TRadioButton;
     RadioButton7: TRadioButton;
     RadioButton8: TRadioButton;
-    Edit1: TEdit;
+    PathEdt: TEdit;
     Label1: TLabel;
-    Button1: TButton;
-    Button2: TButton;
-    Button3: TButton;
+    ChsFolder: TButton;
+    OkBtn: TButton;
+    CancelBtn: TButton;
     CheckBox1: TCheckBox;
     procedure FormCreate(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    procedure CancelBtnClick(Sender: TObject);
+    procedure ChsFolderClick(Sender: TObject);
+    procedure OkBtnClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -35,7 +35,7 @@ type
   end;
 
 var
-  Form4: TForm4;
+  Settings: TSettings;
 
 implementation
 
@@ -48,29 +48,32 @@ var
   TitleName: string;
   lpItemId: pItemIdList;
   BrowseInfo: TBrowseInfo;
-  DisplayName: array[0..max_Path] of char;
-  TempPath: array[0..max_Path] of char;
+  DisplayName: array[0..Max_Path] of char;
+  TempPath: array[0..Max_Path] of char;
 begin
-  FillChar(BrowseInfo,sizeof(tBrowseInfo),#0);
+  FillChar(BrowseInfo,Sizeof(tBrowseInfo), #0);
   BrowseInfo.hwndowner:=GetDesktopWindow;
-  BrowseInfo.pszdisplayname:=@displayname;
+  BrowseInfo.pszdisplayname:=@DisplayName;
   TitleName:=Title;
   BrowseInfo.lpsztitle:=PChar(TitleName);
   BrowseInfo.ulflags:=bIf_ReturnOnlyFSDirs;
   lpItemId:=shBrowseForFolder(BrowseInfo);
-  if lpItemId<>nil then begin
+  if lpItemId <> nil then begin
     shGetPathFromIdList(lpItemId, TempPath);
     Result:=TempPath;
     GlobalFreePtr(lpitemid);
   end;
 end;
 
-procedure TForm4.FormCreate(Sender: TObject);
+procedure TSettings.FormCreate(Sender: TObject);
 var
   Ini: TIniFile;
 begin
-  Edit1.Text:=MyPath;
-  if UseTray then CheckBox1.Checked:=true;
+  PathEdt.Text:=MyPath;
+
+  if UseTray then
+    CheckBox1.Checked:=true;
+
   if UseHotKey then
     case HotKeyMode of
       0: RadioButton5.Checked:=true;
@@ -85,23 +88,23 @@ begin
   Ini.Free;
 end;
 
-procedure TForm4.Button3Click(Sender: TObject);
+procedure TSettings.CancelBtnClick(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TForm4.Button1Click(Sender: TObject);
+procedure TSettings.ChsFolderClick(Sender: TObject);
 var
   TempPath: string;
 begin
   TempPath:=BrowseFolderDialog('Выберите каталог');
   if TempPath<>'' then begin
     if TempPath[Length(TempPath)]='\' then Delete(TempPath,Length(TempPath),1);
-    Edit1.Text:=TempPath;
+    PathEdt.Text:=TempPath;
   end else ShowMessage('Не выбран каталог');
 end;
 
-procedure TForm4.Button2Click(Sender: TObject);
+procedure TSettings.OkBtnClick(Sender: TObject);
 var
   Ini: TIniFile; ModeTmp: integer;
 begin
@@ -110,11 +113,15 @@ begin
   if RadioButton1.Checked then ModeTmp:=0;
   if RadioButton2.Checked then ModeTmp:=1;
   if RadioButton3.Checked then ModeTmp:=2;
-  Ini.WriteInteger('Main','Mode',ModeTmp);
+  Ini.WriteInteger('Main', 'Mode', ModeTmp);
 
-  if Edit1.Text<>MyPath then Ini.WriteString('Main','Path',Edit1.Text);
+  if PathEdt.Text <> MyPath then
+    Ini.WriteString('Main', 'Path', PathEdt.Text);
 
-  if RadioButton4.Checked then Ini.WriteInteger('Main','HotKey',0) else Ini.WriteInteger('Main','HotKey',1);
+  if RadioButton4.Checked then
+    Ini.WriteInteger('Main', 'HotKey', 0)
+  else
+    Ini.WriteInteger('Main', 'HotKey', 1);
 
   ModeTmp:=0;
   if RadioButton5.Checked then ModeTmp:=0;
@@ -123,7 +130,8 @@ begin
   if RadioButton8.Checked then ModeTmp:=3;
   Ini.WriteInteger('Main','HotKeyMode',ModeTmp);
 
-  if CheckBox1.Checked then Ini.WriteInteger('Main','Tray',1) else Ini.WriteInteger('Main','Tray',0);
+  if CheckBox1.Checked then
+    Ini.WriteInteger('Main','Tray',1) else Ini.WriteInteger('Main','Tray',0);
 
   Ini.Free;
 

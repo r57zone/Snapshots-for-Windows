@@ -4,10 +4,10 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, jpeg, ShlObj;
+  Dialogs, jpeg;
 
 type
-  TForm2 = class(TForm)
+  TChsArea = class(TForm)
     procedure FormCreate(Sender: TObject);
     procedure FormMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -16,7 +16,6 @@ type
     procedure FormMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
   public
@@ -24,7 +23,7 @@ type
   end;
 
 var
-  Form2: TForm2;
+  ChsArea: TChsArea;
   isDown: Boolean;
   downX, downY: integer;
 
@@ -34,22 +33,35 @@ uses Unit1;
 
 {$R *.dfm}
 
-function GetSpecialPath(CSIDL: word): string;
+function GetDesktopWidth: integer;
 var
-  s: string;
+  i: integer;
 begin
-  SetLength(s, MAX_PATH);
-  if not SHGetSpecialFolderPath(0, PChar(s), CSIDL, true) then s:='';
-  Result:=PChar(s);
+  Result:=Screen.Width;
+  if Screen.MonitorCount > 0 then
+    for i:=1 to Screen.MonitorCount-1 do
+      Result:=Result + Screen.Monitors[i].Width;
 end;
 
-procedure TForm2.FormCreate(Sender: TObject);
+function GetDesktopHeight: integer;
+var
+  i: integer;
 begin
-  BorderStyle:=bsNone;
-  WindowState:=wsMaximized;
+  Result:=Screen.Height;
+  if Screen.MonitorCount > 0 then
+    for i:=1 to Screen.MonitorCount-1 do
+      if Screen.Monitors[i].Height > Result then Result:=Screen.Monitors[i].Height;
 end;
 
-procedure TForm2.FormMouseDown(Sender: TObject; Button: TMouseButton;
+procedure TChsArea.FormCreate(Sender: TObject);
+begin
+  Left:=0;
+  Top:=0;
+  Width:=GetDesktopWidth;
+  Height:=GetDesktopHeight;
+end;
+
+procedure TChsArea.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   isDown:=true;
@@ -57,7 +69,7 @@ begin
   downY:=Y;
 end;
 
-procedure TForm2.FormMouseMove(Sender: TObject; Shift: TShiftState; X,
+procedure TChsArea.FormMouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   if isDown then begin
@@ -86,8 +98,8 @@ var
 begin
   Result:=TBitMap.Create;
   with Result, aRect do begin
-    Width:=Right-Left;
-    Height:=Bottom-Top;
+    Width:=Right - Left;
+    Height:=Bottom - Top;
     ScreenDC:=GetDC(0);
     try
       BitBlt(Canvas.Handle, 0, 0, Width, Height, ScreenDC, Left, Top, SRCCOPY);
@@ -97,7 +109,7 @@ begin
   end;
 end;
 
-procedure TForm2.FormMouseUp(Sender: TObject; Button: TMouseButton;
+procedure TChsArea.FormMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   r: TRect;
@@ -105,19 +117,35 @@ var
   i, tmp: integer;
 begin
   isDown:=false;
-  if (downX=x) or (downY=y) then begin
-    Form1.StatusBar1.SimpleText:=' Неверно выбрана область захвата';
+  if (downX = x) or (downY = y) then begin
+    Main.StatusBar.SimpleText:=' Неверно выбрана область захвата';
     Close;
     Exit;
   end;
-  if GetAsyncKeyState(VK_ESCAPE)<>0 then begin Form1.StatusBar1.SimpleText:=' Захват области отменен'; Close; Exit; end;
-  if downX>X then begin tmp:=downX; downX:=x; x:=tmp; end;
-  if downY>Y then begin tmp:=downY; downY:=y; y:=tmp; end;
+
+  if (GetAsyncKeyState(VK_ESCAPE) and $8000) <> 0 then begin
+    Main.StatusBar.SimpleText:=' Захват области отменен';
+    Close;
+    Exit;
+  end;
+
+  if downX > X then begin
+    tmp:=downX;
+    downX:=x;
+    x:=tmp;
+  end;
+
+  if downY > Y then begin
+    tmp:=downY;
+    downY:=y;
+    y:=tmp;
+  end;
+
   r.Left:=downX;
   r.Top:=downY;
   r.Right:=X;
   r.Bottom:=Y;
-  Form2.Visible:=false;
+  ChsArea.Visible:=false;
   Bitmap:=CaptureScreenRect(r);
   JPEG:=TJPEGImage.Create;
   JPEG.Assign(Bitmap);
@@ -126,38 +154,30 @@ begin
   i:=0;
   while true do begin
     inc(i);
-    if not FileExists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') then begin
-      JPEG.SaveToFile(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
-      if Form1.CheckBox1.Checked=false then begin
-        Form1.StatusBar1.SimpleText:=' Снимок сохранен';
-        if (UseHotKey=true) and (UseTray=true) then Form1.ShowNotify('Снимок сохранен');
+    if not FileExists(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg') then begin
+      JPEG.SaveToFile(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg');
+      if Main.UploadCB.Checked=false then begin
+        Main.StatusBar.SimpleText:=' Снимок сохранен';
+        if (UseHotKey=true) and (UseTray=true) then Main.ShowNotify('Снимок сохранен');
       end;
       break;
     end;
   end;
   JPEG.Free;
-  if FileExists(MyPath+'\snapshot'+IntToStr(i)+'.jpg') and Form1.CheckBox1.Checked then begin
-    Form1.PostImgToHosting(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
-    if Form1.CheckBox2.Checked=false then DeleteFile(MyPath+'\snapshot'+IntToStr(i)+'.jpg');
+  if FileExists(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg') and Main.UploadCB.Checked then begin
+    Main.PostImgToHosting(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg');
+    if Main.SaveCB.Checked=false then DeleteFile(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg');
   end;
-  if UseHotKey=false then SetForegroundWindow(Form1.Handle);
+  if UseHotKey=false then SetForegroundWindow(Main.Handle);
   Close;
 end;
 
-procedure TForm2.FormClose(Sender: TObject; var Action: TCloseAction);
+procedure TChsArea.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  if TopT=Screen.Width then TopT:=Screen.Width div 2 - Form1.Width div 2;
-  if LeftT=Screen.Height then LeftT:=Screen.Height div 2 - Form1.Height div 2;
-  Form1.Top:=TopT;
-  Form1.Left:=LeftT;
-end;
-
-procedure TForm2.FormDestroy(Sender: TObject);
-begin
-  if TopT=Screen.Width then TopT:=Screen.Width div 2 - Form1.Width div 2;
-  if LeftT=Screen.Height then LeftT:=Screen.Height div 2 - Form1.Height div 2;
-  Form1.Top:=TopT;
-  Form1.Left:=LeftT;
+  if TopT=Screen.Width then TopT:=Screen.Width div 2 - Main.Width div 2;
+  if LeftT=Screen.Height then LeftT:=Screen.Height div 2 - Main.Height div 2;
+  Main.Top:=TopT;
+  Main.Left:=LeftT;
 end;
 
 end.

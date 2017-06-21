@@ -7,15 +7,14 @@ uses
   Dialogs, StdCtrls;
 
 type
-  TForm3 = class(TForm)
-    Button1: TButton;
-    Button2: TButton;
-    Button3: TButton;
-    procedure FormCreate(Sender: TObject);
+  TChsAct = class(TForm)
+    AreaBtn: TButton;
+    FullScrBtn: TButton;
+    WndBtn: TButton;
     procedure FormShow(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
+    procedure AreaBtnClick(Sender: TObject);
+    procedure FullScrBtnClick(Sender: TObject);
+    procedure WndBtnClick(Sender: TObject);
   protected
     procedure CreateParams(var Params:TCreateParams);override;
   private
@@ -25,7 +24,7 @@ type
   end;
 
 var
-  Form3: TForm3;
+  ChsAct: TChsAct;
 
 implementation
 
@@ -33,38 +32,33 @@ uses Unit1;
 
 {$R *.dfm}
 
-procedure TForm3.CreateParams(var Params: TCreateParams);
+procedure TChsAct.CreateParams(var Params: TCreateParams);
 begin
   inherited;
-  Params.WndParent:=Form1.Handle;
+  Params.WndParent:=Main.Handle;
 end;
 
-procedure TForm3.FormCreate(Sender: TObject);
+procedure TChsAct.FormShow(Sender: TObject);
 begin
-  Button1.ControlState:=[csFocusing];
+  SetForegroundWindow(ChsAct.Handle);
 end;
 
-procedure TForm3.FormShow(Sender: TObject);
-begin
-  SetForegroundWindow(Form3.Handle);
-end;
-
-procedure TForm3.Button1Click(Sender: TObject);
+procedure TChsAct.AreaBtnClick(Sender: TObject);
 begin
   Close;
-  Form1.Button1.Click;
+  Main.AreaBtn.Click;
 end;
 
-procedure TForm3.Button2Click(Sender: TObject);
+procedure TChsAct.FullScrBtnClick(Sender: TObject);
 begin
   Close;
-  Form1.Button2.Click;
+  Main.FullScrBtn.Click;
 end;
 
-procedure TForm3.Button3Click(Sender: TObject);
+procedure TChsAct.WndBtnClick(Sender: TObject);
 begin
   Close;
-  Form1.Button3.Click;
+  Main.WndBtn.Click;
 end;
 
 end.

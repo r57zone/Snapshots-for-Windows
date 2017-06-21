@@ -1,4 +1,4 @@
-object Form1: TForm1
+object Main: TMain
   Left = 198
   Top = 130
   BorderIcons = [biSystemMenu, biMinimize]
@@ -24,23 +24,23 @@ object Form1: TForm1
     Width = 3
     Height = 13
   end
-  object StatusBar1: TStatusBar
+  object StatusBar: TStatusBar
     Left = 0
     Top = 156
     Width = 230
     Height = 17
     Panels = <>
     SimplePanel = True
-    OnClick = StatusBar1Click
+    OnClick = StatusBarClick
   end
-  object Panel1: TPanel
+  object Panel: TPanel
     Left = 0
     Top = 0
     Width = 230
     Height = 64
     Align = alTop
     TabOrder = 1
-    object SpeedButton1: TSpeedButton
+    object SettgsBtn: TSpeedButton
       Left = 205
       Top = 40
       Width = 18
@@ -73,36 +73,36 @@ object Form1: TForm1
         FF00FFADADADFF00FFFF00FF7B7B7B7B7B7B7B7B7BFF00FFFF00FFADADADFF00
         FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFADADAD7B
         7B7BADADADFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
-      OnClick = SpeedButton1Click
+      OnClick = SettgsBtnClick
     end
-    object Button1: TButton
+    object AreaBtn: TButton
       Left = 6
       Top = 8
       Width = 70
       Height = 25
       Caption = #1054#1073#1083#1072#1089#1090#1100
       TabOrder = 0
-      OnClick = Button1Click
+      OnClick = AreaBtnClick
     end
-    object Button2: TButton
+    object FullScrBtn: TButton
       Left = 80
       Top = 8
       Width = 70
       Height = 25
       Caption = #1042#1077#1089#1100' '#1101#1082#1088#1072#1085
       TabOrder = 1
-      OnClick = Button2Click
+      OnClick = FullScrBtnClick
     end
-    object Button3: TButton
+    object WndBtn: TButton
       Left = 154
       Top = 8
       Width = 70
       Height = 25
       Caption = #1054#1082#1085#1086
       TabOrder = 2
-      OnClick = Button3Click
+      OnClick = WndBtnClick
     end
-    object CheckBox1: TCheckBox
+    object UploadCB: TCheckBox
       Left = 8
       Top = 40
       Width = 73
@@ -112,7 +112,7 @@ object Form1: TForm1
       State = cbChecked
       TabOrder = 3
     end
-    object CheckBox2: TCheckBox
+    object SaveCB: TCheckBox
       Left = 82
       Top = 40
       Width = 73
@@ -125,7 +125,7 @@ object Form1: TForm1
     Left = 8
     Top = 72
   end
-  object PopupMenu1: TPopupMenu
+  object PopupMenu: TPopupMenu
     Left = 72
     Top = 72
     object N3: TMenuItem

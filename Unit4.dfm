@@ -1,4 +1,4 @@
-object Form4: TForm4
+object Settings: TSettings
   Left = 192
   Top = 124
   BorderIcons = [biSystemMenu]
@@ -13,7 +13,7 @@ object Form4: TForm4
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  Position = poDesktopCenter
+  Position = poScreenCenter
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -24,7 +24,7 @@ object Form4: TForm4
     Height = 13
     Caption = #1055#1091#1090#1100' '#1076#1083#1103' '#1089#1086#1093#1088#1072#1085#1077#1085#1080#1103' '#1089#1082#1088#1080#1085#1096#1086#1090#1086#1074
   end
-  object GroupBox1: TGroupBox
+  object DefActGB: TGroupBox
     Left = 8
     Top = 8
     Width = 201
@@ -58,7 +58,7 @@ object Form4: TForm4
       TabOrder = 2
     end
   end
-  object GroupBox2: TGroupBox
+  object ActHKGB: TGroupBox
     Left = 224
     Top = 8
     Width = 201
@@ -108,7 +108,7 @@ object Form4: TForm4
       TabOrder = 4
     end
   end
-  object Edit1: TEdit
+  object PathEdt: TEdit
     Left = 8
     Top = 136
     Width = 121
@@ -116,32 +116,32 @@ object Form4: TForm4
     ReadOnly = True
     TabOrder = 2
   end
-  object Button1: TButton
+  object ChsFolder: TButton
     Left = 136
     Top = 136
     Width = 75
     Height = 21
     Caption = #1042#1099#1073#1088#1072#1090#1100
     TabOrder = 3
-    OnClick = Button1Click
+    OnClick = ChsFolderClick
   end
-  object Button2: TButton
+  object OkBtn: TButton
     Left = 272
     Top = 208
     Width = 75
     Height = 25
     Caption = #1054#1082
     TabOrder = 4
-    OnClick = Button2Click
+    OnClick = OkBtnClick
   end
-  object Button3: TButton
+  object CancelBtn: TButton
     Left = 352
     Top = 208
     Width = 75
     Height = 25
     Caption = #1054#1090#1084#1077#1085#1072
     TabOrder = 5
-    OnClick = Button3Click
+    OnClick = CancelBtnClick
   end
   object CheckBox1: TCheckBox
     Left = 8
