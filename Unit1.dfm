@@ -13,7 +13,7 @@ object Main: TMain
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  Position = poDefault
+  Position = poScreenCenter
   OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
@@ -140,7 +140,8 @@ object Main: TMain
       OnClick = N1Click
     end
   end
-  object IdHTTP1: TIdHTTP
+  object IdHTTP: TIdHTTP
+    IOHandler = IdSSLIOHandlerSocket1
     MaxLineAction = maException
     ReadTimeout = 0
     AllowCookies = True
@@ -156,6 +157,14 @@ object Main: TMain
     Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
     HTTPOptions = [hoForceEncodeParams]
     Left = 40
+    Top = 72
+  end
+  object IdSSLIOHandlerSocket1: TIdSSLIOHandlerSocket
+    SSLOptions.Method = sslvTLSv1
+    SSLOptions.Mode = sslmUnassigned
+    SSLOptions.VerifyMode = []
+    SSLOptions.VerifyDepth = 0
+    Left = 104
     Top = 72
   end
 end

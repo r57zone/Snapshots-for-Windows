@@ -165,7 +165,7 @@ begin
   end;
   JPEG.Free;
   if FileExists(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg') and Main.UploadCB.Checked then begin
-    Main.PostImgToHosting(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg');
+    Main.PicToHost(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg');
     if Main.SaveCB.Checked=false then DeleteFile(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg');
   end;
   if UseHotKey=false then SetForegroundWindow(Main.Handle);
