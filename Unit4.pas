@@ -9,25 +9,35 @@ uses
 type
   TSettings = class(TForm)
     DefActGB: TGroupBox;
-    RadioButton1: TRadioButton;
-    RadioButton2: TRadioButton;
-    RadioButton3: TRadioButton;
-    ActHKGB: TGroupBox;
-    RadioButton4: TRadioButton;
-    RadioButton5: TRadioButton;
-    RadioButton6: TRadioButton;
-    RadioButton7: TRadioButton;
-    RadioButton8: TRadioButton;
-    PathEdt: TEdit;
-    Label1: TLabel;
-    ChsFolder: TButton;
+    UploadRB: TRadioButton;
+    UploadSaveRB: TRadioButton;
+    SaveRB: TRadioButton;
+    HKActGB: TGroupBox;
+    HKNotUseRB: TRadioButton;
+    HKAreaRB: TRadioButton;
+    HKFullScrRB: TRadioButton;
+    HKWNDRB: TRadioButton;
+    HKShowDlgRB: TRadioButton;
+    SaveScrPathLbl: TLabel;
     OkBtn: TButton;
     CancelBtn: TButton;
-    CheckBox1: TCheckBox;
+    TrayCB: TCheckBox;
+    PicHostGB: TGroupBox;
+    Pixs: TRadioButton;
+    ImgurRB: TRadioButton;
+    ImgurKeyEdt: TEdit;
+    ImgurKeyLbl: TLabel;
+    NotifyAppPathLbl: TLabel;
+    NotifyAppPathEdt: TEdit;
+    ChooseNotifyAppBtn: TButton;
+    ChsFolderBtn: TButton;
+    PathScrEdt: TEdit;
+    OpenDialog: TOpenDialog;
     procedure FormCreate(Sender: TObject);
     procedure CancelBtnClick(Sender: TObject);
-    procedure ChsFolderClick(Sender: TObject);
+    procedure ChsFolderBtnClick(Sender: TObject);
     procedure OkBtnClick(Sender: TObject);
+    procedure ChooseNotifyAppBtnClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -69,22 +79,29 @@ procedure TSettings.FormCreate(Sender: TObject);
 var
   Ini: TIniFile;
 begin
-  PathEdt.Text:=MyPath;
+  PathScrEdt.Text:=MyPath;
 
   if UseTray then
-    CheckBox1.Checked:=true;
+    TrayCB.Checked:=true;
 
   if UseHotKey then
     case HotKeyMode of
-      0: RadioButton5.Checked:=true;
-      1: RadioButton6.Checked:=true;
-      2: RadioButton7.Checked:=true;
-      3: RadioButton8.Checked:=true;
+      0: HKAreaRB.Checked:=true;
+      1: HKFullScrRB.Checked:=true;
+      2: HKWNDRB.Checked:=true;
+      3: HKShowDlgRB.Checked:=true;
     end;
 
-  Ini:=TIniFile.Create(ExtractFilePath(paramstr(0))+'config.ini');
-  if Ini.ReadInteger('Main','Mode',0)=1 then RadioButton2.Checked:=true;
-  if Ini.ReadInteger('Main','Mode',0)=2 then RadioButton3.Checked:=true;
+  Ini:=TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'config.ini');
+  if Ini.ReadInteger('Main', 'Mode', 0 ) = 1 then UploadSaveRB.Checked:=true;
+  if Ini.ReadInteger('Main', 'Mode', 0 ) = 2 then SaveRB.Checked:=true;
+
+  ImgurKeyEdt.Text:=Ini.ReadString('Main', 'ImgurClientID', '');
+  if ImgurKeyEdt.Text <> '' then
+    ImgurRB.Checked:=true;
+
+  NotifyAppPathEdt.Text:=Ini.ReadString('Main', 'Notification', '');
+
   Ini.Free;
 end;
 
@@ -93,14 +110,14 @@ begin
   Close;
 end;
 
-procedure TSettings.ChsFolderClick(Sender: TObject);
+procedure TSettings.ChsFolderBtnClick(Sender: TObject);
 var
   TempPath: string;
 begin
   TempPath:=BrowseFolderDialog('Выберите каталог');
-  if TempPath<>'' then begin
-    if TempPath[Length(TempPath)]='\' then Delete(TempPath,Length(TempPath),1);
-    PathEdt.Text:=TempPath;
+  if TempPath <> '' then begin
+    if TempPath[Length(TempPath)]='\' then Delete(TempPath, Length(TempPath), 1);
+    PathScrEdt.Text:=TempPath;
   end else ShowMessage('Не выбран каталог');
 end;
 
@@ -108,35 +125,52 @@ procedure TSettings.OkBtnClick(Sender: TObject);
 var
   Ini: TIniFile; ModeTmp: integer;
 begin
-  Ini:=TIniFile.Create(ExtractFilePath(paramstr(0))+'config.ini');
+  Ini:=TIniFile.Create(ExtractFilePath(paramstr(0)) + 'config.ini');
 
-  if RadioButton1.Checked then ModeTmp:=0;
-  if RadioButton2.Checked then ModeTmp:=1;
-  if RadioButton3.Checked then ModeTmp:=2;
+  if UploadRB.Checked then
+    ModeTmp:=0;
+
+  if UploadSaveRB.Checked then
+    ModeTmp:=1;
+  if SaveRB.Checked then
+    ModeTmp:=2;
   Ini.WriteInteger('Main', 'Mode', ModeTmp);
 
-  if PathEdt.Text <> MyPath then
-    Ini.WriteString('Main', 'Path', PathEdt.Text);
+  if PathScrEdt.Text <> MyPath then
+    Ini.WriteString('Main', 'Path', PathScrEdt.Text);
 
-  if RadioButton4.Checked then
-    Ini.WriteInteger('Main', 'HotKey', 0)
+  if HKNotUseRB.Checked then
+    Ini.WriteBool('Main', 'HotKey', false)
   else
-    Ini.WriteInteger('Main', 'HotKey', 1);
+    Ini.WriteBool('Main', 'HotKey', true);
 
   ModeTmp:=0;
-  if RadioButton5.Checked then ModeTmp:=0;
-  if RadioButton6.Checked then ModeTmp:=1;
-  if RadioButton7.Checked then ModeTmp:=2;
-  if RadioButton8.Checked then ModeTmp:=3;
-  Ini.WriteInteger('Main','HotKeyMode',ModeTmp);
+  if HKAreaRB.Checked then ModeTmp:=0;
+  if HKFullScrRB.Checked then ModeTmp:=1;
+  if HKWNDRB.Checked then ModeTmp:=2;
+  if HKShowDlgRB.Checked then ModeTmp:=3;
+  Ini.WriteInteger('Main', 'HotKeyMode', ModeTmp);
 
-  if CheckBox1.Checked then
-    Ini.WriteInteger('Main','Tray',1) else Ini.WriteInteger('Main','Tray',0);
+  Ini.WriteBool('Main', 'Tray', TrayCB.Checked);
+
+  if (ImgurRB.Checked) and (ImgurKeyEdt.Text <> '') then
+    Ini.WriteString('Main', 'ImgurClientID', ImgurKeyEdt.Text)
+  else
+    Ini.WriteString('Main', 'ImgurClientID', '');
+
+  if NotifyAppPathEdt.Text <> '' then
+    Ini.WriteString('Main', 'Notification', NotifyAppPathEdt.Text);
 
   Ini.Free;
 
-  ShowMessage('Чтобы изменения вступили в силу, необходимо перезапустить программу.');
-  Close;
+  ShowMessage('Чтобы изменения вступили в силу, нужно перезазапустить программу.');
+  Main.Close;
+end;
+
+procedure TSettings.ChooseNotifyAppBtnClick(Sender: TObject);
+begin
+  if OpenDialog.Execute then
+    NotifyAppPathEdt.Text:=OpenDialog.FileName + '"Снимки" "Скриншот сохранен" null "snapshots.png" null 2';    
 end;
 
 end.

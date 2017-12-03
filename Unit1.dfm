@@ -13,17 +13,11 @@ object Main: TMain
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  Position = poScreenCenter
+  Position = poDefault
   OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 112
-    Top = 112
-    Width = 3
-    Height = 13
-  end
   object StatusBar: TStatusBar
     Left = 0
     Top = 156
@@ -121,27 +115,27 @@ object Main: TMain
       TabOrder = 4
     end
   end
-  object XPManifest1: TXPManifest
+  object XPManifest: TXPManifest
     Left = 8
     Top = 72
   end
   object PopupMenu: TPopupMenu
     Left = 72
     Top = 72
-    object N3: TMenuItem
+    object MenuSettingsBtn: TMenuItem
       Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
-      OnClick = N3Click
+      OnClick = MenuSettingsBtnClick
     end
-    object N2: TMenuItem
+    object MenuLine: TMenuItem
       Caption = '-'
     end
-    object N1: TMenuItem
-      Caption = #1047#1072#1082#1088#1099#1090#1100
-      OnClick = N1Click
+    object MenuCloseBtn: TMenuItem
+      Caption = #1042#1099#1093#1086#1076
+      OnClick = MenuCloseBtnClick
     end
   end
   object IdHTTP: TIdHTTP
-    IOHandler = IdSSLIOHandlerSocket1
+    IOHandler = IdSSLIOHandlerSocket
     MaxLineAction = maException
     ReadTimeout = 0
     AllowCookies = True
@@ -159,7 +153,7 @@ object Main: TMain
     Left = 40
     Top = 72
   end
-  object IdSSLIOHandlerSocket1: TIdSSLIOHandlerSocket
+  object IdSSLIOHandlerSocket: TIdSSLIOHandlerSocket
     SSLOptions.Method = sslvTLSv1
     SSLOptions.Mode = sslmUnassigned
     SSLOptions.VerifyMode = []

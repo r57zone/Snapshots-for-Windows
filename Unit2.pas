@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, jpeg;
+  Dialogs, Jpeg;
 
 type
   TChsArea = class(TForm)
@@ -92,29 +92,14 @@ begin
   end;
 end;
 
-function CaptureScreenRect(aRect: TRect): TBitMap;
-var
-  ScreenDC: HDC;
-begin
-  Result:=TBitMap.Create;
-  with Result, aRect do begin
-    Width:=Right - Left;
-    Height:=Bottom - Top;
-    ScreenDC:=GetDC(0);
-    try
-      BitBlt(Canvas.Handle, 0, 0, Width, Height, ScreenDC, Left, Top, SRCCOPY);
-    finally
-      ReleaseDC(0, ScreenDC);
-    end;
-  end;
-end;
-
 procedure TChsArea.FormMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   r: TRect;
   JPEG: TJPEGImage;
+  Bitmap: TBitmap;
   i, tmp: integer;
+  ScreenDC: HDC;
 begin
   isDown:=false;
   if (downX = x) or (downY = y) then begin
@@ -146,7 +131,17 @@ begin
   r.Right:=X;
   r.Bottom:=Y;
   ChsArea.Visible:=false;
-  Bitmap:=CaptureScreenRect(r);
+
+  Bitmap:=TBitmap.Create;
+  Bitmap.Width:=r.Right - r.Left;
+  Bitmap.Height:=r.Bottom - r.Top;
+  ScreenDC:=GetDC(0);
+  try
+    BitBlt(Bitmap.Canvas.Handle, 0, 0, Bitmap.Width, Bitmap.Height, ScreenDC, r.Left, r.Top, SRCCOPY);
+  finally
+    ReleaseDC(0, ScreenDC);
+  end;
+
   JPEG:=TJPEGImage.Create;
   JPEG.Assign(Bitmap);
   JPEG.CompressionQuality:=100;
@@ -158,26 +153,25 @@ begin
       JPEG.SaveToFile(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg');
       if Main.UploadCB.Checked=false then begin
         Main.StatusBar.SimpleText:=' Снимок сохранен';
-        if (UseHotKey=true) and (UseTray=true) then Main.ShowNotify('Снимок сохранен');
+        if (UseHotKey) and (UseTray) then Main.ShowNotify('Снимок сохранен');
       end;
       break;
     end;
   end;
   JPEG.Free;
-  if FileExists(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg') and Main.UploadCB.Checked then begin
+  Bitmap.Free;
+  if (FileExists(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg')) and (Main.UploadCB.Checked) then begin
     Main.PicToHost(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg');
-    if Main.SaveCB.Checked=false then DeleteFile(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg');
+    if Main.SaveCB.Checked = false then
+      DeleteFile(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg');
   end;
-  if UseHotKey=false then SetForegroundWindow(Main.Handle);
+  if UseHotKey = false then SetForegroundWindow(Main.Handle);
   Close;
 end;
 
 procedure TChsArea.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  if TopT=Screen.Width then TopT:=Screen.Width div 2 - Main.Width div 2;
-  if LeftT=Screen.Height then LeftT:=Screen.Height div 2 - Main.Height div 2;
-  Main.Top:=TopT;
-  Main.Left:=LeftT;
+  Main.MainShow;
 end;
 
 end.

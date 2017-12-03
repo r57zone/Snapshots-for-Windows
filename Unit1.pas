@@ -11,21 +11,20 @@ uses
 type
   TMain = class(TForm)
     StatusBar: TStatusBar;
-    XPManifest1: TXPManifest;
+    XPManifest: TXPManifest;
     Panel: TPanel;
     AreaBtn: TButton;
     FullScrBtn: TButton;
     WndBtn: TButton;
-    Label1: TLabel;
     UploadCB: TCheckBox;
     SaveCB: TCheckBox;
     SettgsBtn: TSpeedButton;
     PopupMenu: TPopupMenu;
-    N1: TMenuItem;
-    N2: TMenuItem;
-    N3: TMenuItem;
+    MenuCloseBtn: TMenuItem;
+    MenuLine: TMenuItem;
+    MenuSettingsBtn: TMenuItem;
     IdHTTP: TIdHTTP;
-    IdSSLIOHandlerSocket1: TIdSSLIOHandlerSocket;
+    IdSSLIOHandlerSocket: TIdSSLIOHandlerSocket;
     procedure AreaBtnClick(Sender: TObject);
     procedure FullScrBtnClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -33,8 +32,8 @@ type
     procedure WndBtnClick(Sender: TObject);
     procedure StatusBarClick(Sender: TObject);
     procedure SettgsBtnClick(Sender: TObject);
-    procedure N3Click(Sender: TObject);
-    procedure N1Click(Sender: TObject);
+    procedure MenuSettingsBtnClick(Sender: TObject);
+    procedure MenuCloseBtnClick(Sender: TObject);
   protected
     procedure WMDropFiles (var Msg: TMessage); message WM_DropFiles;
     procedure ControlWindow(var Msg: TMessage); message WM_SysCommand;
@@ -47,13 +46,15 @@ type
     procedure PicToHost(PicPath: string);
     procedure PicToImgur(PicPath: string);
     procedure PicToPixs(PicPath: string);
-    procedure ShowNotify(NotifyMessage: string);
+    procedure ShowNotify(Notify: string);
+    procedure ScreenShot;
+    procedure MainShow;
+    procedure MainHide;
     { Public declarations }
   end;
 
 var
   Main: TMain;
-  Bitmap: TBitmap;
   MyPath, NotificationPath: string;
   UseHotKey, UseTray: boolean;
   HotKeyMode, LeftT, TopT, PicHost: integer;
@@ -64,17 +65,19 @@ uses Unit2, Unit3, Unit4, Unit5;
 
 {$R *.dfm}
 
-procedure ScreenShot;
+procedure TMain.ScreenShot;
 var
   c: TCanvas;
   r: TRect;
   JPEG: TJPEGImage;
+  Bitmap: TBitmap;
   i: integer;
 begin
   c:=TCanvas.Create;
   c.Handle:=GetWindowDC(GetDesktopWindow);
   try
-    r:=Rect(0,0,Screen.Width,Screen.Height);
+    r:=Rect(0, 0, Screen.Width, Screen.Height);
+    Bitmap:=TBitmap.Create;
     Bitmap.Width:=Screen.Width;
     Bitmap.Height:=Screen.Height;
     Bitmap.Canvas.CopyRect(r, c, r);
@@ -85,44 +88,52 @@ begin
     i:=0;
     while true do begin
       inc(i);
-      if not FileExists(MyPath+'\Screenshot_' + IntToStr(i) + '.jpg') then begin
-        JPEG.SaveToFile(MyPath+'\Screenshot_' + IntToStr(i) + '.jpg');
-        if Main.UploadCB.Checked=false then begin
-          Main.StatusBar.SimpleText:=' Снимок сохранен';
-          if (UseHotKey = true) and (UseTray = true) then Main.ShowNotify('Снимок сохранен');
+      if not FileExists(MyPath + '\Screenshot_' + IntToStr(i) + '.jpg') then begin
+        JPEG.SaveToFile(MyPath + '\Screenshot_' + IntToStr(i) + '.jpg');
+        if UploadCB.Checked = false then begin
+          StatusBar.SimpleText:=' Скриншот сохранен';
+          if (UseHotKey) and (UseTray) then ShowNotify('Скриншот сохранен');
         end;
         break;
       end;
     end;
-    if FileExists(MyPath + '\Screenshot_' + IntToStr(i) +'.jpg') and Main.UploadCB.Checked then begin
+    if (FileExists(MyPath + '\Screenshot_' + IntToStr(i) +'.jpg')) and (Main.UploadCB.Checked) then begin
       Main.PicToHost(MyPath + '\Screenshot_' + IntToStr(i) +'.jpg');
       if Main.SaveCB.Checked = false then DeleteFile(MyPath+'\Screenshot_' + IntToStr(i) + '.jpg');
     end;
   finally
     JPEG.Free;
+    Bitmap.Free;
     ReleaseDC(0, c.Handle);
     c.Free;
   end;
 end;
 
-procedure TMain.AreaBtnClick(Sender: TObject);
+procedure TMain.MainHide;
 begin
   TopT:=Top;
   LeftT:=Left;
-  Left:=0 - Width;
-  Top:=0 - Height;
+  Main.Left:=0;
+  Main.Top:=0 - Main.Height - 25;
+end;
+
+procedure TMain.MainShow;
+begin
+  Main.Top:=TopT;
+  Main.Left:=LeftT;
+end;
+
+procedure TMain.AreaBtnClick(Sender: TObject);
+begin
+  MainHide;
   ChsArea.ShowModal;
 end;
 
 procedure TMain.FullScrBtnClick(Sender: TObject);
 begin
-  TopT:=Top;
-  LeftT:=Left;
-  Left:=0;
-  Top:=0 - Height;
+  MainHide;
   ScreenShot;
-  Top:=TopT;
-  Left:=LeftT;
+  MainShow;
 end;
 
 procedure Tray(n:integer); //1 - добавить, 2 - удалить, 3 -  заменить
@@ -147,8 +158,9 @@ end;
 
 procedure TMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  if UseHotKey then UnRegisterHotKey(Main.Handle, 101);
-  Bitmap.Free;
+  if UseHotKey then
+    UnRegisterHotKey(Handle, 101);
+
   if UseTray then Tray(2);
 end;
 
@@ -156,28 +168,31 @@ procedure TMain.FormCreate(Sender: TObject);
 var
   Ini: TIniFile;
 begin
+  //AreaBtn.ControlState:=[csFocusing];
+  Application.Title:=Caption;
+  DragAcceptFiles(Handle, True);
+  Main.Left:=Screen.Width div 2 - Main.Width div 2;
+  Main.Top:=Screen.Height div 2 - Main.Height div 2;
+
   Ini:=TIniFile.Create(ExtractFilePath(paramstr(0)) + 'config.ini');
 
   MyPath:=Ini.ReadString('Main', 'Path', '');
-  if trim(MyPath)='' then MyPath:=ExtractFileDir(ParamStr(0));
+  if Trim(MyPath)= '' then MyPath:=ExtractFileDir(ParamStr(0));
 
   if Ini.ReadInteger('Main', 'Mode', 0) = 1 then
-    SaveCB.Checked:=true;
-
-  if Ini.ReadInteger('Main', 'Mode', 0) = 2 then begin
-    UploadCB.Checked:=false;
-    SaveCB.Checked:=true;
-  end;
+    SaveCB.Checked:=true
+  else
+    if Ini.ReadInteger('Main', 'Mode', 0) = 2 then begin
+      UploadCB.Checked:=false;
+      SaveCB.Checked:=true;
+    end;
 
   if Trim(Ini.ReadString('Main', 'ImgurClientID', '')) <> '' then begin
     IdHttp.Request.CustomHeaders.Add('Authorization:Client-ID ' + Ini.ReadString('Main', 'ImgurClientID', ''));
     PicHost:=1;
   end else PicHost:=2;
 
-  if Ini.ReadInteger('Main', 'Hotkey', 0) = 1 then
-    UseHotKey:=true
-  else
-    UseHotKey:=false;
+  UseHotKey:=Ini.ReadBool('Main', 'Hotkey', false);
 
   if UseHotKey then begin
     RegisterHotKey(Main.Handle, 101, 0, VK_SNAPSHOT);
@@ -185,23 +200,15 @@ begin
     NotificationPath:=Ini.ReadString('Main', 'Notification', '');
   end;
 
-  if Ini.ReadInteger('Main','Tray',0)=1 then
-    UseTray:=true
-  else
-    UseTray:=false;
+  UseTray:=Ini.ReadBool('Main', 'Tray', false);
 
   if UseTray then begin
     Tray(1);
     SetWindowLong(Application.Handle,GWL_EXSTYLE,GetWindowLong(Application.Handle,GWL_EXSTYLE) or WS_EX_TOOLWINDOW);
-    Main.Left:=0;
-    Main.Top:=0 - Height;
+    MainHide;
   end;
 
   Ini.Free;
-  //AreaBtn.ControlState:=[csFocusing];
-  Bitmap:=TBitmap.Create;
-  Application.Title:=Caption;
-  DragAcceptFiles(Handle, True);
 end;
 
 procedure TMain.WndBtnClick(Sender: TObject);
@@ -227,26 +234,23 @@ begin
   FormData.AddFile('image', PicPath, '');
   IdHTTP.Request.ContentType:='Content-Type: application/octet-stream';
   try
-    source:=IdHTTP.Post('https://api.imgur.com/3/image.xml',FormData);
+    source:=IdHTTP.Post('https://api.imgur.com/3/image.xml', FormData);
   except
-    Main.Left:=Screen.Width div 2 - Main.Width div 2;
-    Main.Top:=Screen.Height div 2 - Main.Height div 2;
   end;
   if IdHTTP.ResponseCode = 200 then begin
-    delete(source,1,pos('<link>',source)+5);
-    delete(source,pos('<',source),length(source)-pos('<',source)+1);
+    delete(source, 1 ,pos('<link>', source) + 5);
+    delete(source, pos('<', source), Length(source) - pos('<', source) + 1);
     Clipboard.AsText:=source;
     StatusBar.SimpleText:=' Ссылка скопирована в буфер';
-    if (UseHotKey = true) and (UseTray = true) then ShowNotify('Ссылка скопирована в буфер');
+    if (UseHotKey) and (UseTray) then ShowNotify('Ссылка скопирована в буфер');
   end else begin
     StatusBar.SimpleText:=' Ошибка загрузки на сервер';
-    if (UseHotKey = true) and (UseTray = true) then ShowNotify('Ошибка загрузки на сервер');
+    if (UseHotKey) and (UseTray) then ShowNotify('Ошибка загрузки на сервер');
   end;
   FormData.Free;
-  if UseTray = false then begin
-    Main.Left:=Screen.Width div 2 - Main.Width div 2;
-    Main.Top:=Screen.Height div 2 - Main.Height div 2;
-  end;
+
+  if UseTray = false then
+    MainShow;
 end;
 
 procedure TMain.PicToPixs(PicPath: string);
@@ -263,10 +267,8 @@ begin
   FormData.AddFormField('private_code', '');
   Main.IdHTTP.Request.ContentType:='multipart/form-data';;
   try
-    source:=Main.IdHTTP.Post('http://pixs.ru/redirects/upload.php',FormData);
+    source:=Main.IdHTTP.Post('http://pixs.ru/redirects/upload.php', FormData);
   except
-    Main.Left:=Screen.Width div 2 - Main.Width div 2;
-    Main.Top:=Screen.Height div 2 - Main.Height div 2;
   end;
   if Pos('успешно загружена',source) > 0 then begin
     delete(source, 1, Pos('Прямая ссылка:', source));
@@ -274,16 +276,15 @@ begin
     delete(source, Pos('''>', source), Length(source) - pos('''>', source) + 1);
     ClipBoard.AsText:=source;
     StatusBar.SimpleText:=' Ссылка скопирована в буфер';
-    if (UseHotKey = true) and (UseTray = true) then ShowNotify('Ссылка скопирована в буфер');
+    if (UseHotKey) and (UseTray) then ShowNotify('Ссылка скопирована в буфер');
   end else begin
     StatusBar.SimpleText:=' Ошибка загрузки на сервер';
-    if (UseHotKey = true) and (UseTray = true) then ShowNotify('Ошибка загрузки на сервер');
+    if (UseHotKey) and (UseTray) then ShowNotify('Ошибка загрузки на сервер');
   end;
   FormData.Free;
-  if UseTray = false then begin
-    Main.Left:=Screen.Width div 2 - Main.Width div 2;
-    Main.Top:=Screen.Height div 2 - Main.Height div 2;
-  end;
+
+  if UseTray = false then
+    MainShow;
 end;
 
 procedure TMain.WMDropFiles(var Msg: TMessage);
@@ -304,8 +305,10 @@ begin
   DragFinish(Msg.WParam);
   if (AnsiLowerCase(ExtractFileExt(path))='.jpg') or (AnsiLowerCase(ExtractFileExt(path))='.png')
   or (AnsiLowerCase(ExtractFileExt(path))='.bmp') or (AnsiLowerCase(ExtractFileExt(path))='.gif')
-  or (AnsiLowerCase(ExtractFileExt(path))='.jpeg') then PicToHost(path) else
-  Main.StatusBar.SimpleText:=' Неверный формат изображения';
+  or (AnsiLowerCase(ExtractFileExt(path))='.jpeg') then
+    PicToHost(Path)
+  else
+    StatusBar.SimpleText:=' Неверный формат изображения';
 end;
 
 procedure TMain.WMHotKey(var Msg: TWMHotKey);
@@ -321,17 +324,15 @@ end;
 
 procedure TMain.StatusBarClick(Sender: TObject);
 begin
-  Application.MessageBox('Cнимки 1.1' + #13#10 + 'Последнее обновление: 09.07.2017' + #13#10 + 'http://r57zone.github.io' + #13#10 + 'r57zone@gmail.com', 'О программе...',0);
+  Application.MessageBox('Cнимки 1.2' + #13#10 + 'Последнее обновление: 04.12.2017' + #13#10 + 'http://r57zone.github.io' + #13#10 + 'r57zone@gmail.com', 'О программе...',0);
 end;
 
 procedure TMain.ControlWindow(var Msg: TMessage);
 begin
-  if (Msg.WParam = SC_Minimize) and (UseTray = true) then begin
-    Tray(1);
-    SetWindowLong(Application.Handle, GWL_EXSTYLE, GetWindowLong(Application.Handle,GWL_EXSTYLE) or WS_EX_TOOLWINDOW);
-    ShowWindow(Handle, SW_HIDE);
+  if (UseTray) and (Msg.WParam = SC_Minimize) then begin
+    MainHide;
   end else
-  inherited;
+    inherited;
 end;
 
 procedure TMain.IconMouse(var Msg: Tmessage);
@@ -339,11 +340,7 @@ begin
   case Msg.LParam of
     WM_LButtonUp:
       begin
-        Tray(2);
-        Main.Left:=Screen.Width div 2 - Main.Width div 2;
-        Main.Top:=Screen.Height div 2 - Main.Height div 2;
-        SetWindowLong(Handle, GWL_EXSTYLE, GetWindowLong(Handle, GWL_EXSTYLE) or WS_EX_APPWINDOW);
-        ShowWindow(Handle, SW_SHOW);
+        MainShow;
         SetForegroundWindow(Handle);
       end;
 
@@ -356,12 +353,12 @@ begin
   Settings.ShowModal;
 end;
 
-procedure TMain.N3Click(Sender: TObject);
+procedure TMain.MenuSettingsBtnClick(Sender: TObject);
 begin
   Settings.ShowModal;
 end;
 
-procedure TMain.N1Click(Sender: TObject);
+procedure TMain.MenuCloseBtnClick(Sender: TObject);
 begin
   Close;
 end;
@@ -374,12 +371,12 @@ begin
   Result:=Name;
 end;
 
-procedure TMain.ShowNotify(NotifyMessage: string);
+procedure TMain.ShowNotify;
 begin
-  if Trim(NotificationPath)='' then
-    PlaySound(PChar(GetWindowsDir+'\Media\notify.wav'), 0, SND_ASYNC)
+  if Trim(NotificationPath) = '' then
+    PlaySound(PChar(GetWindowsDir + '\Media\notify.wav'), 0, SND_ASYNC)
   else
-    WinExec(PChar(StringReplace(NotificationPath, '%NotifyMessage%', NotifyMessage, [rfReplaceAll])), SW_ShowNormal);
+    WinExec(PChar(NotificationPath), SW_ShowNormal);
 end;
 
 procedure TMain.ScreenShotWindow(Window: HWND);
@@ -387,18 +384,21 @@ var
   c: TCanvas;
   r, t: TRect;
   JPEG: TJPEGImage;
+  Bitmap: TBitmap;
   i: integer;
 begin
   if Window = 0 then begin
     Main.StatusBar.SimpleText:=' Окно не найдено';
     Exit;
   end;
+
   SetForegroundWindow(Window);
   c:=TCanvas.Create;
   c.Handle:=GetWindowDC(GetDesktopWindow);
   GetWindowRect(Window, t);
   try
     r:=Rect(0, 0, t.Right - t.Left, t.Bottom - t.Top);
+    Bitmap:=TBitmap.Create;
     Bitmap.Width:=t.Right - t.Left;
     Bitmap.Height:=t.Bottom - t.Top;
     Bitmap.Canvas.CopyRect(r, c, t);
@@ -411,19 +411,20 @@ begin
       inc(i);
       if not FileExists(MyPath + '\Screenshot_' + IntToStr(i) + '.jpg') then begin
         JPEG.SaveToFile(MyPath + '\Screenshot_' + IntToStr(i) + '.jpg');
-        if Main.UploadCB.Checked = false then begin
-          Main.StatusBar.SimpleText:=' Снимок сохранен';
-          if (UseHotKey = true) and (UseTray = true) then Main.ShowNotify('Снимок сохранен');
+        if UploadCB.Checked = false then begin
+          StatusBar.SimpleText:=' Скриншот сохранен';
+          if (UseHotKey) and (UseTray) then ShowNotify('Скриншот сохранен');
         end;
         break;
       end;
     end;
-    if FileExists(MyPath + '\Screenshot_' + IntToStr(i) + '.jpg') and Main.UploadCB.Checked then begin
+    if (FileExists(MyPath + '\Screenshot_' + IntToStr(i) + '.jpg')) and (UploadCB.Checked) then begin
       Main.PicToHost(MyPath + '\Screenshot_' + IntToStr(i) + '.jpg');
       if Main.SaveCB.Checked = false then DeleteFile(MyPath + '\Screenshot_' + IntToStr(i)+'.jpg');
     end;
   finally
     JPEG.Free;
+    Bitmap.Free;
     ReleaseDC(0,c.Handle);
     c.Free;
   end;

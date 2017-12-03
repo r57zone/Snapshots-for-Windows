@@ -15,8 +15,6 @@ type
     procedure AreaBtnClick(Sender: TObject);
     procedure FullScrBtnClick(Sender: TObject);
     procedure WndBtnClick(Sender: TObject);
-  protected
-    procedure CreateParams(var Params:TCreateParams);override;
   private
     { Private declarations }
   public
@@ -31,12 +29,6 @@ implementation
 uses Unit1;
 
 {$R *.dfm}
-
-procedure TChsAct.CreateParams(var Params: TCreateParams);
-begin
-  inherited;
-  Params.WndParent:=Main.Handle;
-end;
 
 procedure TChsAct.FormShow(Sender: TObject);
 begin
