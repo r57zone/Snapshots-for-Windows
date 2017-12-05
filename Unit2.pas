@@ -151,9 +151,10 @@ begin
     inc(i);
     if not FileExists(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg') then begin
       JPEG.SaveToFile(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg');
-      if Main.UploadCB.Checked=false then begin
+      if Main.UploadCB.Checked = false then begin
         Main.StatusBar.SimpleText:=' Снимок сохранен';
-        if (UseHotKey) and (UseTray) then Main.ShowNotify('Снимок сохранен');
+        if (UseHotKey) and (UseTray) then
+          Main.ShowNotify('Снимок сохранен');
       end;
       break;
     end;
@@ -165,13 +166,14 @@ begin
     if Main.SaveCB.Checked = false then
       DeleteFile(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg');
   end;
-  if UseHotKey = false then SetForegroundWindow(Main.Handle);
+
   Close;
 end;
 
 procedure TChsArea.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  Main.MainShow;
+  if UseTray = false then
+    Main.MainShow;
 end;
 
 end.

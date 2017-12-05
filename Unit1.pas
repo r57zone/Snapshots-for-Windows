@@ -92,14 +92,16 @@ begin
         JPEG.SaveToFile(MyPath + '\Screenshot_' + IntToStr(i) + '.jpg');
         if UploadCB.Checked = false then begin
           StatusBar.SimpleText:=' Скриншот сохранен';
-          if (UseHotKey) and (UseTray) then ShowNotify('Скриншот сохранен');
+          if (UseHotKey) and (UseTray) then
+            ShowNotify('Скриншот сохранен');
         end;
         break;
       end;
     end;
-    if (FileExists(MyPath + '\Screenshot_' + IntToStr(i) +'.jpg')) and (Main.UploadCB.Checked) then begin
-      Main.PicToHost(MyPath + '\Screenshot_' + IntToStr(i) +'.jpg');
-      if Main.SaveCB.Checked = false then DeleteFile(MyPath+'\Screenshot_' + IntToStr(i) + '.jpg');
+    if (FileExists(MyPath + '\Screenshot_' + IntToStr(i) +'.jpg')) and (UploadCB.Checked) then begin
+      PicToHost(MyPath + '\Screenshot_' + IntToStr(i) +'.jpg');
+      if SaveCB.Checked = false then
+        DeleteFile(MyPath+'\Screenshot_' + IntToStr(i) + '.jpg');
     end;
   finally
     JPEG.Free;
@@ -121,19 +123,24 @@ procedure TMain.MainShow;
 begin
   Main.Top:=TopT;
   Main.Left:=LeftT;
+  if UseTray = false then
+    SetForegroundWindow(Handle);
 end;
 
 procedure TMain.AreaBtnClick(Sender: TObject);
 begin
-  MainHide;
+  if UseTray = false then
+    MainHide;
   ChsArea.ShowModal;
 end;
 
 procedure TMain.FullScrBtnClick(Sender: TObject);
 begin
-  MainHide;
+  if UseTray = false then
+    MainHide;
   ScreenShot;
-  MainShow;
+  if UseTray = false then
+    MainShow;
 end;
 
 procedure Tray(n:integer); //1 - добавить, 2 - удалить, 3 -  заменить
@@ -161,7 +168,8 @@ begin
   if UseHotKey then
     UnRegisterHotKey(Handle, 101);
 
-  if UseTray then Tray(2);
+  if UseTray then
+    Tray(2);
 end;
 
 procedure TMain.FormCreate(Sender: TObject);
@@ -226,7 +234,7 @@ end;
 
 procedure TMain.PicToImgur(PicPath: string);
 var
-  source: string;
+  Source: string;
   FormData: TIdMultiPartFormDataStream;
 begin
   StatusBar.SimpleText:=' Загрузка изображения';
@@ -234,28 +242,27 @@ begin
   FormData.AddFile('image', PicPath, '');
   IdHTTP.Request.ContentType:='Content-Type: application/octet-stream';
   try
-    source:=IdHTTP.Post('https://api.imgur.com/3/image.xml', FormData);
+    Source:=IdHTTP.Post('https://api.imgur.com/3/image.xml', FormData);
   except
   end;
   if IdHTTP.ResponseCode = 200 then begin
-    delete(source, 1 ,pos('<link>', source) + 5);
-    delete(source, pos('<', source), Length(source) - pos('<', source) + 1);
-    Clipboard.AsText:=source;
+    Delete(Source, 1, Pos('<link>', Source) + 5);
+    Delete(Source, Pos('<', Source), Length(Source) - Pos('<', Source) + 1);
+    Clipboard.AsText:=Source;
     StatusBar.SimpleText:=' Ссылка скопирована в буфер';
-    if (UseHotKey) and (UseTray) then ShowNotify('Ссылка скопирована в буфер');
+    if (UseHotKey) and (UseTray) then
+      ShowNotify('Ссылка скопирована в буфер');
   end else begin
     StatusBar.SimpleText:=' Ошибка загрузки на сервер';
-    if (UseHotKey) and (UseTray) then ShowNotify('Ошибка загрузки на сервер');
+    if (UseHotKey) and (UseTray) then
+      ShowNotify('Ошибка загрузки на сервер');
   end;
   FormData.Free;
-
-  if UseTray = false then
-    MainShow;
 end;
 
 procedure TMain.PicToPixs(PicPath: string);
 var
-  source: string;
+  Source: string;
   FormData: TIdMultiPartFormDataStream;
 begin
   StatusBar.SimpleText:=' Загрузка изображения';
@@ -267,24 +274,23 @@ begin
   FormData.AddFormField('private_code', '');
   Main.IdHTTP.Request.ContentType:='multipart/form-data';;
   try
-    source:=Main.IdHTTP.Post('http://pixs.ru/redirects/upload.php', FormData);
+    Source:=Main.IdHTTP.Post('http://pixs.ru/redirects/upload.php', FormData);
   except
   end;
-  if Pos('успешно загружена',source) > 0 then begin
-    delete(source, 1, Pos('Прямая ссылка:', source));
-    delete(source, 1, Pos('http', source) - 1);
-    delete(source, Pos('''>', source), Length(source) - pos('''>', source) + 1);
-    ClipBoard.AsText:=source;
+  if Pos('успешно загружена', Source) > 0 then begin
+    Delete(Source, 1, Pos('Прямая ссылка:', Source));
+    Delete(Source, 1, Pos('http', Source) - 1);
+    Delete(Source, Pos('''>', source), Length(Source) - Pos('''>', Source) + 1);
+    ClipBoard.AsText:=Source;
     StatusBar.SimpleText:=' Ссылка скопирована в буфер';
-    if (UseHotKey) and (UseTray) then ShowNotify('Ссылка скопирована в буфер');
+    if (UseHotKey) and (UseTray) then
+      ShowNotify('Ссылка скопирована в буфер');
   end else begin
     StatusBar.SimpleText:=' Ошибка загрузки на сервер';
-    if (UseHotKey) and (UseTray) then ShowNotify('Ошибка загрузки на сервер');
+    if (UseHotKey) and (UseTray) then
+      ShowNotify('Ошибка загрузки на сервер');
   end;
   FormData.Free;
-
-  if UseTray = false then
-    MainShow;
 end;
 
 procedure TMain.WMDropFiles(var Msg: TMessage);
@@ -324,14 +330,14 @@ end;
 
 procedure TMain.StatusBarClick(Sender: TObject);
 begin
-  Application.MessageBox('Cнимки 1.2' + #13#10 + 'Последнее обновление: 04.12.2017' + #13#10 + 'http://r57zone.github.io' + #13#10 + 'r57zone@gmail.com', 'О программе...',0);
+  Application.MessageBox('Cнимки 1.2' + #13#10 + 'Последнее обновление: 05.12.2017' + #13#10 + 'http://r57zone.github.io' + #13#10 + 'r57zone@gmail.com', 'О программе...',0);
 end;
 
 procedure TMain.ControlWindow(var Msg: TMessage);
 begin
-  if (UseTray) and (Msg.WParam = SC_Minimize) then begin
-    MainHide;
-  end else
+  if (UseTray) and (Msg.WParam = SC_Minimize) then
+    MainHide
+  else
     inherited;
 end;
 
@@ -413,14 +419,16 @@ begin
         JPEG.SaveToFile(MyPath + '\Screenshot_' + IntToStr(i) + '.jpg');
         if UploadCB.Checked = false then begin
           StatusBar.SimpleText:=' Скриншот сохранен';
-          if (UseHotKey) and (UseTray) then ShowNotify('Скриншот сохранен');
+          if (UseHotKey) and (UseTray) then
+            ShowNotify('Скриншот сохранен');
         end;
         break;
       end;
     end;
     if (FileExists(MyPath + '\Screenshot_' + IntToStr(i) + '.jpg')) and (UploadCB.Checked) then begin
-      Main.PicToHost(MyPath + '\Screenshot_' + IntToStr(i) + '.jpg');
-      if Main.SaveCB.Checked = false then DeleteFile(MyPath + '\Screenshot_' + IntToStr(i)+'.jpg');
+      PicToHost(MyPath + '\Screenshot_' + IntToStr(i) + '.jpg');
+      if SaveCB.Checked = false then
+        DeleteFile(MyPath + '\Screenshot_' + IntToStr(i)+'.jpg');
     end;
   finally
     JPEG.Free;

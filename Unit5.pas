@@ -58,7 +58,9 @@ end;
 procedure TChsWnd.OkBtnClick(Sender: TObject);
 begin
   if ListBox.ItemIndex <> -1 then begin
+    Main.MainHide;
     Main.ScreenShotWindow(FindWindow(nil, PChar(ListBox.Items[ListBox.ItemIndex])));
+    Main.MainShow;
     Close;
   end;
 end;
