@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, StdCtrls, JPEG, XPMan, ExtCtrls, ClipBRD, ShellAPI, IniFiles,
   Buttons, Menus, MMSystem, IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient,
-  IdHTTP, IdMultipartFormData, IdIOHandler, IdIOHandlerSocket, IdSSLOpenSSL;
+  IdHTTP, IdMultipartFormData, IdIOHandler, IdIOHandlerSocket, IdSSLOpenSSL, PNGImage;
 
 type
   TMain = class(TForm)
@@ -69,7 +69,7 @@ procedure TMain.ScreenShot;
 var
   c: TCanvas;
   r: TRect;
-  JPEG: TJPEGImage;
+  PNG: TPNGObject;
   Bitmap: TBitmap;
   i: integer;
 begin
@@ -81,15 +81,13 @@ begin
     Bitmap.Width:=Screen.Width;
     Bitmap.Height:=Screen.Height;
     Bitmap.Canvas.CopyRect(r, c, r);
-    JPEG:=TJPEGImage.Create;
-    JPEG.Assign(Bitmap);
-    JPEG.CompressionQuality:=100;
-    JPEG.Compress;
+    PNG:=TPNGObject.Create;
+    PNG.Assign(Bitmap);
     i:=0;
     while true do begin
       inc(i);
-      if not FileExists(MyPath + '\Screenshot_' + IntToStr(i) + '.jpg') then begin
-        JPEG.SaveToFile(MyPath + '\Screenshot_' + IntToStr(i) + '.jpg');
+      if not FileExists(MyPath + 'Screenshot_' + IntToStr(i) + '.png') then begin
+        PNG.SaveToFile(MyPath + 'Screenshot_' + IntToStr(i) + '.png');
         if UploadCB.Checked = false then begin
           StatusBar.SimpleText:=' Скриншот сохранен';
           if (UseHotKey) and (UseTray) then
@@ -98,13 +96,13 @@ begin
         break;
       end;
     end;
-    if (FileExists(MyPath + '\Screenshot_' + IntToStr(i) +'.jpg')) and (UploadCB.Checked) then begin
-      PicToHost(MyPath + '\Screenshot_' + IntToStr(i) +'.jpg');
+    if (FileExists(MyPath + 'Screenshot_' + IntToStr(i) + '.png')) and (UploadCB.Checked) then begin
+      PicToHost(MyPath + 'Screenshot_' + IntToStr(i) + '.png');
       if SaveCB.Checked = false then
-        DeleteFile(MyPath+'\Screenshot_' + IntToStr(i) + '.jpg');
+        DeleteFile(MyPath+'Screenshot_' + IntToStr(i) + '.png');
     end;
   finally
-    JPEG.Free;
+    PNG.Free;
     Bitmap.Free;
     ReleaseDC(0, c.Handle);
     c.Free;
@@ -182,10 +180,10 @@ begin
   Main.Left:=Screen.Width div 2 - Main.Width div 2;
   Main.Top:=Screen.Height div 2 - Main.Height div 2;
 
-  Ini:=TIniFile.Create(ExtractFilePath(paramstr(0)) + 'config.ini');
+  Ini:=TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'config.ini');
 
   MyPath:=Ini.ReadString('Main', 'Path', '');
-  if Trim(MyPath)= '' then MyPath:=ExtractFileDir(ParamStr(0));
+  if Trim(MyPath)= '' then MyPath:=ExtractFilePath(ParamStr(0));
 
   if Ini.ReadInteger('Main', 'Mode', 0) = 1 then
     SaveCB.Checked:=true
@@ -389,7 +387,7 @@ procedure TMain.ScreenShotWindow(Window: HWND);
 var
   c: TCanvas;
   r, t: TRect;
-  JPEG: TJPEGImage;
+  PNG: TPNGObject;
   Bitmap: TBitmap;
   i: integer;
 begin
@@ -408,15 +406,13 @@ begin
     Bitmap.Width:=t.Right - t.Left;
     Bitmap.Height:=t.Bottom - t.Top;
     Bitmap.Canvas.CopyRect(r, c, t);
-    JPEG:=TJPEGImage.Create;
-    JPEG.Assign(Bitmap);
-    JPEG.CompressionQuality:=100;
-    JPEG.Compress;
+    PNG:=TPNGObject.Create;
+    PNG.Assign(Bitmap);
     i:=0;
     while true do begin
       inc(i);
-      if not FileExists(MyPath + '\Screenshot_' + IntToStr(i) + '.jpg') then begin
-        JPEG.SaveToFile(MyPath + '\Screenshot_' + IntToStr(i) + '.jpg');
+      if not FileExists(MyPath + 'Screenshot_' + IntToStr(i) + '.png') then begin
+        PNG.SaveToFile(MyPath + 'Screenshot_' + IntToStr(i) + '.png');
         if UploadCB.Checked = false then begin
           StatusBar.SimpleText:=' Скриншот сохранен';
           if (UseHotKey) and (UseTray) then
@@ -425,13 +421,13 @@ begin
         break;
       end;
     end;
-    if (FileExists(MyPath + '\Screenshot_' + IntToStr(i) + '.jpg')) and (UploadCB.Checked) then begin
-      PicToHost(MyPath + '\Screenshot_' + IntToStr(i) + '.jpg');
+    if (FileExists(MyPath + 'Screenshot_' + IntToStr(i) + '.png')) and (UploadCB.Checked) then begin
+      PicToHost(MyPath + 'Screenshot_' + IntToStr(i) + '.png');
       if SaveCB.Checked = false then
-        DeleteFile(MyPath + '\Screenshot_' + IntToStr(i)+'.jpg');
+        DeleteFile(MyPath + 'Screenshot_' + IntToStr(i)+'.png');
     end;
   finally
-    JPEG.Free;
+    PNG.Free;
     Bitmap.Free;
     ReleaseDC(0,c.Handle);
     c.Free;

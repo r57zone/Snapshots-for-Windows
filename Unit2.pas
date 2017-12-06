@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Jpeg;
+  Dialogs, Jpeg, PNGImage;
 
 type
   TChsArea = class(TForm)
@@ -96,7 +96,7 @@ procedure TChsArea.FormMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   r: TRect;
-  JPEG: TJPEGImage;
+  PNG: TPNGObject;
   Bitmap: TBitmap;
   i, tmp: integer;
   ScreenDC: HDC;
@@ -142,15 +142,13 @@ begin
     ReleaseDC(0, ScreenDC);
   end;
 
-  JPEG:=TJPEGImage.Create;
-  JPEG.Assign(Bitmap);
-  JPEG.CompressionQuality:=100;
-  JPEG.Compress;
+  PNG:=TPNGObject.Create;
+  PNG.Assign(Bitmap);
   i:=0;
   while true do begin
     inc(i);
-    if not FileExists(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg') then begin
-      JPEG.SaveToFile(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg');
+    if not FileExists(MyPath + 'Screenshot_'+IntToStr(i)+'.png') then begin
+      PNG.SaveToFile(MyPath + 'Screenshot_'+IntToStr(i)+'.png');
       if Main.UploadCB.Checked = false then begin
         Main.StatusBar.SimpleText:=' Снимок сохранен';
         if (UseHotKey) and (UseTray) then
@@ -159,12 +157,12 @@ begin
       break;
     end;
   end;
-  JPEG.Free;
+  PNG.Free;
   Bitmap.Free;
-  if (FileExists(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg')) and (Main.UploadCB.Checked) then begin
-    Main.PicToHost(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg');
+  if (FileExists(MyPath + 'Screenshot_' + IntToStr(i) + '.png')) and (Main.UploadCB.Checked) then begin
+    Main.PicToHost(MyPath + 'Screenshot_' + IntToStr(i) + '.png');
     if Main.SaveCB.Checked = false then
-      DeleteFile(MyPath+'\Screenshot_'+IntToStr(i)+'.jpg');
+      DeleteFile(MyPath + 'Screenshot_' + IntToStr(i) + '.png');
   end;
 
   Close;

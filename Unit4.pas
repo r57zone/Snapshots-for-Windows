@@ -116,7 +116,8 @@ var
 begin
   TempPath:=BrowseFolderDialog('Выберите каталог');
   if TempPath <> '' then begin
-    if TempPath[Length(TempPath)]='\' then Delete(TempPath, Length(TempPath), 1);
+    if TempPath[Length(TempPath)] <> '\' then
+      TempPath:=TempPath + '\';
     PathScrEdt.Text:=TempPath;
   end else ShowMessage('Не выбран каталог');
 end;
