@@ -65,6 +65,22 @@ uses Unit2, Unit3, Unit4, Unit5;
 
 {$R *.dfm}
 
+function GetWindowsDir:string;
+var
+  Name: array [0..255] of Char;
+begin
+  GetWindowsDirectory(Name, SizeOf(Name));
+  Result:=Name;
+end;
+
+procedure TMain.ShowNotify;
+begin
+  if Trim(NotificationPath) = '' then
+    PlaySound(PChar(GetWindowsDir + '\Media\notify.wav'), 0, SND_ASYNC)
+  else
+    WinExec(PChar(NotificationPath), SW_SHOWNORMAL);
+end;
+
 procedure TMain.ScreenShot;
 var
   c: TCanvas;
@@ -73,9 +89,9 @@ var
   Bitmap: TBitmap;
   i: integer;
 begin
-  c:=TCanvas.Create;
-  c.Handle:=GetWindowDC(GetDesktopWindow);
   try
+    c:=TCanvas.Create;
+    c.Handle:=GetWindowDC(GetDesktopWindow);
     r:=Rect(0, 0, Screen.Width, Screen.Height);
     Bitmap:=TBitmap.Create;
     Bitmap.Width:=Screen.Width;
@@ -99,13 +115,14 @@ begin
     if (FileExists(MyPath + 'Screenshot_' + IntToStr(i) + '.png')) and (UploadCB.Checked) then begin
       PicToHost(MyPath + 'Screenshot_' + IntToStr(i) + '.png');
       if SaveCB.Checked = false then
-        DeleteFile(MyPath+'Screenshot_' + IntToStr(i) + '.png');
+        DeleteFile(MyPath + 'Screenshot_' + IntToStr(i) + '.png');
     end;
-  finally
     PNG.Free;
     Bitmap.Free;
     ReleaseDC(0, c.Handle);
     c.Free;
+  except
+    StatusBar.SimpleText:=' Не удалось создать скриншот';
   end;
 end;
 
@@ -299,7 +316,7 @@ var
 begin
   inherited;
   Amount:=DragQueryFile(Msg.WParam, $FFFFFFFF, Filename, 255);
-  for i:=0 to (Amount-1) do begin
+  for i:=0 to Amount - 1 do begin
     Size:=DragQueryFile(Msg.WParam, i, nil, 0) + 1;
     Filename:=StrAlloc(Size);
     DragQueryFile(Msg.WParam, i, Filename, Size);
@@ -307,9 +324,9 @@ begin
     StrDispose(Filename);
   end;
   DragFinish(Msg.WParam);
-  if (AnsiLowerCase(ExtractFileExt(path))='.jpg') or (AnsiLowerCase(ExtractFileExt(path))='.png')
-  or (AnsiLowerCase(ExtractFileExt(path))='.bmp') or (AnsiLowerCase(ExtractFileExt(path))='.gif')
-  or (AnsiLowerCase(ExtractFileExt(path))='.jpeg') then
+  if (AnsiLowerCase(ExtractFileExt(Path)) = '.jpg') or (AnsiLowerCase(ExtractFileExt(Path)) = '.png')
+  or (AnsiLowerCase(ExtractFileExt(Path)) = '.bmp') or (AnsiLowerCase(ExtractFileExt(Path)) = '.gif')
+  or (AnsiLowerCase(ExtractFileExt(Path)) = '.jpeg') then
     PicToHost(Path)
   else
     StatusBar.SimpleText:=' Неверный формат изображения';
@@ -328,7 +345,9 @@ end;
 
 procedure TMain.StatusBarClick(Sender: TObject);
 begin
-  Application.MessageBox('Cнимки 1.2' + #13#10 + 'Последнее обновление: 05.12.2017' + #13#10 + 'http://r57zone.github.io' + #13#10 + 'r57zone@gmail.com', 'О программе...',0);
+  Application.MessageBox('Cнимки 1.2.1' + #13#10 +
+  'Последнее обновление: 04.01.2018' + #13#10 +
+  'http://r57zone.github.io' + #13#10 + 'r57zone@gmail.com', 'О программе...', MB_ICONINFORMATION);
 end;
 
 procedure TMain.ControlWindow(var Msg: TMessage);
@@ -367,22 +386,6 @@ begin
   Close;
 end;
 
-function GetWindowsDir:string;
-var
-  Name: array [0..255] of Char;
-begin
-  GetWindowsDirectory(Name, SizeOf(Name));
-  Result:=Name;
-end;
-
-procedure TMain.ShowNotify;
-begin
-  if Trim(NotificationPath) = '' then
-    PlaySound(PChar(GetWindowsDir + '\Media\notify.wav'), 0, SND_ASYNC)
-  else
-    WinExec(PChar(NotificationPath), SW_ShowNormal);
-end;
-
 procedure TMain.ScreenShotWindow(Window: HWND);
 var
   c: TCanvas;
@@ -397,10 +400,10 @@ begin
   end;
 
   SetForegroundWindow(Window);
-  c:=TCanvas.Create;
-  c.Handle:=GetWindowDC(GetDesktopWindow);
-  GetWindowRect(Window, t);
   try
+    c:=TCanvas.Create;
+    c.Handle:=GetWindowDC(GetDesktopWindow);
+    GetWindowRect(Window, t);
     r:=Rect(0, 0, t.Right - t.Left, t.Bottom - t.Top);
     Bitmap:=TBitmap.Create;
     Bitmap.Width:=t.Right - t.Left;
@@ -424,13 +427,14 @@ begin
     if (FileExists(MyPath + 'Screenshot_' + IntToStr(i) + '.png')) and (UploadCB.Checked) then begin
       PicToHost(MyPath + 'Screenshot_' + IntToStr(i) + '.png');
       if SaveCB.Checked = false then
-        DeleteFile(MyPath + 'Screenshot_' + IntToStr(i)+'.png');
+        DeleteFile(MyPath + 'Screenshot_' + IntToStr(i) + '.png');
     end;
-  finally
     PNG.Free;
     Bitmap.Free;
     ReleaseDC(0,c.Handle);
     c.Free;
+  except
+    StatusBar.SimpleText:=' Не удалось создать скриншот';
   end;
 end;
 
