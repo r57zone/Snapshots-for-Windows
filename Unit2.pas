@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Jpeg, PNGImage;
+  Dialogs, PNGImage;
 
 type
   TChsArea = class(TForm)
