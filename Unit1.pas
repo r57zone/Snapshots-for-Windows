@@ -53,11 +53,14 @@ type
     { Public declarations }
   end;
 
+const
+  ScrName = 'Screenshot.';
+
 var
   Main: TMain;
   MyPath, NotificationPath: string;
   UseHotKey, UseTray: boolean;
-  HotKeyMode, LeftT, TopT, PicHost: integer;
+  HotKeyMode, PicHost: integer;
 
 implementation
 
@@ -102,8 +105,8 @@ begin
     i:=0;
     while true do begin
       inc(i);
-      if not FileExists(MyPath + 'Screenshot_' + IntToStr(i) + '.png') then begin
-        PNG.SaveToFile(MyPath + 'Screenshot_' + IntToStr(i) + '.png');
+      if not FileExists(MyPath + ScrName + IntToStr(i) + '.png') then begin
+        PNG.SaveToFile(MyPath + ScrName + IntToStr(i) + '.png');
         if UploadCB.Checked = false then begin
           StatusBar.SimpleText:=' Скриншот сохранен';
           if (UseHotKey) and (UseTray) then
@@ -112,10 +115,10 @@ begin
         break;
       end;
     end;
-    if (FileExists(MyPath + 'Screenshot_' + IntToStr(i) + '.png')) and (UploadCB.Checked) then begin
-      PicToHost(MyPath + 'Screenshot_' + IntToStr(i) + '.png');
+    if (FileExists(MyPath + ScrName + IntToStr(i) + '.png')) and (UploadCB.Checked) then begin
+      PicToHost(MyPath + ScrName + IntToStr(i) + '.png');
       if SaveCB.Checked = false then
-        DeleteFile(MyPath + 'Screenshot_' + IntToStr(i) + '.png');
+        DeleteFile(MyPath + ScrName + IntToStr(i) + '.png');
     end;
     PNG.Free;
     Bitmap.Free;
@@ -128,16 +131,12 @@ end;
 
 procedure TMain.MainHide;
 begin
-  TopT:=Top;
-  LeftT:=Left;
-  Main.Left:=0;
-  Main.Top:=0 - Main.Height - 25;
+  Main.AlphaBlendValue:=0;
 end;
 
 procedure TMain.MainShow;
 begin
-  Main.Top:=TopT;
-  Main.Left:=LeftT;
+  Main.AlphaBlendValue:=255;
   if UseTray = false then
     SetForegroundWindow(Handle);
 end;
@@ -158,7 +157,7 @@ begin
     MainShow;
 end;
 
-procedure Tray(n:integer); //1 - добавить, 2 - удалить, 3 -  заменить
+procedure Tray(ActInd: integer); //1 - добавить, 2 - удалить, 3 -  заменить
 var
   nim: TNotifyIconData;
 begin
@@ -171,7 +170,7 @@ begin
     uCallBackMessage:=WM_User + 1;
     StrCopy(szTip, PChar(Application.Title));
   end;
-  case n of
+  case ActInd of
     1: Shell_NotifyIcon(nim_add, @nim);
     2: Shell_NotifyIcon(nim_delete, @nim);
     3: Shell_NotifyIcon(nim_modify, @nim);
@@ -197,10 +196,10 @@ begin
   Main.Left:=Screen.Width div 2 - Main.Width div 2;
   Main.Top:=Screen.Height div 2 - Main.Height div 2;
 
-  Ini:=TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'config.ini');
+  Ini:=TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'Config.ini');
 
   MyPath:=Ini.ReadString('Main', 'Path', '');
-  if Trim(MyPath)= '' then MyPath:=ExtractFilePath(ParamStr(0));
+  if Trim(MyPath)= '' then MyPath:=GetEnvironmentVariable('USERPROFILE') + '\Desktop\';
 
   if Ini.ReadInteger('Main', 'Mode', 0) = 1 then
     SaveCB.Checked:=true
@@ -259,6 +258,7 @@ begin
   try
     Source:=IdHTTP.Post('https://api.imgur.com/3/image.xml', FormData);
   except
+    MainShow;
   end;
   if IdHTTP.ResponseCode = 200 then begin
     Delete(Source, 1, Pos('<link>', Source) + 5);
@@ -291,6 +291,7 @@ begin
   try
     Source:=Main.IdHTTP.Post('http://pixs.ru/redirects/upload.php', FormData);
   except
+    MainShow;
   end;
   if Pos('успешно загружена', Source) > 0 then begin
     Delete(Source, 1, Pos('Прямая ссылка:', Source));
@@ -316,13 +317,15 @@ var
 begin
   inherited;
   Amount:=DragQueryFile(Msg.WParam, $FFFFFFFF, Filename, 255);
-  for i:=0 to Amount - 1 do begin
-    Size:=DragQueryFile(Msg.WParam, i, nil, 0) + 1;
+  //for i:=0 to Amount - 1 do begin
+    //Size:=DragQueryFile(Msg.WParam, i, nil, 0) + 1;
+    Size:=DragQueryFile(Msg.WParam, 0, nil, 0) + 1;
     Filename:=StrAlloc(Size);
-    DragQueryFile(Msg.WParam, i, Filename, Size);
+    //DragQueryFile(Msg.WParam, i, Filename, Size);
+    DragQueryFile(Msg.WParam, 0, Filename, Size);
     Path:=StrPas(Filename);
     StrDispose(Filename);
-  end;
+  //end;
   DragFinish(Msg.WParam);
   if (AnsiLowerCase(ExtractFileExt(Path)) = '.jpg') or (AnsiLowerCase(ExtractFileExt(Path)) = '.png')
   or (AnsiLowerCase(ExtractFileExt(Path)) = '.bmp') or (AnsiLowerCase(ExtractFileExt(Path)) = '.gif')
@@ -345,8 +348,8 @@ end;
 
 procedure TMain.StatusBarClick(Sender: TObject);
 begin
-  Application.MessageBox('Cнимки 1.2.1' + #13#10 +
-  'Последнее обновление: 04.01.2018' + #13#10 +
+  Application.MessageBox('Cнимки 1.2.2' + #13#10 +
+  'Последнее обновление: 17.11.2018' + #13#10 +
   'http://r57zone.github.io' + #13#10 + 'r57zone@gmail.com', 'О программе...', MB_ICONINFORMATION);
 end;
 
@@ -361,13 +364,15 @@ end;
 procedure TMain.IconMouse(var Msg: Tmessage);
 begin
   case Msg.LParam of
-    WM_LButtonUp:
+    WM_LBUTTONDOWN:
       begin
+        PostMessage(Handle, WM_LBUTTONDOWN, MK_LBUTTON, 0);
+        PostMessage(Handle, WM_LBUTTONUP, MK_LBUTTON, 0);
         MainShow;
         SetForegroundWindow(Handle);
       end;
 
-    WM_RButtonUp: PopupMenu.Popup(Mouse.CursorPos.X,Mouse.CursorPos.Y);
+    WM_RBUTTONDOWN: PopupMenu.Popup(Mouse.CursorPos.X, Mouse.CursorPos.Y);
   end;
 end;
 
@@ -414,8 +419,8 @@ begin
     i:=0;
     while true do begin
       inc(i);
-      if not FileExists(MyPath + 'Screenshot_' + IntToStr(i) + '.png') then begin
-        PNG.SaveToFile(MyPath + 'Screenshot_' + IntToStr(i) + '.png');
+      if not FileExists(MyPath + ScrName + IntToStr(i) + '.png') then begin
+        PNG.SaveToFile(MyPath + ScrName + IntToStr(i) + '.png');
         if UploadCB.Checked = false then begin
           StatusBar.SimpleText:=' Скриншот сохранен';
           if (UseHotKey) and (UseTray) then
@@ -424,10 +429,10 @@ begin
         break;
       end;
     end;
-    if (FileExists(MyPath + 'Screenshot_' + IntToStr(i) + '.png')) and (UploadCB.Checked) then begin
-      PicToHost(MyPath + 'Screenshot_' + IntToStr(i) + '.png');
+    if (FileExists(MyPath + ScrName + IntToStr(i) + '.png')) and (UploadCB.Checked) then begin
+      PicToHost(MyPath + ScrName + IntToStr(i) + '.png');
       if SaveCB.Checked = false then
-        DeleteFile(MyPath + 'Screenshot_' + IntToStr(i) + '.png');
+        DeleteFile(MyPath + ScrName + IntToStr(i) + '.png');
     end;
     PNG.Free;
     Bitmap.Free;

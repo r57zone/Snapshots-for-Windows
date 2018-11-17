@@ -39,7 +39,7 @@ var
 begin
   Result:=Screen.Width;
   if Screen.MonitorCount > 0 then
-    for i:=1 to Screen.MonitorCount-1 do
+    for i:=1 to Screen.MonitorCount - 1 do
       Result:=Result + Screen.Monitors[i].Width;
 end;
 
@@ -49,8 +49,9 @@ var
 begin
   Result:=Screen.Height;
   if Screen.MonitorCount > 0 then
-    for i:=1 to Screen.MonitorCount-1 do
-      if Screen.Monitors[i].Height > Result then Result:=Screen.Monitors[i].Height;
+    for i:=1 to Screen.MonitorCount - 1 do
+      if Screen.Monitors[i].Height > Result then
+        Result:=Screen.Monitors[i].Height;
 end;
 
 procedure TChsArea.FormCreate(Sender: TObject);
@@ -147,8 +148,8 @@ begin
   i:=0;
   while true do begin
     inc(i);
-    if not FileExists(MyPath + 'Screenshot_'+IntToStr(i)+'.png') then begin
-      PNG.SaveToFile(MyPath + 'Screenshot_'+IntToStr(i)+'.png');
+    if not FileExists(MyPath + ScrName + IntToStr(i) + '.png') then begin
+      PNG.SaveToFile(MyPath + ScrName + IntToStr(i)+ '.png');
       if Main.UploadCB.Checked = false then begin
         Main.StatusBar.SimpleText:=' Снимок сохранен';
         if (UseHotKey) and (UseTray) then
@@ -159,10 +160,10 @@ begin
   end;
   PNG.Free;
   Bitmap.Free;
-  if (FileExists(MyPath + 'Screenshot_' + IntToStr(i) + '.png')) and (Main.UploadCB.Checked) then begin
-    Main.PicToHost(MyPath + 'Screenshot_' + IntToStr(i) + '.png');
+  if (FileExists(MyPath + ScrName + IntToStr(i) + '.png')) and (Main.UploadCB.Checked) then begin
+    Main.PicToHost(MyPath + ScrName + IntToStr(i) + '.png');
     if Main.SaveCB.Checked = false then
-      DeleteFile(MyPath + 'Screenshot_' + IntToStr(i) + '.png');
+      DeleteFile(MyPath + ScrName + IntToStr(i) + '.png');
   end;
 
   Close;
