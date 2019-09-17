@@ -1,7 +1,7 @@
 [![RU](https://user-images.githubusercontent.com/9499881/27683795-5b0fbac6-5cd8-11e7-929c-057833e01fb1.png)](https://github.com/r57zone/Snapshots-for-Windows/blob/master/README.md) [![EN](https://user-images.githubusercontent.com/9499881/33184537-7be87e86-d096-11e7-89bb-f3286f752bc6.png)](https://github.com/r57zone/Snapshots-for-Windows/blob/master/README.EN.md)
 
 # Снимки
-Приложение для создания скриншотов.
+Приложение для создания и загрузки скриншотов.
 
 ## Скриншоты
 ![](https://cloud.githubusercontent.com/assets/9499881/7238897/df3ef0a8-e7b6-11e4-83d1-67605af2913d.png)
@@ -18,7 +18,7 @@
 
 ![](https://cloud.githubusercontent.com/assets/9499881/7239082/2ffeeb96-e7b8-11e4-915e-71d35b4e9038.png)
 
-✔ **Загрузка картинок на хостинг**<br>
+✔ **Загрузка картинок на imgur.com**<br>
 Загрузка и прямая ссылка в буфере обмена.<br>
 
 ✔ **Сохранение картинок**<br>
