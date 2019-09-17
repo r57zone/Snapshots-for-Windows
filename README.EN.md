@@ -28,7 +28,7 @@ Screenshots are saved in the desired folder. By default, the folder with the pro
 By clicking the button "Prt Scr" you can take screenshots.<br>
 
 ## Download
->Version for Windows XP, Windows 7, Windows 8.1, Windows 10.<br>
+>Version for Windows XP, 7, 8.1, 10.<br>
 >If you need a program with an English translation, please write to email and I'll will build it soon.<br>
 **[Download](https://github.com/r57zone/Snapshots-for-Windows/releases)**<br>
 

@@ -4,7 +4,7 @@ object Settings: TSettings
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
-  ClientHeight = 312
+  ClientHeight = 281
   ClientWidth = 431
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,17 +19,10 @@ object Settings: TSettings
   TextHeight = 13
   object SaveScrPathLbl: TLabel
     Left = 8
-    Top = 208
+    Top = 176
     Width = 171
     Height = 13
     Caption = #1055#1091#1090#1100' '#1076#1083#1103' '#1089#1086#1093#1088#1072#1085#1077#1085#1080#1103' '#1089#1082#1088#1080#1085#1096#1086#1090#1086#1074
-  end
-  object NotifyAppPathLbl: TLabel
-    Left = 216
-    Top = 208
-    Width = 197
-    Height = 13
-    Caption = #1055#1091#1090#1100' '#1076#1086' '#1087#1088#1086#1075#1088#1072#1084#1084#1099' '#1091#1074#1077#1076#1086#1084#1083#1077#1085#1080#1081' (tray)'
   end
   object DefActGB: TGroupBox
     Left = 8
@@ -69,7 +62,7 @@ object Settings: TSettings
     Left = 216
     Top = 8
     Width = 201
-    Height = 150
+    Height = 161
     Caption = #1044#1077#1081#1089#1090#1074#1080#1077' '#1087#1088#1080' '#1085#1072#1078#1072#1090#1080#1080' Prt Scr'
     TabOrder = 2
     object HKNotUseRB: TRadioButton
@@ -117,25 +110,25 @@ object Settings: TSettings
   end
   object OkBtn: TButton
     Left = 6
-    Top = 280
+    Top = 248
     Width = 75
     Height = 25
-    Caption = #1054#1082
-    TabOrder = 7
+    Caption = #1054#1050
+    TabOrder = 6
     OnClick = OkBtnClick
   end
   object CancelBtn: TButton
     Left = 86
-    Top = 280
+    Top = 248
     Width = 75
     Height = 25
     Caption = #1054#1090#1084#1077#1085#1072
-    TabOrder = 8
+    TabOrder = 7
     OnClick = CancelBtnClick
   end
   object TrayCB: TCheckBox
-    Left = 216
-    Top = 167
+    Left = 224
+    Top = 197
     Width = 169
     Height = 27
     Caption = #1057#1074#1086#1088#1072#1095#1080#1074#1072#1090#1100' '#1087#1088#1080#1083#1086#1078#1077#1085#1080#1077' '#1074' '#1086#1073#1083#1072#1089#1090#1100' '#1091#1074#1077#1076#1086#1084#1083#1077#1085#1080#1081' (tray)'
@@ -146,62 +139,20 @@ object Settings: TSettings
     Left = 8
     Top = 112
     Width = 201
-    Height = 81
-    Caption = #1061#1086#1089#1090#1080#1085#1075' '#1082#1072#1088#1090#1080#1085#1086#1082
+    Height = 57
+    Caption = #1050#1083#1102#1095' Imgr.com'
     TabOrder = 1
-    object ImgurKeyLbl: TLabel
-      Left = 8
-      Top = 50
-      Width = 57
-      Height = 13
-      Caption = #1050#1083#1102#1095' imgur:'
-    end
-    object Pixs: TRadioButton
-      Left = 88
-      Top = 24
-      Width = 57
-      Height = 17
-      Caption = 'Pixs.ru'
-      Checked = True
-      TabOrder = 1
-      TabStop = True
-    end
-    object ImgurRB: TRadioButton
+    object ImgurKeyEdt: TEdit
       Left = 8
       Top = 24
-      Width = 65
-      Height = 17
-      Caption = 'Imgr.com'
+      Width = 185
+      Height = 21
       TabOrder = 0
     end
-    object ImgurKeyEdt: TEdit
-      Left = 72
-      Top = 48
-      Width = 121
-      Height = 21
-      TabOrder = 2
-    end
-  end
-  object NotifyAppPathEdt: TEdit
-    Left = 216
-    Top = 232
-    Width = 121
-    Height = 21
-    ReadOnly = True
-    TabOrder = 9
-  end
-  object ChooseNotifyAppBtn: TButton
-    Left = 344
-    Top = 232
-    Width = 75
-    Height = 21
-    Caption = #1042#1099#1073#1088#1072#1090#1100
-    TabOrder = 6
-    OnClick = ChooseNotifyAppBtnClick
   end
   object ChsFolderBtn: TButton
     Left = 134
-    Top = 232
+    Top = 200
     Width = 75
     Height = 21
     Caption = #1042#1099#1073#1088#1072#1090#1100
@@ -210,16 +161,10 @@ object Settings: TSettings
   end
   object PathScrEdt: TEdit
     Left = 8
-    Top = 232
+    Top = 200
     Width = 121
     Height = 21
     ReadOnly = True
     TabOrder = 5
-  end
-  object OpenDialog: TOpenDialog
-    Filter = #1055#1088#1080#1083#1086#1078#1077#1085#1080#1103' (*.exe)|*.exe'
-    Title = #1042#1099#1073#1077#1088#1080#1090#1077' '#1087#1088#1080#1083#1086#1078#1077#1085#1080#1077' '#1076#1083#1103' '#1091#1074#1077#1076#1086#1084#1083#1077#1085#1080#1081
-    Left = 216
-    Top = 256
   end
 end

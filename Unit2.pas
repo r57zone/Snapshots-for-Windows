@@ -77,11 +77,13 @@ begin
     Self.Repaint;
     Self.Canvas.Pen.Color:=clWhite;
     Self.Canvas.Pen.Width:=2;
-    //Self.Canvas.Pen.Style:=psDot;
+    Self.Canvas.Pen.Style:=psSolid;
     Self.Canvas.Brush.Color:=clFuchsia;
     Self.Canvas.Rectangle(downX, downY, X, Y);
-    Self.Canvas.Pen.Style:=psSolid;
-    Self.Canvas.Brush.Color:=clblue;
+    //Self.Canvas.Pen.Style:=psDot;
+    //Self.Canvas.Pen.Style:=psSolid;
+    //Self.Canvas.Pen.Style:=psDash;
+    //Self.Canvas.Brush.Color:=clblue;
     //Self.Canvas.Rectangle(downX-3, downY-3, downX+3, downY+3);
     //Self.Canvas.Rectangle(X-3, Y-3, X+3, Y+3);
     //Self.Canvas.Rectangle(X-3, downY-3, X+3, downY+3);
@@ -96,14 +98,14 @@ end;
 procedure TChsArea.FormMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
-  r: TRect;
+  MyRect: TRect;
   PNG: TPNGObject;
   Bitmap: TBitmap;
-  i, tmp: integer;
+  FileCounter, CrdTmp: integer;
   ScreenDC: HDC;
 begin
   isDown:=false;
-  if (downX = x) or (downY = y) then begin
+  if (DownX = X) or (DownY = Y) then begin
     Main.StatusBar.SimpleText:=' Неверно выбрана область захвата';
     Close;
     Exit;
@@ -115,55 +117,55 @@ begin
     Exit;
   end;
 
-  if downX > X then begin
-    tmp:=downX;
-    downX:=x;
-    x:=tmp;
+  if DownX > X then begin
+    CrdTmp:=downX;
+    DownX:=X;
+    X:=CrdTmp;
   end;
 
-  if downY > Y then begin
-    tmp:=downY;
-    downY:=y;
-    y:=tmp;
+  if DownY > Y then begin
+    CrdTmp:=DownY;
+    DownY:=Y;
+    Y:=CrdTmp;
   end;
 
-  r.Left:=downX;
-  r.Top:=downY;
-  r.Right:=X;
-  r.Bottom:=Y;
+  MyRect.Left:=downX;
+  MyRect.Top:=downY;
+  MyRect.Right:=X;
+  MyRect.Bottom:=Y;
   ChsArea.Visible:=false;
 
   Bitmap:=TBitmap.Create;
-  Bitmap.Width:=r.Right - r.Left;
-  Bitmap.Height:=r.Bottom - r.Top;
+  Bitmap.Width:=MyRect.Right - MyRect.Left;
+  Bitmap.Height:=MyRect.Bottom - MyRect.Top;
   ScreenDC:=GetDC(0);
   try
-    BitBlt(Bitmap.Canvas.Handle, 0, 0, Bitmap.Width, Bitmap.Height, ScreenDC, r.Left, r.Top, SRCCOPY);
+    BitBlt(Bitmap.Canvas.Handle, 0, 0, Bitmap.Width, Bitmap.Height, ScreenDC, MyRect.Left, MyRect.Top, SRCCOPY);
   finally
     ReleaseDC(0, ScreenDC);
   end;
 
   PNG:=TPNGObject.Create;
   PNG.Assign(Bitmap);
-  i:=0;
+  FileCounter:=0;
   while true do begin
-    inc(i);
-    if not FileExists(MyPath + ScrName + IntToStr(i) + '.png') then begin
-      PNG.SaveToFile(MyPath + ScrName + IntToStr(i)+ '.png');
+    Inc(FileCounter);
+    if not FileExists(MyPath + ScrName + IntToStr(FileCounter) + '.png') then begin
+      PNG.SaveToFile(MyPath + ScrName + IntToStr(FileCounter)+ '.png');
       if Main.UploadCB.Checked = false then begin
-        Main.StatusBar.SimpleText:=' Снимок сохранен';
+        Main.StatusBar.SimpleText:=' Скриншот сохранен';
         if (UseHotKey) and (UseTray) then
-          Main.ShowNotify('Снимок сохранен');
+          Main.ShowNotify('Скриншот сохранен');
       end;
       break;
     end;
   end;
   PNG.Free;
   Bitmap.Free;
-  if (FileExists(MyPath + ScrName + IntToStr(i) + '.png')) and (Main.UploadCB.Checked) then begin
-    Main.PicToHost(MyPath + ScrName + IntToStr(i) + '.png');
+  if (FileExists(MyPath + ScrName + IntToStr(FileCounter) + '.png')) and (Main.UploadCB.Checked) then begin
+    Main.PicToHost(MyPath + ScrName + IntToStr(FileCounter) + '.png');
     if Main.SaveCB.Checked = false then
-      DeleteFile(MyPath + ScrName + IntToStr(i) + '.png');
+      DeleteFile(MyPath + ScrName + IntToStr(FileCounter) + '.png');
   end;
 
   Close;
@@ -172,7 +174,7 @@ end;
 procedure TChsArea.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if UseTray = false then
-    Main.MainShow;
+    Main.AppShow;
 end;
 
 end.

@@ -36,12 +36,12 @@
 В настройких игры измените режим отображения на "окно без рамки".
 
 • Как включить уведомления, при сохранении скриншота, в свернутом режиме?<br>
-Загрузите приложение ["Уведомления"](https://github.com/r57zone/notifications) и распакуйте куда-нибудь, выберите путь до программы в настройках.
+Загрузите приложение ["Уведомления"](https://github.com/r57zone/notifications), распакуйте в "Program Files" и запустите 1 раз.
 
 ![](https://cloud.githubusercontent.com/assets/9499881/19398283/f4081440-925c-11e6-8caf-1fde2b99d8a6.jpg)
 
 ## Загрузка
->Версия для Windows XP, Windows 7, Windows 8.1, Windows 10.<br>
+>Версия для Windows XP, 7, 8.1, 10.<br>
 **[Загрузить](https://github.com/r57zone/Snapshots-for-Windows/releases)**<br>
 
 ## Обратная связь

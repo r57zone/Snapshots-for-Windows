@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, StdCtrls, XPMan, ExtCtrls, ClipBRD, ShellAPI, IniFiles,
   Buttons, Menus, MMSystem, IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient,
-  IdHTTP, IdMultipartFormData, IdIOHandler, IdIOHandlerSocket, IdSSLOpenSSL, PNGImage;
+  IdHTTP, IdMultipartFormData, IdIOHandler, IdIOHandlerSocket, IdSSLOpenSSL, PNGImage, Registry;
 
 type
   TMain = class(TForm)
@@ -44,12 +44,10 @@ type
   public
     procedure ScreenShotWindow(Window: HWND);
     procedure PicToHost(PicPath: string);
-    procedure PicToImgur(PicPath: string);
-    procedure PicToPixs(PicPath: string);
-    procedure ShowNotify(Notify: string);
+    procedure ShowNotify(NotifyStr: string);
     procedure ScreenShot;
-    procedure MainShow;
-    procedure MainHide;
+    procedure AppShow;
+    procedure AppHide;
     { Public declarations }
   end;
 
@@ -58,9 +56,9 @@ const
 
 var
   Main: TMain;
-  MyPath, NotificationPath: string;
+  MyPath, NotificationApp: string;
   UseHotKey, UseTray: boolean;
-  HotKeyMode, PicHost: integer;
+  HotKeyMode: integer;
 
 implementation
 
@@ -78,35 +76,35 @@ end;
 
 procedure TMain.ShowNotify;
 begin
-  if Trim(NotificationPath) = '' then
+  if Trim(NotificationApp) = '' then
     PlaySound(PChar(GetWindowsDir + '\Media\notify.wav'), 0, SND_ASYNC)
   else
-    WinExec(PChar(NotificationPath), SW_SHOWNORMAL);
+    WinExec(PChar(NotificationApp + ' -t "' + Caption + '" -d "Скриншот сохранен" -b "Snapshots.png" -c 2'), SW_SHOWNORMAL);
 end;
 
 procedure TMain.ScreenShot;
 var
-  c: TCanvas;
-  r: TRect;
+  MyCanvas: TCanvas;
+  MyRect: TRect;
   PNG: TPNGObject;
   Bitmap: TBitmap;
-  i: integer;
+  FileCounter: integer;
 begin
   try
-    c:=TCanvas.Create;
-    c.Handle:=GetWindowDC(GetDesktopWindow);
-    r:=Rect(0, 0, Screen.Width, Screen.Height);
+    MyCanvas:=TCanvas.Create;
+    MyCanvas.Handle:=GetWindowDC(GetDesktopWindow);
+    MyRect:=Rect(0, 0, Screen.Width, Screen.Height);
     Bitmap:=TBitmap.Create;
     Bitmap.Width:=Screen.Width;
     Bitmap.Height:=Screen.Height;
-    Bitmap.Canvas.CopyRect(r, c, r);
+    Bitmap.Canvas.CopyRect(MyRect, MyCanvas, MyRect);
     PNG:=TPNGObject.Create;
     PNG.Assign(Bitmap);
-    i:=0;
+    FileCounter:=0;
     while true do begin
-      inc(i);
-      if not FileExists(MyPath + ScrName + IntToStr(i) + '.png') then begin
-        PNG.SaveToFile(MyPath + ScrName + IntToStr(i) + '.png');
+      Inc(FileCounter);
+      if not FileExists(MyPath + ScrName + IntToStr(FileCounter) + '.png') then begin
+        PNG.SaveToFile(MyPath + ScrName + IntToStr(FileCounter) + '.png');
         if UploadCB.Checked = false then begin
           StatusBar.SimpleText:=' Скриншот сохранен';
           if (UseHotKey) and (UseTray) then
@@ -115,26 +113,26 @@ begin
         break;
       end;
     end;
-    if (FileExists(MyPath + ScrName + IntToStr(i) + '.png')) and (UploadCB.Checked) then begin
-      PicToHost(MyPath + ScrName + IntToStr(i) + '.png');
+    if (FileExists(MyPath + ScrName + IntToStr(FileCounter) + '.png')) and (UploadCB.Checked) then begin
+      PicToHost(MyPath + ScrName + IntToStr(FileCounter) + '.png');
       if SaveCB.Checked = false then
-        DeleteFile(MyPath + ScrName + IntToStr(i) + '.png');
+        DeleteFile(MyPath + ScrName + IntToStr(FileCounter) + '.png');
     end;
     PNG.Free;
     Bitmap.Free;
-    ReleaseDC(0, c.Handle);
-    c.Free;
+    ReleaseDC(0, MyCanvas.Handle);
+    MyCanvas.Free;
   except
     StatusBar.SimpleText:=' Не удалось создать скриншот';
   end;
 end;
 
-procedure TMain.MainHide;
+procedure TMain.AppHide;
 begin
   Main.AlphaBlendValue:=0;
 end;
 
-procedure TMain.MainShow;
+procedure TMain.AppShow;
 begin
   Main.AlphaBlendValue:=255;
   if UseTray = false then
@@ -144,36 +142,36 @@ end;
 procedure TMain.AreaBtnClick(Sender: TObject);
 begin
   if UseTray = false then
-    MainHide;
+    AppHide;
   ChsArea.ShowModal;
 end;
 
 procedure TMain.FullScrBtnClick(Sender: TObject);
 begin
   if UseTray = false then
-    MainHide;
+    AppHide;
   ScreenShot;
   if UseTray = false then
-    MainShow;
+    AppShow;
 end;
 
 procedure Tray(ActInd: integer); //1 - добавить, 2 - удалить, 3 -  заменить
 var
-  nim: TNotifyIconData;
+  NIM: TNotifyIconData;
 begin
-  with nim do begin
+  with NIM do begin
     cbSize:=SizeOf(nim);
-    wnd:=Main.Handle;
+    WND:=Main.Handle;
     uId:=1;
-    uFlags:=nif_icon or nif_message or nif_tip;
+    uFlags:=NIF_MESSAGE or NIF_ICON or NIF_TIP;
     hIcon:=Application.Icon.Handle;
-    uCallBackMessage:=WM_User + 1;
+    uCallBackMessage:=WM_USER + 1;
     StrCopy(szTip, PChar(Application.Title));
   end;
   case ActInd of
-    1: Shell_NotifyIcon(nim_add, @nim);
-    2: Shell_NotifyIcon(nim_delete, @nim);
-    3: Shell_NotifyIcon(nim_modify, @nim);
+    1: Shell_NotifyIcon(NIM_ADD, @nim);
+    2: Shell_NotifyIcon(NIM_DELETE, @nim);
+    3: Shell_NotifyIcon(NIM_MODIFY, @nim);
   end;
 end;
 
@@ -186,6 +184,28 @@ begin
     Tray(2);
 end;
 
+function GetNotificationAppPath: string;
+var
+  Reg: TRegistry;
+begin
+  Reg:=TRegistry.Create;
+  Reg.RootKey:=HKEY_CURRENT_USER;
+  if Reg.OpenKey('\Software\r57zone\Notification', false) then begin
+      Result:=Reg.ReadString('Path');
+    Reg.CloseKey;
+  end;
+  Reg.Free;
+end;
+
+function GetLocaleInformation(Flag: integer): string;
+var
+  pcLCA: array [0..20] of Char;
+begin
+  if GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, Flag, pcLCA, 19)<=0 then
+    pcLCA[0]:=#0;
+  Result:=pcLCA;
+end;
+
 procedure TMain.FormCreate(Sender: TObject);
 var
   Ini: TIniFile;
@@ -193,6 +213,7 @@ begin
   //AreaBtn.ControlState:=[csFocusing];
   Application.Title:=Caption;
   DragAcceptFiles(Handle, True);
+  
   Main.Left:=Screen.Width div 2 - Main.Width div 2;
   Main.Top:=Screen.Height div 2 - Main.Height div 2;
 
@@ -209,17 +230,14 @@ begin
       SaveCB.Checked:=true;
     end;
 
-  if Trim(Ini.ReadString('Main', 'ImgurClientID', '')) <> '' then begin
-    IdHttp.Request.CustomHeaders.Add('Authorization:Client-ID ' + Ini.ReadString('Main', 'ImgurClientID', ''));
-    PicHost:=1;
-  end else PicHost:=2;
+  IdHttp.Request.CustomHeaders.Add('Authorization:Client-ID ' + Ini.ReadString('Main', 'ImgurClientID', ''));
 
   UseHotKey:=Ini.ReadBool('Main', 'Hotkey', false);
 
   if UseHotKey then begin
     RegisterHotKey(Main.Handle, 101, 0, VK_SNAPSHOT);
     HotKeyMode:=Ini.ReadInteger('Main', 'HotKeyMode', 0);
-    NotificationPath:=Ini.ReadString('Main', 'Notification', '');
+    NotificationApp:=GetNotificationAppPath;
   end;
 
   UseTray:=Ini.ReadBool('Main', 'Tray', false);
@@ -227,7 +245,7 @@ begin
   if UseTray then begin
     Tray(1);
     SetWindowLong(Application.Handle,GWL_EXSTYLE,GetWindowLong(Application.Handle,GWL_EXSTYLE) or WS_EX_TOOLWINDOW);
-    MainHide;
+    AppHide;
   end;
 
   Ini.Free;
@@ -239,14 +257,6 @@ begin
 end;
 
 procedure TMain.PicToHost(PicPath: string);
-begin
-  case PicHost of
-    1: PicToImgur(PicPath);
-    2: PicToPixs(PicPath);
-  end;
-end;
-
-procedure TMain.PicToImgur(PicPath: string);
 var
   Source: string;
   FormData: TIdMultiPartFormDataStream;
@@ -258,7 +268,7 @@ begin
   try
     Source:=IdHTTP.Post('https://api.imgur.com/3/image.xml', FormData);
   except
-    MainShow;
+    AppShow;
   end;
   if IdHTTP.ResponseCode = 200 then begin
     Delete(Source, 1, Pos('<link>', Source) + 5);
@@ -266,41 +276,7 @@ begin
     Clipboard.AsText:=Source;
     StatusBar.SimpleText:=' Ссылка скопирована в буфер';
     if (UseHotKey) and (UseTray) then
-      ShowNotify('Ссылка скопирована в буфер');
-  end else begin
-    StatusBar.SimpleText:=' Ошибка загрузки на сервер';
-    if (UseHotKey) and (UseTray) then
-      ShowNotify('Ошибка загрузки на сервер');
-  end;
-  FormData.Free;
-end;
-
-procedure TMain.PicToPixs(PicPath: string);
-var
-  Source: string;
-  FormData: TIdMultiPartFormDataStream;
-begin
-  StatusBar.SimpleText:=' Загрузка изображения';
-  FormData:=TIdMultiPartFormDataStream.Create;
-  FormData.AddFile('userfile', PicPath, '');
-  FormData.AddFormField('file2', '');
-  FormData.AddFormField('title', '');
-  FormData.AddFormField('resize_x', '800');
-  FormData.AddFormField('private_code', '');
-  Main.IdHTTP.Request.ContentType:='multipart/form-data';;
-  try
-    Source:=Main.IdHTTP.Post('http://pixs.ru/redirects/upload.php', FormData);
-  except
-    MainShow;
-  end;
-  if Pos('успешно загружена', Source) > 0 then begin
-    Delete(Source, 1, Pos('Прямая ссылка:', Source));
-    Delete(Source, 1, Pos('http', Source) - 1);
-    Delete(Source, Pos('''>', source), Length(Source) - Pos('''>', Source) + 1);
-    ClipBoard.AsText:=Source;
-    StatusBar.SimpleText:=' Ссылка скопирована в буфер';
-    if (UseHotKey) and (UseTray) then
-      ShowNotify('Ссылка скопирована в буфер');
+      ShowNotify('Скриншот сохранен');
   end else begin
     StatusBar.SimpleText:=' Ошибка загрузки на сервер';
     if (UseHotKey) and (UseTray) then
@@ -348,15 +324,15 @@ end;
 
 procedure TMain.StatusBarClick(Sender: TObject);
 begin
-  Application.MessageBox('Cнимки 1.2.2' + #13#10 +
-  'Последнее обновление: 17.11.2018' + #13#10 +
+  Application.MessageBox('Cнимки 1.3' + #13#10 +
+  'Последнее обновление: 17.09.2019' + #13#10 +
   'http://r57zone.github.io' + #13#10 + 'r57zone@gmail.com', 'О программе...', MB_ICONINFORMATION);
 end;
 
 procedure TMain.ControlWindow(var Msg: TMessage);
 begin
-  if (UseTray) and (Msg.WParam = SC_Minimize) then
-    MainHide
+  if (UseTray) and (Msg.WParam = SC_MINIMIZE) then
+    AppHide
   else
     inherited;
 end;
@@ -368,7 +344,7 @@ begin
       begin
         PostMessage(Handle, WM_LBUTTONDOWN, MK_LBUTTON, 0);
         PostMessage(Handle, WM_LBUTTONUP, MK_LBUTTON, 0);
-        MainShow;
+        AppShow;
         SetForegroundWindow(Handle);
       end;
 
@@ -393,11 +369,11 @@ end;
 
 procedure TMain.ScreenShotWindow(Window: HWND);
 var
-  c: TCanvas;
-  r, t: TRect;
+  MyCanvas: TCanvas;
+  MyRect, WindowRect: TRect;
   PNG: TPNGObject;
   Bitmap: TBitmap;
-  i: integer;
+  FileCounter: integer;
 begin
   if Window = 0 then begin
     Main.StatusBar.SimpleText:=' Окно не найдено';
@@ -406,21 +382,21 @@ begin
 
   SetForegroundWindow(Window);
   try
-    c:=TCanvas.Create;
-    c.Handle:=GetWindowDC(GetDesktopWindow);
-    GetWindowRect(Window, t);
-    r:=Rect(0, 0, t.Right - t.Left, t.Bottom - t.Top);
+    MyCanvas:=TCanvas.Create;
+    MyCanvas.Handle:=GetWindowDC(GetDesktopWindow);
+    GetWindowRect(Window, WindowRect);
+    MyRect:=Rect(0, 0, WindowRect.Right - WindowRect.Left, WindowRect.Bottom - WindowRect.Top);
     Bitmap:=TBitmap.Create;
-    Bitmap.Width:=t.Right - t.Left;
-    Bitmap.Height:=t.Bottom - t.Top;
-    Bitmap.Canvas.CopyRect(r, c, t);
+    Bitmap.Width:=WindowRect.Right - WindowRect.Left;
+    Bitmap.Height:=WindowRect.Bottom - WindowRect.Top;
+    Bitmap.Canvas.CopyRect(MyRect, MyCanvas, WindowRect);
     PNG:=TPNGObject.Create;
     PNG.Assign(Bitmap);
-    i:=0;
+    FileCounter:=0;
     while true do begin
-      inc(i);
-      if not FileExists(MyPath + ScrName + IntToStr(i) + '.png') then begin
-        PNG.SaveToFile(MyPath + ScrName + IntToStr(i) + '.png');
+      Inc(FileCounter);
+      if not FileExists(MyPath + ScrName + IntToStr(FileCounter) + '.png') then begin
+        PNG.SaveToFile(MyPath + ScrName + IntToStr(FileCounter) + '.png');
         if UploadCB.Checked = false then begin
           StatusBar.SimpleText:=' Скриншот сохранен';
           if (UseHotKey) and (UseTray) then
@@ -429,15 +405,15 @@ begin
         break;
       end;
     end;
-    if (FileExists(MyPath + ScrName + IntToStr(i) + '.png')) and (UploadCB.Checked) then begin
-      PicToHost(MyPath + ScrName + IntToStr(i) + '.png');
+    if (FileExists(MyPath + ScrName + IntToStr(FileCounter) + '.png')) and (UploadCB.Checked) then begin
+      PicToHost(MyPath + ScrName + IntToStr(FileCounter) + '.png');
       if SaveCB.Checked = false then
-        DeleteFile(MyPath + ScrName + IntToStr(i) + '.png');
+        DeleteFile(MyPath + ScrName + IntToStr(FileCounter) + '.png');
     end;
     PNG.Free;
     Bitmap.Free;
-    ReleaseDC(0,c.Handle);
-    c.Free;
+    ReleaseDC(0, MyCanvas.Handle);
+    MyCanvas.Free;
   except
     StatusBar.SimpleText:=' Не удалось создать скриншот';
   end;

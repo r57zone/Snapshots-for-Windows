@@ -30,7 +30,7 @@ object ChsWnd: TChsWnd
     Top = 240
     Width = 75
     Height = 25
-    Caption = #1054#1082
+    Caption = #1054#1050
     TabOrder = 1
     OnClick = OkBtnClick
   end

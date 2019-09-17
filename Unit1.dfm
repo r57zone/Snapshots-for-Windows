@@ -1,6 +1,7 @@
 object Main: TMain
   Left = 198
   Top = 130
+  AlphaBlend = True
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1057#1085#1080#1084#1082#1080

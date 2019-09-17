@@ -23,21 +23,13 @@ type
     CancelBtn: TButton;
     TrayCB: TCheckBox;
     PicHostGB: TGroupBox;
-    Pixs: TRadioButton;
-    ImgurRB: TRadioButton;
     ImgurKeyEdt: TEdit;
-    ImgurKeyLbl: TLabel;
-    NotifyAppPathLbl: TLabel;
-    NotifyAppPathEdt: TEdit;
-    ChooseNotifyAppBtn: TButton;
     ChsFolderBtn: TButton;
     PathScrEdt: TEdit;
-    OpenDialog: TOpenDialog;
     procedure FormCreate(Sender: TObject);
     procedure CancelBtnClick(Sender: TObject);
     procedure ChsFolderBtnClick(Sender: TObject);
     procedure OkBtnClick(Sender: TObject);
-    procedure ChooseNotifyAppBtnClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -53,25 +45,25 @@ uses Unit1;
 
 {$R *.dfm}
 
-function BrowseFolderDialog(Title:PChar):string;
+function BrowseFolderDialog(Title: PChar): string;
 var
   TitleName: string;
-  lpItemId: pItemIdList;
+  lpItemid: pItemIdList;
   BrowseInfo: TBrowseInfo;
-  DisplayName: array[0..Max_Path] of char;
-  TempPath: array[0..Max_Path] of char;
+  DisplayName: array[0..MAX_PATH] of Char;
+  TempPath: array[0..MAX_PATH] of Char;
 begin
-  FillChar(BrowseInfo,Sizeof(tBrowseInfo), #0);
-  BrowseInfo.hwndowner:=GetDesktopWindow;
-  BrowseInfo.pszdisplayname:=@DisplayName;
+  FillChar(BrowseInfo, SizeOf(TBrowseInfo), #0);
+  BrowseInfo.hwndOwner:=GetDesktopWindow;
+  BrowseInfo.pSzDisplayName:=@DisplayName;
   TitleName:=Title;
-  BrowseInfo.lpsztitle:=PChar(TitleName);
-  BrowseInfo.ulflags:=bIf_ReturnOnlyFSDirs;
+  BrowseInfo.lpSzTitle:=PChar(TitleName);
+  BrowseInfo.ulFlags:=BIF_NEWDIALOGSTYLE;
   lpItemId:=shBrowseForFolder(BrowseInfo);
   if lpItemId <> nil then begin
     shGetPathFromIdList(lpItemId, TempPath);
     Result:=TempPath;
-    GlobalFreePtr(lpitemid);
+    GlobalFreePtr(lpItemId);
   end;
 end;
 
@@ -92,15 +84,11 @@ begin
       3: HKShowDlgRB.Checked:=true;
     end;
 
-  Ini:=TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'config.ini');
+  Ini:=TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'Config.ini');
   if Ini.ReadInteger('Main', 'Mode', 0 ) = 1 then UploadSaveRB.Checked:=true;
   if Ini.ReadInteger('Main', 'Mode', 0 ) = 2 then SaveRB.Checked:=true;
 
   ImgurKeyEdt.Text:=Ini.ReadString('Main', 'ImgurClientID', '');
-  if ImgurKeyEdt.Text <> '' then
-    ImgurRB.Checked:=true;
-
-  NotifyAppPathEdt.Text:=Ini.ReadString('Main', 'Notification', '');
 
   Ini.Free;
 end;
@@ -114,19 +102,19 @@ procedure TSettings.ChsFolderBtnClick(Sender: TObject);
 var
   TempPath: string;
 begin
-  TempPath:=BrowseFolderDialog('Выберите каталог');
+  TempPath:=BrowseFolderDialog('Выберите папку');
   if TempPath <> '' then begin
     if TempPath[Length(TempPath)] <> '\' then
       TempPath:=TempPath + '\';
     PathScrEdt.Text:=TempPath;
-  end else ShowMessage('Не выбран каталог');
+  end else ShowMessage('Папка не выбрана');
 end;
 
 procedure TSettings.OkBtnClick(Sender: TObject);
 var
   Ini: TIniFile; ModeTmp: integer;
 begin
-  Ini:=TIniFile.Create(ExtractFilePath(paramstr(0)) + 'config.ini');
+  Ini:=TIniFile.Create(ExtractFilePath(paramstr(0)) + 'Config.ini');
 
   if UploadRB.Checked then
     ModeTmp:=0;
@@ -154,24 +142,12 @@ begin
 
   Ini.WriteBool('Main', 'Tray', TrayCB.Checked);
 
-  if (ImgurRB.Checked) and (ImgurKeyEdt.Text <> '') then
-    Ini.WriteString('Main', 'ImgurClientID', ImgurKeyEdt.Text)
-  else
-    Ini.WriteString('Main', 'ImgurClientID', '');
-
-  if NotifyAppPathEdt.Text <> '' then
-    Ini.WriteString('Main', 'Notification', NotifyAppPathEdt.Text);
+  Ini.WriteString('Main', 'ImgurClientID', ImgurKeyEdt.Text);
 
   Ini.Free;
 
-  ShowMessage('Чтобы изменения вступили в силу, нужно перезазапустить программу.');
+  Application.MessageBox('Для вступления изменений в силу' + #13#10 + 'необходимо перезапустить программу.', PChar(Caption), MB_ICONINFORMATION);
   Main.Close;
-end;
-
-procedure TSettings.ChooseNotifyAppBtnClick(Sender: TObject);
-begin
-  if OpenDialog.Execute then
-    NotifyAppPathEdt.Text:=OpenDialog.FileName + '"Снимки" "Скриншот сохранен" null "snapshots.png" null 2';    
 end;
 
 end.
