@@ -246,6 +246,7 @@ begin
   ID_CAPTURE_AREA_TITLE:=Ini.ReadString('Main', 'ID_CAPTURE_AREA_TITLE', '');
   ID_ACTION_TITLE:=Ini.ReadString('Main', 'ID_ACTION_TITLE', '');
   ID_SETTINGS_TITLE:=Ini.ReadString('Main', 'ID_SETTINGS_TITLE', '');
+  SettgsBtn.Hint:=ID_SETTINGS_TITLE;
   ID_DEFAULT_ACTION:=Ini.ReadString('Main', 'ID_DEFAULT_ACTION', '');
   ID_UPLOAD_AND_SAVE:=Ini.ReadString('Main', 'ID_UPLOAD_AND_SAVE', '');
   ID_IMGUR_KEY:=Ini.ReadString('Main', 'ID_IMGUR_KEY', '');
