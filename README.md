@@ -1,4 +1,4 @@
-[![EN](https://user-images.githubusercontent.com/9499881/33184537-7be87e86-d096-11e7-89bb-f3286f752bc6.png)](https://github.com/r57zone/Snapshots-for-Windows/blob/master/README.md)[![RU](https://user-images.githubusercontent.com/9499881/27683795-5b0fbac6-5cd8-11e7-929c-057833e01fb1.png)](https://github.com/r57zone/Snapshots-for-Windows/blob/master/README.RU.md)
+[![EN](https://user-images.githubusercontent.com/9499881/33184537-7be87e86-d096-11e7-89bb-f3286f752bc6.png)](https://github.com/r57zone/Snapshots-for-Windows/blob/master/README.md) [![RU](https://user-images.githubusercontent.com/9499881/27683795-5b0fbac6-5cd8-11e7-929c-057833e01fb1.png)](https://github.com/r57zone/Snapshots-for-Windows/blob/master/README.RU.md)
 
 # Snapshots
 Application for make and upload screenshots.
@@ -31,7 +31,6 @@ Create screenshots using the "Print Screen" button.
 In the game settings, change the display mode to "window without frame" and enable the creation of screenshots on the "Print Screen" button.
 
 • How do enable notifications in minimized mode?
-
 Download app ["Notifications"](https://github.com/r57zone/notifications), unpack to "Program Files" and run 1 time.
 
 ![](https://user-images.githubusercontent.com/9499881/65176051-13c8f580-da65-11e9-8ea1-5c0e671d7e18.png)
