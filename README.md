@@ -4,7 +4,7 @@
 Application for make and upload screenshots.
 
 ## Screenshots
-![](https://user-images.githubusercontent.com/9499881/65173386-b0889480-da5f-11e9-9ac7-d10c259fe713.png)
+![](https://user-images.githubusercontent.com/9499881/65177214-51c71900-da67-11e9-831a-664aab5fc160.png)
 
 ## Features
 ✔ **Three modes of making screenshots**
@@ -36,6 +36,7 @@ In the game settings, change the display mode to "window without frame" and enab
 <br>
 • How do enable notifications in minimized mode?<br>
 Download app ["Notifications"](https://github.com/r57zone/notifications), unpack to "Program Files" and run 1 time.<br>
+
 ![](https://user-images.githubusercontent.com/9499881/65176051-13c8f580-da65-11e9-8ea1-5c0e671d7e18.png)
 
 ## Download
