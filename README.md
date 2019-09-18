@@ -7,18 +7,29 @@ Application for make and upload screenshots.
 ![](https://user-images.githubusercontent.com/9499881/65173386-b0889480-da5f-11e9-9ac7-d10c259fe713.png)
 
 ## Features
-✔ **Three modes of making screenshots**<br>
-Area, window or full screen.<br>
+✔ **Three modes of making screenshots**
+
+
+Area, window or full screen.
+
+
 ![](https://user-images.githubusercontent.com/9499881/65174854-bfbd1180-da62-11e9-94f0-35cb252e3661.png)<br>
-✔ **Support Drag and Drop**<br>
-Just drag a picture to window for upload.<br>
+✔ **Support Drag and Drop**
+
+
+Just drag a picture to window for upload.
+
+
 ![](https://user-images.githubusercontent.com/9499881/65173404-bb432980-da5f-11e9-8044-e68ada8ffab6.png)<br>
+
 ✔ **Uploading images to imgur.com**<br>
 Upload and direct link to the clipboard.<br>
+
 ✔ **Save images**<br>
-Screenshots are saved in the desired folder. By default, the folder with the program.<br>
+Screenshots are saved in the desired folder. By default to the folder with the program.<br>
+
 ✔ **Support for hotkeys**<br>
-Create screenshots using the "Print Screen" button.<br>
+Create screenshots using the "Print Screen" button.
 ## FAQ
 • How to take a screenshot of the game?<br>
 In the game settings, change the display mode to "window without frame" and enable the creation of screenshots on the "Print Screen" button.<br>
