@@ -7,13 +7,14 @@ uses
   Dialogs, StdCtrls;
 
 type
-  TChsWnd = class(TForm)
+  TSelectWnd = class(TForm)
     ListBox: TListBox;
     OkBtn: TButton;
     CancelBtn: TButton;
     procedure FormShow(Sender: TObject);
     procedure CancelBtnClick(Sender: TObject);
     procedure OkBtnClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -21,7 +22,7 @@ type
   end;
 
 var
-  ChsWnd: TChsWnd;
+  SelectWnd: TSelectWnd;
 
 implementation
 
@@ -29,7 +30,7 @@ uses Unit1;
 
 {$R *.dfm}
 
-procedure TChsWnd.FormShow(Sender: TObject);
+procedure TSelectWnd.FormShow(Sender: TObject);
 var
   Window: HWND;
   Buff: array [0..127] of Char;
@@ -50,12 +51,12 @@ begin
   ListBox.ItemIndex:=0;
 end;
 
-procedure TChsWnd.CancelBtnClick(Sender: TObject);
+procedure TSelectWnd.CancelBtnClick(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TChsWnd.OkBtnClick(Sender: TObject);
+procedure TSelectWnd.OkBtnClick(Sender: TObject);
 begin
   if ListBox.ItemIndex <> -1 then begin
     Main.AppHide;
@@ -63,6 +64,13 @@ begin
     Main.AppShow;
     Close;
   end;
+end;
+
+procedure TSelectWnd.FormCreate(Sender: TObject);
+begin
+  Caption:=ID_SELECT_WINDOW_TITLE;
+  OkBtn.Caption:=ID_OK;
+  CancelBtn.Caption:=ID_CANCEL;
 end;
 
 end.

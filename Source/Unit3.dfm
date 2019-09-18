@@ -3,7 +3,7 @@ object ChsAct: TChsAct
   Top = 235
   BorderIcons = [biSystemMenu]
   BorderStyle = bsToolWindow
-  Caption = #1042#1099#1073#1077#1088#1080#1090#1077' '#1076#1077#1081#1089#1090#1074#1080#1077
+  Caption = #1044#1077#1081#1089#1090#1074#1080#1077
   ClientHeight = 40
   ClientWidth = 251
   Color = clBtnFace
@@ -15,6 +15,7 @@ object ChsAct: TChsAct
   FormStyle = fsStayOnTop
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13

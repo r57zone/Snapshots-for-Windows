@@ -1,48 +1,47 @@
 [![RU](https://user-images.githubusercontent.com/9499881/27683795-5b0fbac6-5cd8-11e7-929c-057833e01fb1.png)](https://github.com/r57zone/Snapshots-for-Windows/blob/master/README.md) [![EN](https://user-images.githubusercontent.com/9499881/33184537-7be87e86-d096-11e7-89bb-f3286f752bc6.png)](https://github.com/r57zone/Snapshots-for-Windows/blob/master/README.EN.md)
 
-# Снимки
-Приложение для создания и загрузки скриншотов.
+# Snapshots
+Application for make and upload screenshots.
 
-## Скриншоты
-![](https://cloud.githubusercontent.com/assets/9499881/7238897/df3ef0a8-e7b6-11e4-83d1-67605af2913d.png)
+## Screenshots
+![](https://user-images.githubusercontent.com/9499881/65173386-b0889480-da5f-11e9-9ac7-d10c259fe713.png)
 
-## Особенности
+## Features
 
-✔ **Три режима создания скриншота**<br>
-Область, окно или весь экран.<br>
+✔ **Three modes of making screenshots**
 
-![](https://cloud.githubusercontent.com/assets/9499881/7239173/c7e9586a-e7b8-11e4-8a56-d04c4413df06.png)
+Area, window or full screen.
 
-✔ **Поддержка Drag and Drop**<br>
-Перенесите изображение в окно программы для его загрузки.<br>
 
-![](https://cloud.githubusercontent.com/assets/9499881/7239082/2ffeeb96-e7b8-11e4-915e-71d35b4e9038.png)
+![](https://user-images.githubusercontent.com/9499881/65174854-bfbd1180-da62-11e9-94f0-35cb252e3661.png)
 
-✔ **Загрузка картинок на imgur.com**<br>
-Загрузка и прямая ссылка в буфере обмена.<br>
+✔ **Support Drag and Drop**
 
-✔ **Сохранение картинок**<br>
-Скриншоты сохраняются в нужную вам папку. По умолчанию в папку с программной.<br>
+Just drag a picture to window for uplaod.
 
-✔ **Поддержка горячих клавиш**<br>
-По нажатию кнопки "Prt Scr" можно делать скриншоты. 
 
-## FAQ
+![](https://user-images.githubusercontent.com/9499881/65173404-bb432980-da5f-11e9-8044-e68ada8ffab6.png)
 
-• Как сделать так, чтобы программа работала в фоне и запускалась при старте системы?
-Создайте ярлык программы (правой кнопкой мыши → Создать ярлык) и перенести его в Пуск → Автозагрузка. В настройках программы необходимо включить опцию "Сворачивать приложение в область уведомлений".
 
-• Как сделать скриншот игры?
-В настройких игры измените режим отображения на "окно без рамки".
+✔ **Uploading images to imgur.com**
 
-• Как включить уведомления, при сохранении скриншота, в свернутом режиме?<br>
-Загрузите приложение ["Уведомления"](https://github.com/r57zone/notifications), распакуйте в "Program Files" и запустите 1 раз.
+Upload and direct link to the clipboard.
 
-![](https://cloud.githubusercontent.com/assets/9499881/19398283/f4081440-925c-11e6-8caf-1fde2b99d8a6.jpg)
 
-## Загрузка
->Версия для Windows XP, 7, 8.1, 10.<br>
-**[Загрузить](https://github.com/r57zone/Snapshots-for-Windows/releases)**<br>
+✔ **Save images**
 
-## Обратная связь
-`r57zone[собака]gmail.com`
+Screenshots are saved in the desired folder. By default, the folder with the program.
+
+
+✔ **Support for hotkeys**
+
+Create screenshots using the "Print Screen" button.
+
+
+## Download
+>Version for Windows XP, 7, 8.1, 10.
+
+**[Download](https://github.com/r57zone/Snapshots-for-Windows/releases)**
+
+## Feedback
+`r57zone[at]gmail.com`

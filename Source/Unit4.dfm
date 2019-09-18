@@ -104,7 +104,7 @@ object Settings: TSettings
       Top = 120
       Width = 153
       Height = 17
-      Caption = #1042#1099#1079#1074#1072#1090#1100' '#1076#1080#1072#1083#1086#1075' '#1074#1099#1073#1086#1088#1072
+      Caption = #1055#1086#1082#1072#1079#1072#1090#1100' '#1076#1080#1072#1083#1086#1075' '#1074#1099#1073#1086#1088#1072
       TabOrder = 4
     end
   end
@@ -140,7 +140,7 @@ object Settings: TSettings
     Top = 112
     Width = 201
     Height = 57
-    Caption = #1050#1083#1102#1095' Imgr.com'
+    Caption = #1050#1083#1102#1095' imgur.com'
     TabOrder = 1
     object ImgurKeyEdt: TEdit
       Left = 8

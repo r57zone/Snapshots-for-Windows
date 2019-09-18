@@ -60,6 +60,14 @@ var
   UseHotKey, UseTray: boolean;
   HotKeyMode: integer;
 
+  ID_SCREENSHOT_SAVED, ID_SCREENSHOT_FAILED, ID_UPLOAD_SCREENSHOT, ID_LINK_COPIED_TO_CLIPBOARD,
+  ID_FAIL_UPLOAD, ID_WRONG_PICTURE_EXT, ID_WINDOW_NOT_FOUND, ID_WRONG_CAPTURE_AREA, ID_CAPTURE_AREA_CANCELED: string;
+  ID_ABOUT_TITLE, ID_LAST_UPDATE, ID_CAPTURE_AREA_TITLE, ID_ACTION_TITLE: string;
+  ID_SETTINGS_TITLE, ID_DEFAULT_ACTION, ID_UPLOAD_AND_SAVE, ID_IMGUR_KEY,
+  ID_ACTION_PRTSCR, ID_NOT_USE, ID_SHOW_SELECT_DLG, ID_PATH_FOR_SCREENSHOTS,
+  ID_CHOOSE_FOLDER, ID_CHOOSE_FOLDER_TITLE, ID_FOLDER_NOT_SELECTED, ID_MINIMIZE_TO_TRAY, ID_SETTINGS_DONE: string;
+  ID_OK, ID_CANCEL, ID_SELECT_WINDOW_TITLE: string;
+
 implementation
 
 uses Unit2, Unit3, Unit4, Unit5;
@@ -74,12 +82,12 @@ begin
   Result:=Name;
 end;
 
-procedure TMain.ShowNotify;
+procedure TMain.ShowNotify(NotifyStr: string);
 begin
   if Trim(NotificationApp) = '' then
     PlaySound(PChar(GetWindowsDir + '\Media\notify.wav'), 0, SND_ASYNC)
   else
-    WinExec(PChar(NotificationApp + ' -t "' + Caption + '" -d "Скриншот сохранен" -b "Snapshots.png" -c 2'), SW_SHOWNORMAL);
+    WinExec(PChar(NotificationApp + ' -t "' + Caption + '" -d "' + NotifyStr + '" -b "Snapshots.png" -c 2'), SW_SHOWNORMAL);
 end;
 
 procedure TMain.ScreenShot;
@@ -106,9 +114,9 @@ begin
       if not FileExists(MyPath + ScrName + IntToStr(FileCounter) + '.png') then begin
         PNG.SaveToFile(MyPath + ScrName + IntToStr(FileCounter) + '.png');
         if UploadCB.Checked = false then begin
-          StatusBar.SimpleText:=' Скриншот сохранен';
+          StatusBar.SimpleText:=' ' + ID_SCREENSHOT_SAVED;
           if (UseHotKey) and (UseTray) then
-            ShowNotify('Скриншот сохранен');
+            ShowNotify(ID_SCREENSHOT_SAVED);
         end;
         break;
       end;
@@ -123,7 +131,7 @@ begin
     ReleaseDC(0, MyCanvas.Handle);
     MyCanvas.Free;
   except
-    StatusBar.SimpleText:=' Не удалось создать скриншот';
+    StatusBar.SimpleText:=' ' + ID_SCREENSHOT_FAILED;
   end;
 end;
 
@@ -143,7 +151,7 @@ procedure TMain.AreaBtnClick(Sender: TObject);
 begin
   if UseTray = false then
     AppHide;
-  ChsArea.ShowModal;
+  CaptureArea.ShowModal;
 end;
 
 procedure TMain.FullScrBtnClick(Sender: TObject);
@@ -208,8 +216,54 @@ end;
 
 procedure TMain.FormCreate(Sender: TObject);
 var
-  Ini: TIniFile;
+  Ini: TIniFile; LangFile: string;
 begin
+  //Перевод / Translate
+  if FileExists(ExtractFilePath(ParamStr(0)) + 'Languages\' + GetLocaleInformation(LOCALE_SENGLANGUAGE) + '.ini') then
+    LangFile:=GetLocaleInformation(LOCALE_SENGLANGUAGE) + '.ini'
+  else
+    LangFile:='English.ini';
+  Ini:=TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'Languages\' + LangFile);
+
+  Caption:=Ini.ReadString('Main', 'ID_TITLE', '');
+  AreaBtn.Caption:=Ini.ReadString('Main', 'ID_AREA', '');
+  FullScrBtn.Caption:=Ini.ReadString('Main', 'ID_FULLSCREEN', '');
+  WndBtn.Caption:=Ini.ReadString('Main', 'ID_WINDOW', '');
+  UploadCB.Caption:=Ini.ReadString('Main', 'ID_UPLOAD', '');
+  SaveCB.Caption:=Ini.ReadString('Main', 'ID_SAVE', '');
+
+  ID_SCREENSHOT_SAVED:=Ini.ReadString('Main', 'ID_SCREENSHOT_SAVED', '');
+  ID_SCREENSHOT_FAILED:=Ini.ReadString('Main', 'ID_SCREENSHOT_FAILED', '');
+  ID_UPLOAD_SCREENSHOT:=Ini.ReadString('Main', 'ID_UPLOAD_SCREENSHOT', '');
+  ID_LINK_COPIED_TO_CLIPBOARD:=Ini.ReadString('Main', 'ID_LINK_COPIED_TO_CLIPBOARD', '');
+  ID_FAIL_UPLOAD:=Ini.ReadString('Main', 'ID_FAIL_UPLOAD', '');
+  ID_WRONG_PICTURE_EXT:=Ini.ReadString('Main', 'ID_WRONG_PICTURE_EXT', '');
+  ID_WINDOW_NOT_FOUND:=Ini.ReadString('Main', 'ID_WINDOW_NOT_FOUND', '');
+  ID_WRONG_CAPTURE_AREA:=Ini.ReadString('Main', 'ID_WRONG_CAPTURE_AREA', '');
+  ID_CAPTURE_AREA_CANCELED:=Ini.ReadString('Main', 'ID_CAPTURE_AREA_CANCELED', '');
+  ID_ABOUT_TITLE:=Ini.ReadString('Main', 'ID_ABOUT_TITLE', '');
+  ID_LAST_UPDATE:=Ini.ReadString('Main', 'ID_LAST_UPDATE', '');
+  ID_CAPTURE_AREA_TITLE:=Ini.ReadString('Main', 'ID_CAPTURE_AREA_TITLE', '');
+  ID_ACTION_TITLE:=Ini.ReadString('Main', 'ID_ACTION_TITLE', '');
+  ID_SETTINGS_TITLE:=Ini.ReadString('Main', 'ID_SETTINGS_TITLE', '');
+  ID_DEFAULT_ACTION:=Ini.ReadString('Main', 'ID_DEFAULT_ACTION', '');
+  ID_UPLOAD_AND_SAVE:=Ini.ReadString('Main', 'ID_UPLOAD_AND_SAVE', '');
+  ID_IMGUR_KEY:=Ini.ReadString('Main', 'ID_IMGUR_KEY', '');
+  ID_ACTION_PRTSCR:=Ini.ReadString('Main', 'ID_ACTION_PRTSCR', '');
+  ID_NOT_USE:=Ini.ReadString('Main', 'ID_NOT_USE', '');
+  ID_SHOW_SELECT_DLG:=Ini.ReadString('Main', 'ID_SHOW_SELECT_DLG', '');
+  ID_PATH_FOR_SCREENSHOTS:=Ini.ReadString('Main', 'ID_PATH_FOR_SCREENSHOTS', '');
+  ID_CHOOSE_FOLDER:=Ini.ReadString('Main', 'ID_CHOOSE_FOLDER', '');
+  ID_CHOOSE_FOLDER_TITLE:=Ini.ReadString('Main', 'ID_CHOOSE_FOLDER_TITLE', '');
+  ID_FOLDER_NOT_SELECTED:=Ini.ReadString('Main', 'ID_FOLDER_NOT_SELECTED', '');
+  ID_MINIMIZE_TO_TRAY:=StringReplace(Ini.ReadString('Main', 'ID_MINIMIZE_TO_TRAY', ''), '\n', #13#10, [rfReplaceAll]);
+  ID_SETTINGS_DONE:=StringReplace(Ini.ReadString('Main', 'ID_SETTINGS_DONE', ''), '\n', #13#10, [rfReplaceAll]);
+  ID_OK:=Ini.ReadString('Main', 'ID_OK', '');
+  ID_CANCEL:=Ini.ReadString('Main', 'ID_CANCEL', '');
+  ID_SELECT_WINDOW_TITLE:=Ini.ReadString('Main', 'ID_SELECT_WINDOW_TITLE', '');
+
+  Ini.Free;
+
   //AreaBtn.ControlState:=[csFocusing];
   Application.Title:=Caption;
   DragAcceptFiles(Handle, True);
@@ -253,7 +307,7 @@ end;
 
 procedure TMain.WndBtnClick(Sender: TObject);
 begin
-  ChsWnd.ShowModal;
+  SelectWnd.ShowModal;
 end;
 
 procedure TMain.PicToHost(PicPath: string);
@@ -261,7 +315,7 @@ var
   Source: string;
   FormData: TIdMultiPartFormDataStream;
 begin
-  StatusBar.SimpleText:=' Загрузка изображения';
+  StatusBar.SimpleText:=' ' + ID_UPLOAD_SCREENSHOT;
   FormData:=TIdMultiPartFormDataStream.Create;
   FormData.AddFile('image', PicPath, '');
   IdHTTP.Request.ContentType:='Content-Type: application/octet-stream';
@@ -274,13 +328,13 @@ begin
     Delete(Source, 1, Pos('<link>', Source) + 5);
     Delete(Source, Pos('<', Source), Length(Source) - Pos('<', Source) + 1);
     Clipboard.AsText:=Source;
-    StatusBar.SimpleText:=' Ссылка скопирована в буфер';
+    StatusBar.SimpleText:=' ' + ID_LINK_COPIED_TO_CLIPBOARD;
     if (UseHotKey) and (UseTray) then
-      ShowNotify('Скриншот сохранен');
+      ShowNotify(ID_LINK_COPIED_TO_CLIPBOARD);
   end else begin
-    StatusBar.SimpleText:=' Ошибка загрузки на сервер';
+    StatusBar.SimpleText:=' ' + ID_FAIL_UPLOAD;
     if (UseHotKey) and (UseTray) then
-      ShowNotify('Ошибка загрузки на сервер');
+      ShowNotify(ID_FAIL_UPLOAD);
   end;
   FormData.Free;
 end;
@@ -308,7 +362,7 @@ begin
   or (AnsiLowerCase(ExtractFileExt(Path)) = '.jpeg') then
     PicToHost(Path)
   else
-    StatusBar.SimpleText:=' Неверный формат изображения';
+    StatusBar.SimpleText:=' ' + ID_WRONG_PICTURE_EXT;
 end;
 
 procedure TMain.WMHotKey(var Msg: TWMHotKey);
@@ -324,9 +378,9 @@ end;
 
 procedure TMain.StatusBarClick(Sender: TObject);
 begin
-  Application.MessageBox('Cнимки 1.3' + #13#10 +
-  'Последнее обновление: 17.09.2019' + #13#10 +
-  'http://r57zone.github.io' + #13#10 + 'r57zone@gmail.com', 'О программе...', MB_ICONINFORMATION);
+  Application.MessageBox(PChar(Caption + ' 1.3' + #13#10 +
+  ID_LAST_UPDATE + ' 17.09.2019' + #13#10 +
+  'http://r57zone.github.io' + #13#10 + 'r57zone@gmail.com'),  PChar(ID_ABOUT_TITLE), MB_ICONINFORMATION);
 end;
 
 procedure TMain.ControlWindow(var Msg: TMessage);
@@ -376,7 +430,7 @@ var
   FileCounter: integer;
 begin
   if Window = 0 then begin
-    Main.StatusBar.SimpleText:=' Окно не найдено';
+    Main.StatusBar.SimpleText:=' ' + ID_WINDOW_NOT_FOUND;
     Exit;
   end;
 
@@ -398,9 +452,9 @@ begin
       if not FileExists(MyPath + ScrName + IntToStr(FileCounter) + '.png') then begin
         PNG.SaveToFile(MyPath + ScrName + IntToStr(FileCounter) + '.png');
         if UploadCB.Checked = false then begin
-          StatusBar.SimpleText:=' Скриншот сохранен';
+          StatusBar.SimpleText:=' ' + ID_SCREENSHOT_SAVED;
           if (UseHotKey) and (UseTray) then
-            ShowNotify('Скриншот сохранен');
+            ShowNotify(ID_SCREENSHOT_SAVED);
         end;
         break;
       end;
@@ -415,7 +469,7 @@ begin
     ReleaseDC(0, MyCanvas.Handle);
     MyCanvas.Free;
   except
-    StatusBar.SimpleText:=' Не удалось создать скриншот';
+    StatusBar.SimpleText:=' ' + ID_SCREENSHOT_FAILED;
   end;
 end;
 

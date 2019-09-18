@@ -1,4 +1,4 @@
-object ChsWnd: TChsWnd
+object SelectWnd: TSelectWnd
   Left = 192
   Top = 124
   BorderIcons = [biSystemMenu, biMinimize]
@@ -14,6 +14,7 @@ object ChsWnd: TChsWnd
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13

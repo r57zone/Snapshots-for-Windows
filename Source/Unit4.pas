@@ -71,6 +71,24 @@ procedure TSettings.FormCreate(Sender: TObject);
 var
   Ini: TIniFile;
 begin
+  Caption:=ID_SETTINGS_TITLE;
+  DefActGB.Caption:=ID_DEFAULT_ACTION;
+  UploadRB.Caption:=Main.UploadCB.Caption;
+  UploadSaveRB.Caption:=ID_UPLOAD_AND_SAVE;
+  SaveRB.Caption:=Main.SaveCB.Caption;
+  PicHostGB.Caption:=ID_IMGUR_KEY;
+  HKActGB.Caption:=ID_ACTION_PRTSCR;
+  HKNotUseRB.Caption:=ID_NOT_USE;
+  HKAreaRB.Caption:=Main.AreaBtn.Caption;
+  HKFullScrRB.Caption:=Main.FullScrBtn.Caption;
+  HKWNDRB.Caption:=Main.WndBtn.Caption;
+  HKShowDlgRB.Caption:=ID_SHOW_SELECT_DLG;
+  SaveScrPathLbl.Caption:=ID_SHOW_SELECT_DLG;
+  ChsFolderBtn.Caption:=ID_CHOOSE_FOLDER;
+  TrayCB.Caption:=ID_MINIMIZE_TO_TRAY;
+  OkBtn.Caption:=ID_OK;
+  CancelBtn.Caption:=ID_CANCEL;
+
   PathScrEdt.Text:=MyPath;
 
   if UseTray then
@@ -102,19 +120,19 @@ procedure TSettings.ChsFolderBtnClick(Sender: TObject);
 var
   TempPath: string;
 begin
-  TempPath:=BrowseFolderDialog('Выберите папку');
+  TempPath:=BrowseFolderDialog(PChar(ID_CHOOSE_FOLDER_TITLE));
   if TempPath <> '' then begin
     if TempPath[Length(TempPath)] <> '\' then
       TempPath:=TempPath + '\';
     PathScrEdt.Text:=TempPath;
-  end else ShowMessage('Папка не выбрана');
+  end else Application.MessageBox(PChar(ID_FOLDER_NOT_SELECTED), PChar(Caption), MB_ICONWARNING);
 end;
 
 procedure TSettings.OkBtnClick(Sender: TObject);
 var
   Ini: TIniFile; ModeTmp: integer;
 begin
-  Ini:=TIniFile.Create(ExtractFilePath(paramstr(0)) + 'Config.ini');
+  Ini:=TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'Config.ini');
 
   if UploadRB.Checked then
     ModeTmp:=0;
@@ -146,7 +164,7 @@ begin
 
   Ini.Free;
 
-  Application.MessageBox('Для вступления изменений в силу' + #13#10 + 'необходимо перезапустить программу.', PChar(Caption), MB_ICONINFORMATION);
+  Application.MessageBox(PChar(ID_SETTINGS_DONE), PChar(Caption), MB_ICONINFORMATION);
   Main.Close;
 end;
 

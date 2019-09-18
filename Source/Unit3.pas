@@ -15,6 +15,7 @@ type
     procedure AreaBtnClick(Sender: TObject);
     procedure FullScrBtnClick(Sender: TObject);
     procedure WndBtnClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -51,6 +52,14 @@ procedure TChsAct.WndBtnClick(Sender: TObject);
 begin
   Close;
   Main.WndBtn.Click;
+end;
+
+procedure TChsAct.FormCreate(Sender: TObject);
+begin
+  Caption:=ID_ACTION_TITLE;
+  AreaBtn.Caption:=Main.AreaBtn.Caption;
+  FullScrBtn.Caption:=Main.FullScrBtn.Caption;
+  WndBtn.Caption:=Main.WndBtn.Caption;
 end;
 
 end.

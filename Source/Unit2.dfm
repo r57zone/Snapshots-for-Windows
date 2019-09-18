@@ -1,10 +1,10 @@
-object ChsArea: TChsArea
+object CaptureArea: TCaptureArea
   Left = 257
   Top = 148
   AlphaBlend = True
   AlphaBlendValue = 150
   BorderStyle = bsNone
-  Caption = #1042#1099#1073#1086#1088
+  Caption = #1047#1072#1093#1074#1072#1090' '#1086#1073#1083#1072#1089#1090#1080
   ClientHeight = 340
   ClientWidth = 538
   Color = clBlack
