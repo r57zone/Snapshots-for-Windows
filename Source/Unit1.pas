@@ -25,6 +25,7 @@ type
     MenuSettingsBtn: TMenuItem;
     IdHTTP: TIdHTTP;
     IdSSLIOHandlerSocket: TIdSSLIOHandlerSocket;
+    DragAndDropImage: TImage;
     procedure AreaBtnClick(Sender: TObject);
     procedure FullScrBtnClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -380,7 +381,7 @@ end;
 procedure TMain.StatusBarClick(Sender: TObject);
 begin
   Application.MessageBox(PChar(Caption + ' 1.3' + #13#10 +
-  ID_LAST_UPDATE + ' 17.09.2019' + #13#10 +
+  ID_LAST_UPDATE + ' 25.09.2019' + #13#10 +
   'http://r57zone.github.io' + #13#10 + 'r57zone@gmail.com'),  PChar(ID_ABOUT_TITLE), MB_ICONINFORMATION);
 end;
 

@@ -3,8 +3,8 @@
 # Snapshots
 Application for make and upload screenshots.
 
-## Screenshots
-![](https://user-images.githubusercontent.com/9499881/65177214-51c71900-da67-11e9-831a-664aab5fc160.png)
+## Screenshot
+![](https://user-images.githubusercontent.com/9499881/65600149-a0693b80-dfb0-11e9-8e82-eacf5b7ee5fb.png)
 
 ## Features
 ✔ **Three modes of making screenshots**
@@ -19,8 +19,6 @@ Area, window or full screen.
 
 Just drag a picture to window for upload.
 
-
-![](https://user-images.githubusercontent.com/9499881/65173404-bb432980-da5f-11e9-8044-e68ada8ffab6.png)<br>
 
 ✔ **Uploading images to imgur.com**<br>
 Upload and direct link to the clipboard.<br>
