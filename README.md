@@ -3,7 +3,7 @@
 # Snapshots
 Application for make and upload screenshots.
 
-## Screenshot
+## Screenshots
 ![](https://user-images.githubusercontent.com/9499881/65600149-a0693b80-dfb0-11e9-8e82-eacf5b7ee5fb.png)
 
 ## Features
@@ -15,7 +15,6 @@ Area, window or full screen.
 
 ![](https://user-images.githubusercontent.com/9499881/65174854-bfbd1180-da62-11e9-94f0-35cb252e3661.png)<br>
 ✔ **Support Drag and Drop**
-
 
 Just drag a picture to window for upload.
 
