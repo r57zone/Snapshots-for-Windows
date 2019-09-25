@@ -11,12 +11,12 @@ Application for make and upload screenshots.
 Area, window or full screen.<br>
 ![](https://user-images.githubusercontent.com/9499881/65174854-bfbd1180-da62-11e9-94f0-35cb252e3661.png)<br>
 ✔ **Support Drag and Drop**<br>
-Just drag a picture to window for upload.<br>
+Just drag a picture to window for upload.<br><br>
 ✔ **Uploading images to imgur.com**<br>
-Upload and direct link to the clipboard.<br>
+Upload and direct link to the clipboard.<br><br>
 ✔ **Save images**<br>
 Screenshots are saved in the desired folder. By default to the folder with the program.<br>
-✔ **Support for hotkeys**<br>
+✔ **Support for hotkeys**<br><br>
 Create screenshots using the "Print Screen" button.
 ## FAQ
 • How to take a screenshot of the game?<br>
