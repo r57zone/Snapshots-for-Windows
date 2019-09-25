@@ -16,7 +16,7 @@ Just drag a picture to window for upload.<br><br>
 Upload and direct link to the clipboard.<br><br>
 ✔ **Save images**<br>
 Screenshots are saved in the desired folder. By default to the folder with the program.<br><br>
-✔ **Support for hotkeys**<br><br>
+✔ **Support for hotkeys**<br>
 Create screenshots using the "Print Screen" button.
 ## FAQ
 • How to take a screenshot of the game?<br>
