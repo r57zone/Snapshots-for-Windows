@@ -7,24 +7,15 @@ Application for make and upload screenshots.
 ![](https://user-images.githubusercontent.com/9499881/65600149-a0693b80-dfb0-11e9-8e82-eacf5b7ee5fb.png)
 
 ## Features
-✔ **Three modes of making screenshots**
-
-
-Area, window or full screen.
-
-
+✔ **Three modes of making screenshots**<br>
+Area, window or full screen.<br>
 ![](https://user-images.githubusercontent.com/9499881/65174854-bfbd1180-da62-11e9-94f0-35cb252e3661.png)<br>
-✔ **Support Drag and Drop**
-
-Just drag a picture to window for upload.
-
-
+✔ **Support Drag and Drop**<br>
+Just drag a picture to window for upload.<br>
 ✔ **Uploading images to imgur.com**<br>
 Upload and direct link to the clipboard.<br>
-
 ✔ **Save images**<br>
 Screenshots are saved in the desired folder. By default to the folder with the program.<br>
-
 ✔ **Support for hotkeys**<br>
 Create screenshots using the "Print Screen" button.
 ## FAQ
