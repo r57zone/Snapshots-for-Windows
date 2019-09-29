@@ -4,7 +4,7 @@
 Application for make and upload screenshots.
 
 ## Screenshots
-![](https://user-images.githubusercontent.com/9499881/65600149-a0693b80-dfb0-11e9-8e82-eacf5b7ee5fb.png)
+![](https://user-images.githubusercontent.com/9499881/65833371-d83def00-e2e0-11e9-8fb9-b622d0ddeb2c.png)
 
 ## Features
 ✔ **Three modes of making screenshots**<br>

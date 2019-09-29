@@ -4,7 +4,7 @@
 Приложение для создания и загрузки скриншотов.
 
 ## Скриншоты
-![](https://user-images.githubusercontent.com/9499881/65600102-84fe3080-dfb0-11e9-80fe-89833e95f60f.png)
+![](https://user-images.githubusercontent.com/9499881/65833378-ec81ec00-e2e0-11e9-83ff-318810a4ce36.png)
 
 ## Особенности
 ✔ **Три режима создания скриншота**<br>
