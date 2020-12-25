@@ -40,7 +40,6 @@ object Main: TMain
     Height = 17
     Panels = <>
     SimplePanel = True
-    OnClick = StatusBarClick
   end
   object Panel: TPanel
     Left = 0

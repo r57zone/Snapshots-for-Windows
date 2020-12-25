@@ -31,7 +31,6 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure WndBtnClick(Sender: TObject);
-    procedure StatusBarClick(Sender: TObject);
     procedure SettgsBtnClick(Sender: TObject);
     procedure MenuSettingsBtnClick(Sender: TObject);
     procedure MenuCloseBtnClick(Sender: TObject);
@@ -376,13 +375,6 @@ begin
       2: WndBtn.Click;
       3: ChsAct.Show;
   end;
-end;
-
-procedure TMain.StatusBarClick(Sender: TObject);
-begin
-  Application.MessageBox(PChar(Caption + ' 1.3' + #13#10 +
-  ID_LAST_UPDATE + ' 25.09.2019' + #13#10 +
-  'http://r57zone.github.io' + #13#10 + 'r57zone@gmail.com'),  PChar(ID_ABOUT_TITLE), MB_ICONINFORMATION);
 end;
 
 procedure TMain.ControlWindow(var Msg: TMessage);

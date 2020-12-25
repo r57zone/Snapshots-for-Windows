@@ -26,10 +26,12 @@ type
     ImgurKeyEdt: TEdit;
     ChsFolderBtn: TButton;
     PathScrEdt: TEdit;
+    AboutBtn: TButton;
     procedure FormCreate(Sender: TObject);
     procedure CancelBtnClick(Sender: TObject);
     procedure ChsFolderBtnClick(Sender: TObject);
     procedure OkBtnClick(Sender: TObject);
+    procedure AboutBtnClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -83,7 +85,7 @@ begin
   HKFullScrRB.Caption:=Main.FullScrBtn.Caption;
   HKWNDRB.Caption:=Main.WndBtn.Caption;
   HKShowDlgRB.Caption:=ID_SHOW_SELECT_DLG;
-  SaveScrPathLbl.Caption:=ID_SHOW_SELECT_DLG;
+  SaveScrPathLbl.Caption:=ID_PATH_FOR_SCREENSHOTS;
   ChsFolderBtn.Caption:=ID_CHOOSE_FOLDER;
   TrayCB.Caption:=ID_MINIMIZE_TO_TRAY;
   OkBtn.Caption:=ID_OK;
@@ -166,6 +168,13 @@ begin
 
   Application.MessageBox(PChar(ID_SETTINGS_DONE), PChar(Caption), MB_ICONINFORMATION);
   Main.Close;
+end;
+
+procedure TSettings.AboutBtnClick(Sender: TObject);
+begin
+  Application.MessageBox(PChar(Main.Caption + ' 1.3.1' + #13#10 +
+  ID_LAST_UPDATE + ' 25.12.2020' + #13#10 +
+  'http://r57zone.github.io' + #13#10 + 'r57zone@gmail.com'),  PChar(ID_ABOUT_TITLE), MB_ICONINFORMATION);
 end;
 
 end.

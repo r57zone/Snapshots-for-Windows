@@ -75,6 +75,10 @@ procedure TCaptureArea.FormMouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   if isDown then begin
+    if GetAsyncKeyState(VK_ESCAPE) <> 0 then begin //Для непредвиденных обстоятельств и выводом окон во время создания скриншота.
+      isDown:=false;
+      Close;
+    end;
     Self.Repaint;
     Self.Canvas.Pen.Color:=clWhite;
     //Self.Canvas.Pen.Width:=2;
