@@ -28,7 +28,7 @@ Download app ["Notifications"](https://github.com/r57zone/notifications), unpack
 ![](https://user-images.githubusercontent.com/9499881/65176051-13c8f580-da65-11e9-8ea1-5c0e671d7e18.png)
 
 ## Download
->Version for Windows XP, 7, 8.1, 10.<br>
+>Version for Windows 7, 8.1, 10.<br>
 **[Download](https://github.com/r57zone/Snapshots-for-Windows/releases)**
 
 ## Feedback

@@ -263,6 +263,9 @@ begin
   ID_CANCEL:=Ini.ReadString('Main', 'ID_CANCEL', '');
   ID_SELECT_WINDOW_TITLE:=Ini.ReadString('Main', 'ID_SELECT_WINDOW_TITLE', '');
 
+  MenuSettingsBtn.Caption:=Ini.ReadString('Main', 'ID_SETTINGS_TITLE', '');
+  MenuCloseBtn.Caption:=Ini.ReadString('Main', 'ID_EXIT', '');
+
   Ini.Free;
 
   //AreaBtn.ControlState:=[csFocusing];

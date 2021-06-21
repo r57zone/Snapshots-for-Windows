@@ -28,7 +28,7 @@
 ![](https://user-images.githubusercontent.com/9499881/65176077-1f1c2100-da65-11e9-991a-e3f9b4b69cbe.png)
 
 ## Загрузка
->Версия для Windows XP, 7, 8.1, 10.<br>
+>Версия для Windows 7, 8.1, 10.<br>
 **[Загрузить](https://github.com/r57zone/Snapshots-for-Windows/releases)**
 
 ## Обратная связь
